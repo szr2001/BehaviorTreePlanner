@@ -28,12 +28,13 @@ namespace BehaviorTreePlanner.Global
         }
         public void AttachLine(GameObject Line)
         {
-            if (Atachedline == null)
+            if (Atachedline != null)
             {
-                Atachedline = Line;
-                Atachedline.GetComponent<Line>().SetIsMoving(false);
-                Atachedline.GetComponent<Line>().ChangePoint2(attachTrigger.transform.position);
+                Atachedline.GetComponent<Line>().DestroyLine();
             }
+            Atachedline = Line;
+            Atachedline.GetComponent<Line>().SetIsMoving(false);
+            Atachedline.GetComponent<Line>().ChangePoint2(attachTrigger.transform.position);
         }
         public void DeleteLine()
         {

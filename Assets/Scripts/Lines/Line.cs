@@ -19,6 +19,10 @@ namespace BehaviorTreePlanner.Lines
         [SerializeField] private GameObject _point1;
         [SerializeField] private GameObject _point2;
         private Image _point2Image;
+        private void Start()
+        {
+            ChangePoint2(point1.transform.position);
+        }
         private void Awake()
         {
             LineDraggerC = new LineDraggerClass(gameObject, point2);
@@ -78,13 +82,29 @@ namespace BehaviorTreePlanner.Lines
                     activeNodePos.y = Mathf.Round(activeNodePos.y);
                     if (activeNodePos.x % 1 == 0 && activeNodePos.y % 1 == 0)
                     {
-                        ChangePoint2(activeNodePos + offset);
+                        RaycastHit2D hit = Physics2D.Raycast(activeNodePos + offset, -Vector2.zero);
+                        if (!hit)
+                        {
+                            ChangePoint2(activeNodePos + offset);
+                        }
+                        else if (hit.collider.gameObject.CompareTag("Node"))
+                        {
+                            ChangePoint2(activeNodePos + offset);
+                        }
                     }
                 }
                 else
                 {
                     Vector2 mospos = Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
-                    ChangePoint2(mospos);
+                    RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
+                    if (!hit)
+                    {
+                        ChangePoint2(mospos);
+                    }
+                    else if (hit.collider.gameObject.CompareTag("Node"))
+                    {
+                        ChangePoint2(mospos);
+                    }
                 }
                 // if left click mouse, call the distroy method.
                 if (Input.GetMouseButtonDown(1))
