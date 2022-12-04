@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1101ef6f317c4f542b016173c5cf8b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 519420028}
+  playerCamera: {fileID: 519420031}
   screenReff: {fileID: 1512923892}
   linePrefabReff: {fileID: 1381860402709974455, guid: 3799744da5e6acb4093b9b605e31e791, type: 3}
   nodePrefabReff: {fileID: 7076376120747382241, guid: c7a5bd876dfc4c348b731498fbda72ec, type: 3}
@@ -2654,7 +2654,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -22.500061, y: 22.500088}
+  m_AnchoredPosition: {x: -22.5, y: 22.500088}
   m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &734701847

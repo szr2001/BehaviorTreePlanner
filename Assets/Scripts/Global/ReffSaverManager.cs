@@ -5,7 +5,7 @@ namespace BehaviorTreePlanner.Global
 {
     public class ReffSaverManager : MonoBehaviour
     {
-        [SerializeField] private GameObject player;
+        [SerializeField] private Camera playerCamera;
         [SerializeField] private GameObject screenReff;
         [SerializeField] private GameObject linePrefabReff;
         [SerializeField] private GameObject nodePrefabReff;
@@ -18,7 +18,7 @@ namespace BehaviorTreePlanner.Global
         private void Awake()
         {
             SavedReff.Screen = screenReff;
-            SavedReff.Player = player;
+            SavedReff.PlayerCamera = playerCamera;
             SavedReff.LinePrefabReff = linePrefabReff;
             SavedReff.NodePrefabReff = nodePrefabReff;
             SavedReff.NodeButtonPrefabReff = nodeButtonPrefabReff;

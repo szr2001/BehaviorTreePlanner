@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTreePlanner.Interfaces;
+using BehaviorTreePlanner.Lines;
 
 namespace BehaviorTreePlanner
 {
@@ -51,7 +52,7 @@ namespace BehaviorTreePlanner
             LineDraggerC.StartLine();
             IsMoving = false;
         }
-        public void IAttachLine(GameObject Line)
+        public void IAttachLine(Line Line)
         {
             LineAttacherC.AttachLine(Line);
         }

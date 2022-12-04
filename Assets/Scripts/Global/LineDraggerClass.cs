@@ -20,16 +20,16 @@ namespace BehaviorTreePlanner.Global
         public void StartLine()
         {
             GameObject LinePrefab = GameObject.Instantiate(SavedReff.LinePrefabReff, parent.transform);
+            LinePrefab.transform.SetParent(SavedReff.Screen.transform);
+            LinePrefab.transform.localScale = Vector3.one;
             Line spawnedLine = LinePrefab.GetComponent<Line>();
-            spawnedLine.transform.SetParent(SavedReff.Screen.transform);
-            spawnedLine.transform.localScale = Vector3.one;
             spawnedLine.ChangePoint1(lineTrigger.transform.position);
             _spawnedlines.Add(spawnedLine);
         }
         public void DeleteLines()
         {
              if (_spawnedlines.Count > 0)
-            {
+             {
                 foreach (Line line in _spawnedlines)
                 {
                     if (line != null)
@@ -37,7 +37,7 @@ namespace BehaviorTreePlanner.Global
                         line.DestroyLine();
                     }
                 }
-            }
+             }
         }
         public void SetLinesLocation()
         {

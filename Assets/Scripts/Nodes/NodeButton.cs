@@ -3,6 +3,7 @@ using BehaviorTreePlanner.Nodes;
 using UnityEngine.UI;
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Interfaces;
+using BehaviorTreePlanner.Lines;
 
 namespace BehaviorTreePlanner.MenuUi
 {
@@ -13,7 +14,7 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private Text TypeText;
         [SerializeField] private GameObject spawnTrigger;
         [SerializeField] private GameObject deleteCustomTypeTrigger;
-        [HideInInspector] private GameObject AttachedLineOnSpawn;
+        [HideInInspector] private Line AttachedLineOnSpawn;
         [HideInInspector] public NodeType nodeT { get; set; }
         /// <summary>
         /// Create a new node and calls the right method from the manager to spawn it depending if there is a line to be attached
@@ -48,7 +49,7 @@ namespace BehaviorTreePlanner.MenuUi
         {
             SavedReff.NodesUiMenu.GetComponent<NodesMenu>().DeleteNode(nodeT);
         }
-        public void IAttachLine(GameObject Line)
+        public void IAttachLine(Line Line)
         {
             AttachedLineOnSpawn = Line;
         }

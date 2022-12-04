@@ -18,10 +18,13 @@ namespace BehaviorTreePlanner.Lines
         [HideInInspector] public int Index { get; set; }
         [SerializeField] private GameObject _point1;
         [SerializeField] private GameObject _point2;
+
         private Image _point2Image;
+        private LineRenderer lineRenderer;
         private void Start()
         {
             ChangePoint2(point1.transform.position);
+            lineRenderer = gameObject.GetComponent<LineRenderer>();
         }
         private void Awake()
         {
@@ -32,8 +35,8 @@ namespace BehaviorTreePlanner.Lines
         void Update()
         {
             UpdateLineRenderers();
-            MoveLine();
             CheckClicked();
+            MoveLine();
         }
         /// <summary>
         /// Check when you click when the line is attached to the mouse 
@@ -45,13 +48,13 @@ namespace BehaviorTreePlanner.Lines
                 if (Input.GetMouseButtonDown(0))
                 {
                     //checks if the collidor has needed interface
-                    RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f); // incearca fara vector2
+                    RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
                     if (hit.collider != null)
                     {
                         IAttachLine ial = hit.collider.gameObject.GetComponent<IAttachLine>();
                         if (ial != null)
                         {
-                            ial.IAttachLine(gameObject); //add bool to IattachLine
+                            ial.IAttachLine(gameObject.GetComponent<Line>());
                             IsFixed = true;
                             IsMoving = false;
                         }
@@ -75,19 +78,23 @@ namespace BehaviorTreePlanner.Lines
                 LineDraggerC.SetLinesLocation();
                 if (SavedSettings.EnableSnapToGrid)
                 {
-                    Vector2 mospos = Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
-                    Vector3 offset = new Vector3(-0.08f, 0.2f, 0);
+                    Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                    Vector3 offset = new Vector3(-0.08f, 0.51f, 0);
                     Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0);
                     activeNodePos.x = Mathf.Round(activeNodePos.x);
                     activeNodePos.y = Mathf.Round(activeNodePos.y);
                     if (activeNodePos.x % 1 == 0 && activeNodePos.y % 1 == 0)
                     {
                         RaycastHit2D hit = Physics2D.Raycast(activeNodePos + offset, -Vector2.zero);
-                        if (!hit)
+                        if (hit)
                         {
-                            ChangePoint2(activeNodePos + offset);
+                            IAttachLine attacL = hit.collider.gameObject.GetComponent<IAttachLine>();
+                            if (attacL != null)
+                            {
+                                ChangePoint2(activeNodePos + offset);
+                            }
                         }
-                        else if (hit.collider.gameObject.CompareTag("Node"))
+                        else
                         {
                             ChangePoint2(activeNodePos + offset);
                         }
@@ -95,7 +102,7 @@ namespace BehaviorTreePlanner.Lines
                 }
                 else
                 {
-                    Vector2 mospos = Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                    Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
                     if (!hit)
                     {
@@ -118,17 +125,17 @@ namespace BehaviorTreePlanner.Lines
         /// </summary>
         private void UpdateLineRenderers()
         {
-            gameObject.GetComponent<LineRenderer>().SetPosition(0, new Vector3(_point1.transform.position.x, _point1.transform.position.y, 0));
-            gameObject.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_point2.transform.position.x, _point2.transform.position.y, 0));
+            lineRenderer.SetPosition(0, new Vector3(_point1.transform.position.x, _point1.transform.position.y, 0));
+            lineRenderer.SetPosition(1, new Vector3(_point2.transform.position.x, _point2.transform.position.y, 0));
         }
         /// <summary>
         /// Spawns a new line
         /// </summary>
         private void StartLine()
         {
-            LineDraggerC.StartLine();
             IsFixed = true;
             IsMoving = false;
+            LineDraggerC.StartLine();
         }
         public void LoadLine(LineSaveInfo lineInfo)
         {
@@ -142,10 +149,11 @@ namespace BehaviorTreePlanner.Lines
         public void StopDrag()
         {
             SetIsMoving(false);
-            StartCoroutine(DelayStopDrag());
+            StartCoroutine(DelaySetIsDraggingFalse());
+            Debug.Log("Add raycast check Under Point",gameObject);
         }
-        //needed a delay so the events on click dont run when dragging
-        private IEnumerator DelayStopDrag()
+        //needed a delay so the event on click dosent run when on end drag
+        private IEnumerator DelaySetIsDraggingFalse()
         {
             yield return new WaitForSeconds(0.3f);
             IsDragging = false;

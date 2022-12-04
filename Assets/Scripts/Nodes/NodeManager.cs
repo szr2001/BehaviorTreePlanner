@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.Lines;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -18,7 +19,7 @@ namespace BehaviorTreePlanner.Nodes
             MoveSelectedNode();
             MoveSpawnedNode();
         }
-        public void SpawnNode(GameObject node , GameObject attachedLine)
+        public void SpawnNode(GameObject node , Line attachedLine)
         {
             IsMovingSelectedNode = false;
             activeNodeCopy = GameObject.Instantiate(node);
@@ -31,7 +32,7 @@ namespace BehaviorTreePlanner.Nodes
         }
         public void SpawnNode(GameObject node)
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition), -Vector2.zero);
+            RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition), -Vector2.zero);
             if (!hit || hit.collider.gameObject.CompareTag("NodeButton"))
             {
                 IsMovingSelectedNode = false;
@@ -48,7 +49,7 @@ namespace BehaviorTreePlanner.Nodes
         {
             IsMovingSpawnedNode = false;
             activeNodeCopy = node;
-            MouseOffset = Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition) - activeNodeCopy.transform.position;
+            MouseOffset = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition) - activeNodeCopy.transform.position;
             MouseOffset.z = 0;
             IsMovingSelectedNode = true;
         }
@@ -89,7 +90,7 @@ namespace BehaviorTreePlanner.Nodes
                 if (Input.GetMouseButtonDown(00))
                 {
                     activeNodeComp.IsMoving = (false);
-                    activeNodeComp.SetDragTriggerActive(true); // adauga bool in global reff ca daca dai click pe buton in timp[ ce controlezi asta spawnezi 2 node
+                    activeNodeComp.SetDragTriggerActive(true);
                     SpawnNode(activeNodeCopy);
                 }
                 //destroy the node when right click
@@ -104,26 +105,27 @@ namespace BehaviorTreePlanner.Nodes
         }
         private void MoveLogic() 
         {
+            string NodeButtonTag = "NodeButton";
             if (SavedSettings.EnableSnapToGrid)
             {
-                Vector2 mospos = Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
                 activeNodePos.x = Mathf.Round(activeNodePos.x);
                 activeNodePos.y = Mathf.Round(activeNodePos.y);
                 if (activeNodePos.x % 1 == 0 && activeNodePos.y % 1 == 0)
                 {
                     RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
-                    if (!hit || hit.collider.gameObject.CompareTag("NodeButton"))
+                    if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
                     {
                         activeNodeCopy.transform.position = activeNodePos;
                     }
                 }
             }
-            else //bug when is not snaptogrid, disable moved node collider
+            else //Raycast will hit the node under the mouse and will not move,it looks like its teleporting,disable moved node collider
             {
-                Vector2 mospos = Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
-                if (!hit || hit.collider.gameObject.CompareTag("NodeButton"))
+                if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
                 {
                     activeNodeCopy.transform.position = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
                 }

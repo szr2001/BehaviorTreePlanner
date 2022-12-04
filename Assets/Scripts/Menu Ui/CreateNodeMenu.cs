@@ -15,10 +15,10 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private InputField PreviewNodeInputField;
 
         private bool isOpened = false;
-
+        private CreateNodeColorPicker NodeColorPicker;
         void Start()
         {
-
+            NodeColorPicker = colorPicker.GetComponent<CreateNodeColorPicker>();
         }
 
         void Update()
@@ -43,6 +43,7 @@ namespace BehaviorTreePlanner.MenuUi
             botNode.color = new Color(0.99f, 0.45f, 0.09f);
             PreviewNodeInputField.text = "";
             nodeType.text = "Node Type";
+            NodeColorPicker.DisableColorPicker();
             ToggleCreateNodeMenu();
         }
 
@@ -54,8 +55,8 @@ namespace BehaviorTreePlanner.MenuUi
         {
             if (isOpened)
             {
-                gameObject.SetActive(false);
                 isOpened = false;
+                gameObject.SetActive(false);
             }
             else
             {

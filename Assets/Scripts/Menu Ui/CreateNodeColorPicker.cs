@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Global;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,13 +15,17 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private GameObject topColor;
         [SerializeField] private GameObject botColor;
 
-        private Camera cam;
         private bool isOpened = false;
         private bool isTopNode = false;
         private bool isSettingColor = false;
+        private Image colorCursorImg;
+        private Image topColorImg;
+        private Image botColorImg;
         void Awake()
         {
-            cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            colorCursorImg = colorCursor.GetComponent<Image>();
+            topColorImg = topColor.GetComponent<Image>();
+            botColorImg = botColor.GetComponent<Image>();
         }
         void Start()
         {
@@ -43,22 +48,22 @@ namespace BehaviorTreePlanner.MenuUi
 
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.z = 0;
-                Vector3 mouseToWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 mouseToWorldPos = SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition);
                 mouseToWorldPos.z = 0;
                 colorCursorBorder.transform.position = mouseToWorldPos;
-                Vector3 LeftBotCorn = cam.WorldToScreenPoint(LeftBotCornReff.position);
+                Vector3 LeftBotCorn = SavedReff.PlayerCamera.WorldToScreenPoint(LeftBotCornReff.position);
                 LeftBotCorn.z = 0;
                 float colorPickerCoordsCorrector = 1.5f;
                 int xPix = (int)((mousePos.x - LeftBotCorn.x) * colorPickerCoordsCorrector);
                 int yPix = (int)((mousePos.y - LeftBotCorn.y) * colorPickerCoordsCorrector);
-                colorCursor.GetComponent<Image>().color = reffSprite.GetPixel(xPix, yPix);
+                colorCursorImg.color = reffSprite.GetPixel(xPix, yPix);
                 if (isTopNode)
                 {
-                    topColor.GetComponent<Image>().color = reffSprite.GetPixel(xPix, yPix);
+                    topColorImg.color = reffSprite.GetPixel(xPix, yPix);
                 }
                 else
                 {
-                    botColor.GetComponent<Image>().color = reffSprite.GetPixel(xPix, yPix);
+                    botColorImg.color = reffSprite.GetPixel(xPix, yPix);
                 }
                 isSettingColor = Input.GetMouseButton(0);
                 if (!isSettingColor)
@@ -75,6 +80,11 @@ namespace BehaviorTreePlanner.MenuUi
             {
                 isSettingColor = true;
             }
+        }
+        public void DisableColorPicker()
+        {
+            isOpened = false;
+            gameObject.SetActive(false);
         }
         public void ToggleColorPicker(bool istopnode)
         {

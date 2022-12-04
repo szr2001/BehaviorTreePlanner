@@ -49,7 +49,7 @@ namespace BehaviorTreePlanner.MenuUi
             Nodetypes.Add(nt);
             RefreshVisibleNodes();
         }
-        public void DeleteNode(NodeType NodeT) //prob
+        public void DeleteNode(NodeType NodeT)
         {
             foreach(NodeType nt in Nodetypes)
             {
