@@ -39,7 +39,7 @@ namespace BehaviorTreePlanner.MenuUi
             }
             return false;
         }
-        public void loadNodeTypes(List<NodeType> nodetypes)
+        public void LoadNodeTypes(List<NodeType> nodetypes)
         {
             this.Nodetypes = nodetypes;
             RefreshVisibleNodes();

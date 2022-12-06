@@ -4,17 +4,19 @@ using BehaviorTreePlanner.SaveGame;
 using BehaviorTreePlanner.Interfaces;
 using UnityEngine.UI;
 using System.Collections;
+using BehaviorTreePlanner.MenuUi;
 
 namespace BehaviorTreePlanner.Lines
 {
     public class Line : MonoBehaviour
     {
+        public NodeBase AttachedTo { get; set; }
         public LineDraggerClass LineDraggerC { get; set; }
         public bool IsFixed { get; set; } = false;
         public bool IsMoving { get; set; } = true;
         public bool IsDragging { get; set; } = false;
-        public GameObject point1 { get { return _point1; } set { _point1 = value; } }
-        public GameObject point2 { get { return _point2; } set { _point2 = value; } }
+        public GameObject Point1 { get { return _point1; } set { _point1 = value; } }
+        public GameObject Point2 { get { return _point2; } set { _point2 = value; } }
         [HideInInspector] public int Index { get; set; }
         [SerializeField] private GameObject _point1;
         [SerializeField] private GameObject _point2;
@@ -23,12 +25,12 @@ namespace BehaviorTreePlanner.Lines
         private LineRenderer lineRenderer;
         private void Start()
         {
-            ChangePoint2(point1.transform.position);
+            ChangePoint2(Point1.transform.position);
             lineRenderer = gameObject.GetComponent<LineRenderer>();
         }
         private void Awake()
         {
-            LineDraggerC = new LineDraggerClass(gameObject, point2);
+            LineDraggerC = new LineDraggerClass(gameObject, Point2);
             _point2Image = _point2.GetComponent<Image>();
             _point2Image.raycastTarget = false;
         }
@@ -51,8 +53,7 @@ namespace BehaviorTreePlanner.Lines
                     RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
                     if (hit.collider != null)
                     {
-                        IAttachLine ial = hit.collider.gameObject.GetComponent<IAttachLine>();
-                        if (ial != null)
+                        if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var ial))
                         {
                             ial.IAttachLine(gameObject.GetComponent<Line>());
                             IsFixed = true;
@@ -88,8 +89,7 @@ namespace BehaviorTreePlanner.Lines
                         RaycastHit2D hit = Physics2D.Raycast(activeNodePos + offset, -Vector2.zero);
                         if (hit)
                         {
-                            IAttachLine attacL = hit.collider.gameObject.GetComponent<IAttachLine>();
-                            if (attacL != null)
+                            if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var attacL))
                             {
                                 ChangePoint2(activeNodePos + offset);
                             }
@@ -104,11 +104,12 @@ namespace BehaviorTreePlanner.Lines
                 {
                     Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
+                    string NodeTag = "Node";
                     if (!hit)
                     {
                         ChangePoint2(mospos);
                     }
-                    else if (hit.collider.gameObject.CompareTag("Node"))
+                    else if (hit.collider.gameObject.CompareTag(NodeTag))
                     {
                         ChangePoint2(mospos);
                     }
@@ -150,7 +151,24 @@ namespace BehaviorTreePlanner.Lines
         {
             SetIsMoving(false);
             StartCoroutine(DelaySetIsDraggingFalse());
-            Debug.Log("Add raycast check Under Point",gameObject);
+            if (AttachedTo != null)
+            {
+                AttachedTo.LineAttacherC.DeatachLine();
+            }
+            RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
+            string NodeButtonTag = "NodeButton";
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var ial))
+                {
+                    LineDraggerC.DeleteLines();
+                    ial.IAttachLine(gameObject.GetComponent<Line>());
+                    if (hit.collider.gameObject.CompareTag(NodeButtonTag))
+                    {
+                        hit.collider.gameObject.GetComponent<NodeButton>().SetSpawnNode();
+                    }
+                }
+            }
         }
         //needed a delay so the event on click dosent run when on end drag
         private IEnumerator DelaySetIsDraggingFalse()

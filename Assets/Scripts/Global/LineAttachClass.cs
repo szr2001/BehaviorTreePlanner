@@ -8,18 +8,18 @@ namespace BehaviorTreePlanner.Global
     public class LineAttachClass 
     {
         public Line Atachedline { get; set; }
-        public GameObject parent { get; set; }
-        public GameObject attachTrigger { get; set; }
+        public GameObject Parent { get; set; }
+        public GameObject AttachTrigger { get; set; }
         public LineAttachClass(GameObject parent, GameObject attachTrigger)
         {
-            this.parent = parent;
-            this.attachTrigger = attachTrigger;
+            this.Parent = parent;
+            this.AttachTrigger = attachTrigger;
         }
         public void SetLineLocation()
         {
             if (Atachedline != null)
             {
-                Atachedline.ChangePoint2(attachTrigger.transform.position);
+                Atachedline.ChangePoint2(AttachTrigger.transform.position);
             }
         }
         public void DeatachLine()
@@ -34,7 +34,7 @@ namespace BehaviorTreePlanner.Global
             }
             Atachedline = Line;
             Atachedline.SetIsMoving(false);
-            Atachedline.ChangePoint2(attachTrigger.transform.position);
+            Atachedline.ChangePoint2(AttachTrigger.transform.position);
         }
         public void DeleteLine()
         {

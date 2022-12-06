@@ -55,6 +55,7 @@ namespace BehaviorTreePlanner
         public void IAttachLine(Line Line)
         {
             LineAttacherC.AttachLine(Line);
+            Line.AttachedTo = this;
         }
         public void DeatachLine()
         {

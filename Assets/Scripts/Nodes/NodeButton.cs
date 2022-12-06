@@ -15,7 +15,7 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private GameObject spawnTrigger;
         [SerializeField] private GameObject deleteCustomTypeTrigger;
         [HideInInspector] private Line AttachedLineOnSpawn;
-        [HideInInspector] public NodeType nodeT { get; set; }
+        [HideInInspector] public NodeType NodeT { get; set; }
         /// <summary>
         /// Create a new node and calls the right method from the manager to spawn it depending if there is a line to be attached
         /// </summary>
@@ -24,7 +24,7 @@ namespace BehaviorTreePlanner.MenuUi
             if (!SavedReff.IsSpawningNodes)
             {
                 GameObject SpawnedNode = GameObject.Instantiate(SavedReff.NodePrefabReff);
-                SpawnedNode.GetComponent<Node>().SetNodeType(nodeT);
+                SpawnedNode.GetComponent<Node>().SetNodeType(NodeT);
                 SpawnedNode.GetComponent<BoxCollider2D>().enabled = false;
                 if (AttachedLineOnSpawn != null)
                 {
@@ -40,14 +40,14 @@ namespace BehaviorTreePlanner.MenuUi
         }
         public void SetNodeType(NodeType nt)
         {
-            nodeT = nt;
-            TopImageReff.color = nodeT.topColor;
-            BotImageReff.color = nodeT.botColor;
-            TypeText.text = nodeT.type;
+            NodeT = nt;
+            TopImageReff.color = NodeT.topColor;
+            BotImageReff.color = NodeT.botColor;
+            TypeText.text = NodeT.type;
         }
         public void DeleteNode()
         {
-            SavedReff.NodesUiMenu.GetComponent<NodesMenu>().DeleteNode(nodeT);
+            SavedReff.NodesUiMenu.GetComponent<NodesMenu>().DeleteNode(NodeT);
         }
         public void IAttachLine(Line Line)
         {
