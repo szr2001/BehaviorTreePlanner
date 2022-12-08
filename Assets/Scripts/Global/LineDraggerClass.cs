@@ -7,30 +7,29 @@ namespace BehaviorTreePlanner.Global
 {
     public class LineDraggerClass
     {
-        private List<Line> _spawnedlines = new List<Line>();
-        public List<Line> spawnedlines { get { return _spawnedlines; } }
-        public GameObject parent { get; set; }
-        public GameObject lineTrigger { get; set; }
+        public List<Line> Spawnedlines { get; } = new List<Line>();
+        public GameObject Parent { get; set; }
+        public GameObject LineTrigger { get; set; }
 
         public LineDraggerClass(GameObject parent, GameObject lineTrigger)
         {
-            this.parent = parent;
-            this.lineTrigger = lineTrigger;
+            this.Parent = parent;
+            this.LineTrigger = lineTrigger;
         }
         public void StartLine()
         {
-            GameObject LinePrefab = GameObject.Instantiate(SavedReff.LinePrefabReff, parent.transform);
+            GameObject LinePrefab = GameObject.Instantiate(SavedReff.LinePrefabReff, Parent.transform);
             LinePrefab.transform.SetParent(SavedReff.Screen.transform);
             LinePrefab.transform.localScale = Vector3.one;
             Line spawnedLine = LinePrefab.GetComponent<Line>();
-            spawnedLine.ChangePoint1(lineTrigger.transform.position);
-            _spawnedlines.Add(spawnedLine);
+            spawnedLine.ChangePoint1(LineTrigger.transform.position);
+            Spawnedlines.Add(spawnedLine);
         }
         public void DeleteLines()
         {
-             if (_spawnedlines.Count > 0)
+             if (Spawnedlines.Count > 0)
              {
-                foreach (Line line in _spawnedlines)
+                foreach (Line line in Spawnedlines)
                 {
                     if (line != null)
                     {
@@ -41,13 +40,13 @@ namespace BehaviorTreePlanner.Global
         }
         public void SetLinesLocation()
         {
-            if (_spawnedlines.Count > 0)
+            if (Spawnedlines.Count > 0)
             {
-                foreach (Line line in _spawnedlines)
+                foreach (Line line in Spawnedlines)
                 {
                     if (line != null)
                     {
-                        line.ChangePoint1(lineTrigger.transform.position);
+                        line.ChangePoint1(LineTrigger.transform.position);
                     }
                 }
             }

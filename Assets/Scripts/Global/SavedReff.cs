@@ -16,5 +16,6 @@ namespace BehaviorTreePlanner.Global
         public static SettingsManager SettingsManager;
 
         public static bool IsSpawningNodes = false;
+        public static bool IsSpawningLines = false;
     }
 }

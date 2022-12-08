@@ -1,10 +1,7 @@
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace BehaviorTreePlanner.Nodes
 {
@@ -108,24 +105,23 @@ namespace BehaviorTreePlanner.Nodes
             string NodeButtonTag = "NodeButton";
             if (SavedSettings.EnableSnapToGrid)
             {
+                float GridSizeX = 1.5f;
+                float GridSizeY = 1;
                 Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
-                activeNodePos.x = Mathf.Round(activeNodePos.x);
-                activeNodePos.y = Mathf.Round(activeNodePos.y);
-                if (activeNodePos.x % 1 == 0 && activeNodePos.y % 1 == 0)
+                activeNodePos.x = Mathf.Round(activeNodePos.x / GridSizeX) * GridSizeX;
+                activeNodePos.y = Mathf.Round(activeNodePos.y / GridSizeY) * GridSizeY;
+                RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
+                if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
                 {
-                    RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
-                    if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
-                    {
-                        activeNodeCopy.transform.position = activeNodePos;
-                    }
+                    activeNodeCopy.transform.position = activeNodePos;
                 }
             }
             else //Raycast will hit the node under the mouse and will not move,it looks like its teleporting,disable moved node collider
             {
                 Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
-                if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
+                if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag)) // add ignore self
                 {
                     activeNodeCopy.transform.position = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
                 }

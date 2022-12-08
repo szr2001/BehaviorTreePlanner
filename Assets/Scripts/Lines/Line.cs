@@ -56,6 +56,7 @@ namespace BehaviorTreePlanner.Lines
                         if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var ial))
                         {
                             ial.IAttachLine(gameObject.GetComponent<Line>());
+                            SavedReff.IsSpawningLines = false;
                             IsFixed = true;
                             IsMoving = false;
                         }
@@ -79,25 +80,23 @@ namespace BehaviorTreePlanner.Lines
                 LineDraggerC.SetLinesLocation();
                 if (SavedSettings.EnableSnapToGrid)
                 {
+                    float GridSize = 0.5f;
                     Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
-                    Vector3 offset = new Vector3(-0.08f, 0.51f, 0);
+                    Vector3 offset = new Vector3(-0.08f, 0, 0);
                     Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0);
-                    activeNodePos.x = Mathf.Round(activeNodePos.x);
-                    activeNodePos.y = Mathf.Round(activeNodePos.y);
-                    if (activeNodePos.x % 1 == 0 && activeNodePos.y % 1 == 0)
+                    activeNodePos.x = Mathf.Round(activeNodePos.x / GridSize) * GridSize;
+                    activeNodePos.y = Mathf.Round(activeNodePos.y / GridSize) * GridSize;
+                    RaycastHit2D hit = Physics2D.Raycast(activeNodePos + offset, -Vector2.zero);
+                    if (hit)
                     {
-                        RaycastHit2D hit = Physics2D.Raycast(activeNodePos + offset, -Vector2.zero);
-                        if (hit)
-                        {
-                            if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var attacL))
-                            {
-                                ChangePoint2(activeNodePos + offset);
-                            }
-                        }
-                        else
+                        if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var attacL))
                         {
                             ChangePoint2(activeNodePos + offset);
                         }
+                    }
+                    else
+                    {
+                        ChangePoint2(activeNodePos + offset);
                     }
                 }
                 else
@@ -117,6 +116,7 @@ namespace BehaviorTreePlanner.Lines
                 // if left click mouse, call the distroy method.
                 if (Input.GetMouseButtonDown(1))
                 {
+                    SavedReff.IsSpawningLines = false;
                     DestroyLine();
                 }
             }
@@ -134,6 +134,8 @@ namespace BehaviorTreePlanner.Lines
         /// </summary>
         private void StartLine()
         {
+            SavedReff.IsSpawningLines = true;
+            _point2.GetComponent<Collider2D>().enabled = true;
             IsFixed = true;
             IsMoving = false;
             LineDraggerC.StartLine();
@@ -182,7 +184,7 @@ namespace BehaviorTreePlanner.Lines
         }
         public void StartLineOnLeftClick()
         {
-            if (!IsDragging)
+            if (!IsDragging  && !SavedReff.IsSpawningLines)
             {
                 StartLine();
             }
