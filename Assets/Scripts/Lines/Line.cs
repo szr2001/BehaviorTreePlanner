@@ -64,7 +64,11 @@ namespace BehaviorTreePlanner.Lines
                     //create a new line  if it dosent
                     else
                     {
-                        StartLine();
+                        RaycastHit2D Phit = Physics2D.Raycast(Point2.transform.position, -Vector2.zero, 0.1f);
+                        if (!Phit)
+                        {
+                            StartLine();
+                        }
                     }
                     _point2Image.raycastTarget = true;
                 }
@@ -78,10 +82,10 @@ namespace BehaviorTreePlanner.Lines
             if (IsMoving)
             {
                 LineDraggerC.SetLinesLocation();
+                Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 if (SavedSettings.EnableSnapToGrid)
                 {
                     float GridSize = 0.5f;
-                    Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                     Vector3 offset = new Vector3(-0.08f, 0, 0);
                     Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0);
                     activeNodePos.x = Mathf.Round(activeNodePos.x / GridSize) * GridSize;
@@ -101,7 +105,6 @@ namespace BehaviorTreePlanner.Lines
                 }
                 else
                 {
-                    Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
                     string NodeTag = "Node";
                     if (!hit)

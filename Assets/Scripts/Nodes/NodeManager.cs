@@ -103,11 +103,11 @@ namespace BehaviorTreePlanner.Nodes
         private void MoveLogic() 
         {
             string NodeButtonTag = "NodeButton";
+            Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
             if (SavedSettings.EnableSnapToGrid)
             {
                 float GridSizeX = 1.5f;
                 float GridSizeY = 1;
-                Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
                 activeNodePos.x = Mathf.Round(activeNodePos.x / GridSizeX) * GridSizeX;
                 activeNodePos.y = Mathf.Round(activeNodePos.y / GridSizeY) * GridSizeY;
@@ -119,7 +119,6 @@ namespace BehaviorTreePlanner.Nodes
             }
             else //Raycast will hit the node under the mouse and will not move,it looks like its teleporting,disable moved node collider
             {
-                Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
                 if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag)) // add ignore self
                 {
