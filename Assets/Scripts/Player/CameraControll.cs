@@ -7,10 +7,12 @@ namespace BehaviorTreePlanner.Player
     {
         private Vector3 mousePos;
         private Vector3 newMousePos;
-        private Vector3 newCameranPos;
+        private Vector3 MouseOffset;
 
         private readonly float MaxZoom = 8;
         private readonly float MinZoom = 3;
+        private readonly float MaxCameraDistance = 10;
+        private readonly float MovementSpeedDivider = 60;
         void Update()
         {
             MoveCamera();
@@ -25,8 +27,10 @@ namespace BehaviorTreePlanner.Player
             if (Input.GetMouseButton(1))
             {
                 newMousePos = Input.mousePosition;
-                newCameranPos = mousePos - newMousePos;
-                gameObject.transform.position += newCameranPos / 60;
+                MouseOffset = gameObject.transform.position + ((mousePos - newMousePos) / MovementSpeedDivider);
+                float ClampedX = System.Math.Clamp(MouseOffset.x, -MaxCameraDistance, MaxCameraDistance);
+                float ClampedY = System.Math.Clamp(MouseOffset.y, -MaxCameraDistance, MaxCameraDistance);
+                gameObject.transform.position = new Vector3(ClampedX, ClampedY, MouseOffset.z);
                 mousePos = Input.mousePosition;
             }
         }
