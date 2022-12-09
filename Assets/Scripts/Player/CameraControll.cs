@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Global;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Player
@@ -8,9 +9,12 @@ namespace BehaviorTreePlanner.Player
         private Vector3 newMousePos;
         private Vector3 newCameranPos;
 
+        private readonly float MaxZoom = 8;
+        private readonly float MinZoom = 3;
         void Update()
         {
             MoveCamera();
+            Zoom();
         }
         private void MoveCamera()
         {
@@ -25,6 +29,11 @@ namespace BehaviorTreePlanner.Player
                 gameObject.transform.position += newCameranPos / 60;
                 mousePos = Input.mousePosition;
             }
+        }
+        private void Zoom()
+        {
+            float NewZoom = SavedReff.PlayerCamera.orthographicSize += -(Input.GetAxis("Mouse ScrollWheel") * 3);
+            SavedReff.PlayerCamera.orthographicSize = Mathf.Clamp((float)System.Math.Round(NewZoom, 1), MinZoom, MaxZoom);
         }
     }
 }

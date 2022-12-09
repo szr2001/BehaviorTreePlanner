@@ -74,11 +74,12 @@ namespace BehaviorTreePlanner.MenuUi
             {
                 foreach (NodeType T in Nodetypes)
                 {
-                    GameObject Node = GameObject.Instantiate(SavedReff.NodeButtonPrefabReff);
-                    Node.GetComponent<NodeButton>().SetNodeType(T);
-                    Node.transform.SetParent(NodeHolder.transform); 
-                    Node.transform.localScale = Vector3.one;
-                    MenuSpawnedNodes.Add(Node);
+                    GameObject SpawnedNode = GameObject.Instantiate(SavedReff.NodeButtonPrefabReff);
+                    SpawnedNode.GetComponent<NodeButton>().SetNodeType(T);
+                    SpawnedNode.transform.SetParent(NodeHolder.transform);
+                    SpawnedNode.transform.localPosition = new Vector3(SpawnedNode.transform.position.x, SpawnedNode.transform.position.y, 0);
+                    SpawnedNode.transform.localScale = Vector3.one;
+                    MenuSpawnedNodes.Add(SpawnedNode);
                 }
             }
         }
