@@ -54,7 +54,7 @@ namespace BehaviorTreePlanner.Nodes
         {
             if (activeNodeCopy != null && IsMovingSelectedNode)
             {
-                NodeBase activeNodeComp = activeNodeCopy.GetComponent<NodeBase>();
+                MovingNode activeNodeComp = activeNodeCopy.GetComponent<MovingNode>();
                 if (Input.GetMouseButton(0))
                 {
                     activeNodeComp.SetDragTriggerActive(false);
@@ -80,7 +80,7 @@ namespace BehaviorTreePlanner.Nodes
             if (activeNodeCopy != null && IsMovingSpawnedNode)
             {
                 SavedReff.IsSpawningNodes = true;
-                NodeBase activeNodeComp = activeNodeCopy.GetComponent<NodeBase>();
+                MovingNode activeNodeComp = activeNodeCopy.GetComponent<MovingNode>();
                 activeNodeComp.SetDragTriggerActive(false);
                 activeNodeComp.IsMoving = (true);
                 MoveLogic();

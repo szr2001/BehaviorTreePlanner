@@ -10,7 +10,9 @@ namespace BehaviorTreePlanner.Lines
 {
     public class Line : MonoBehaviour
     {
-        public NodeBase AttachedTo { get; set; }
+        public NodeBase NodeRoot { get; set; }
+        public MovingNode AttachedToNodeReff { get; set; }
+        public Line AttachedToLineReff { get; set; }
         public LineDraggerClass LineDraggerC { get; set; }
         public bool IsFixed { get; set; } = false;
         public bool IsMoving { get; set; } = true;
@@ -93,7 +95,7 @@ namespace BehaviorTreePlanner.Lines
                     RaycastHit2D hit = Physics2D.Raycast(activeNodePos + offset, -Vector2.zero);
                     if (hit)
                     {
-                        if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out var attacL))
+                        if (hit.collider.gameObject.TryGetComponent<IAttachLine>(out _))
                         {
                             ChangePoint2(activeNodePos + offset);
                         }
@@ -141,7 +143,7 @@ namespace BehaviorTreePlanner.Lines
             _point2.GetComponent<Collider2D>().enabled = true;
             IsFixed = true;
             IsMoving = false;
-            LineDraggerC.StartLine();
+            LineDraggerC.StartLine(NodeRoot);
         }
         public void LoadLine(LineSaveInfo lineInfo)
         {
@@ -156,9 +158,10 @@ namespace BehaviorTreePlanner.Lines
         {
             SetIsMoving(false);
             StartCoroutine(DelaySetIsDraggingFalse());
-            if (AttachedTo != null)
+            if (AttachedToNodeReff != null)
             {
-                AttachedTo.LineAttacherC.DeatachLine();
+                AttachedToNodeReff.LineAttacherC.DeatachLine();
+                AttachedToNodeReff = null;
             }
             RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
             string NodeButtonTag = "NodeButton";

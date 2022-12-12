@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class Node : NodeBase
+    public class Node : MovingNode
     {
         
         [HideInInspector] public NodeType nodeT;

@@ -16,13 +16,14 @@ namespace BehaviorTreePlanner.Global
             this.Parent = parent;
             this.LineTrigger = lineTrigger;
         }
-        public void StartLine()
+        public void StartLine(NodeBase nodeRoot)
         {
             GameObject LinePrefab = GameObject.Instantiate(SavedReff.LinePrefabReff, Parent.transform);
             LinePrefab.transform.SetParent(SavedReff.Screen.transform);
             LinePrefab.transform.localScale = Vector3.one;
             Line spawnedLine = LinePrefab.GetComponent<Line>();
             spawnedLine.ChangePoint1(LineTrigger.transform.position);
+            spawnedLine.NodeRoot = nodeRoot;
             Spawnedlines.Add(spawnedLine);
         }
         public void DeleteLines()

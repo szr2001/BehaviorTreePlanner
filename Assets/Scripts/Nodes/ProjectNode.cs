@@ -6,7 +6,7 @@ using BehaviorTreePlanner.Global;
 
 namespace BehaviorTreePlanner
 {
-    public class ProjectNode : NodeBase
+    public class ProjectNode : MovingNode
     {
 
     }

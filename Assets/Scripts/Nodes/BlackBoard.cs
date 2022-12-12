@@ -6,18 +6,8 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class BlackBoard : MonoBehaviour
+    public class BlackBoard : NodeBase
     {
-        private LineDraggerClass LineDraggerC;
-        [SerializeField] private GameObject lineTrigger;
 
-        private void Awake()
-        {
-            LineDraggerC = new LineDraggerClass(gameObject, lineTrigger);
-        }
-        public void StartLine()
-        {
-            LineDraggerC.StartLine();
-        }
     }
 }
