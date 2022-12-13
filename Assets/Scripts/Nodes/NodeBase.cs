@@ -1,11 +1,7 @@
 using BehaviorTreePlanner.Global;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using BehaviorTreePlanner.Interfaces;
-using BehaviorTreePlanner.Lines;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Nodes
 {
     public class NodeBase : MonoBehaviour
     {
@@ -28,7 +24,7 @@ namespace BehaviorTreePlanner
         }
         public virtual void StartLine()
         {
-            LineDraggerC.StartLine(this);
+            LineDraggerC.StartLine(this,null);
         }
     }
 }

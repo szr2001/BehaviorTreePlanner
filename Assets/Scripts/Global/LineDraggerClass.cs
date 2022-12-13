@@ -1,5 +1,5 @@
 using BehaviorTreePlanner.Lines;
-using System.Collections;
+using BehaviorTreePlanner.Nodes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace BehaviorTreePlanner.Global
             this.Parent = parent;
             this.LineTrigger = lineTrigger;
         }
-        public void StartLine(NodeBase nodeRoot)
+        public void StartLine(NodeBase nodeRoot, Line attachedToLineReff)
         {
             GameObject LinePrefab = GameObject.Instantiate(SavedReff.LinePrefabReff, Parent.transform);
             LinePrefab.transform.SetParent(SavedReff.Screen.transform);
@@ -24,6 +24,10 @@ namespace BehaviorTreePlanner.Global
             Line spawnedLine = LinePrefab.GetComponent<Line>();
             spawnedLine.ChangePoint1(LineTrigger.transform.position);
             spawnedLine.NodeRoot = nodeRoot;
+            if(attachedToLineReff != null)
+            {
+                spawnedLine.AttachedToLineReff = attachedToLineReff;
+            }
             Spawnedlines.Add(spawnedLine);
         }
         public void DeleteLines()

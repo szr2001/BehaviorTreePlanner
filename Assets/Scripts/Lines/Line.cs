@@ -2,6 +2,7 @@ using UnityEngine;
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.SaveGame;
 using BehaviorTreePlanner.Interfaces;
+using BehaviorTreePlanner.Nodes;
 using UnityEngine.UI;
 using System.Collections;
 using BehaviorTreePlanner.MenuUi;
@@ -143,7 +144,7 @@ namespace BehaviorTreePlanner.Lines
             _point2.GetComponent<Collider2D>().enabled = true;
             IsFixed = true;
             IsMoving = false;
-            LineDraggerC.StartLine(NodeRoot);
+            LineDraggerC.StartLine(NodeRoot,this);
         }
         public void LoadLine(LineSaveInfo lineInfo)
         {

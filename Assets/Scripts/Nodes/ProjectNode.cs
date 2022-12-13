@@ -1,10 +1,6 @@
-using BehaviorTreePlanner.Lines;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using BehaviorTreePlanner.Global;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Nodes
 {
     public class ProjectNode : MovingNode
     {

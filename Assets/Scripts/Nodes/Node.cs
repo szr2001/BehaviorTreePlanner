@@ -1,13 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using BehaviorTreePlanner.Global;
-using BehaviorTreePlanner.Lines;
-using BehaviorTreePlanner.Player;
 using BehaviorTreePlanner.SaveGame;
-using System.Diagnostics;
 
 namespace BehaviorTreePlanner.Nodes
 {

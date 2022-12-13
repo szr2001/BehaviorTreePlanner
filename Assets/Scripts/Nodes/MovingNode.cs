@@ -1,11 +1,9 @@
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Interfaces;
 using BehaviorTreePlanner.Lines;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Nodes
 {
     public class MovingNode : NodeBase,IAttachLine
     {
@@ -43,8 +41,15 @@ namespace BehaviorTreePlanner
         }
         public void IAttachLine(Line Line)
         {
-            LineAttacherC.AttachLine(Line);
-            Line.AttachedToNodeReff = this;
+            if(Line.NodeRoot != this)
+            {
+                LineAttacherC.AttachLine(Line);
+                Line.AttachedToNodeReff = this;
+            }
+            else
+            {
+                Line.DestroyLine();
+            }
         }
         public void DeatachLine()
         {
