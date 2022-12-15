@@ -9,9 +9,9 @@ namespace BehaviorTreePlanner.SaveGame
     [Serializable]
     public class SavedNodeTypesFile
     {
-        public NodeType[] Nodetypes;
+        public NodeDesign[] Nodetypes;
 
-        public SavedNodeTypesFile(NodeType[] nodetypes)
+        public SavedNodeTypesFile(NodeDesign[] nodetypes)
         {
             Nodetypes = nodetypes;
         }

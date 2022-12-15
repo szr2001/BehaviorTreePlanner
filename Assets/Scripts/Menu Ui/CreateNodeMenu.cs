@@ -31,7 +31,7 @@ namespace BehaviorTreePlanner.MenuUi
             {
                 if (!SavedReff.NodesUiMenu.GetComponent<NodesMenu>().ContainsType(nodeType.text))
                 {
-                    NodeType NewNt = new NodeType(nodeType.text, "", topNode.color, botNode.color);
+                    NodeDesign NewNt = new NodeDesign(nodeType.text, "", topNode.color, botNode.color);
                     NodeListMenu.GetComponent<NodesMenu>().AddNewType(NewNt);
                     ResetNode();
                 }

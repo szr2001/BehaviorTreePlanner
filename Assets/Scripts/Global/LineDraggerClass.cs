@@ -16,7 +16,7 @@ namespace BehaviorTreePlanner.Global
             this.Parent = parent;
             this.LineTrigger = lineTrigger;
         }
-        public void StartLine(NodeBase nodeRoot, Line attachedToLineReff)
+        public void StartLine(NodeBase nodeRoot, Line attachedToLineReff, Color lineColor)
         {
             GameObject LinePrefab = GameObject.Instantiate(SavedReff.LinePrefabReff, Parent.transform);
             LinePrefab.transform.SetParent(SavedReff.Screen.transform);
@@ -24,6 +24,7 @@ namespace BehaviorTreePlanner.Global
             Line spawnedLine = LinePrefab.GetComponent<Line>();
             spawnedLine.ChangePoint1(LineTrigger.transform.position);
             spawnedLine.NodeRoot = nodeRoot;
+            spawnedLine.SetLineColor(lineColor);
             if(attachedToLineReff != null)
             {
                 spawnedLine.AttachedToLineReff = attachedToLineReff;

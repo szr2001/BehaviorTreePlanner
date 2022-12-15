@@ -1,10 +1,12 @@
 using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.SaveGame;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
 {
     public class NodeBase : MonoBehaviour
     {
+        [HideInInspector] public NodeDesign NodeD;
         public LineDraggerClass LineDraggerC { get; set; }
         [SerializeField] private GameObject lineTrigger;
 
@@ -12,7 +14,14 @@ namespace BehaviorTreePlanner.Nodes
         {
             LineDraggerC = new LineDraggerClass(gameObject, lineTrigger);
         }
+        public virtual void LoadNode(NodeSaveInfo nodeInfo)
+        {
 
+        }
+        public virtual void SetNodeType(NodeDesign nd)
+        {
+            NodeD = nd;
+        }
         public void MoveTrigger() 
         {
             SavedReff.NodeManager.MoveNode(gameObject);
@@ -24,7 +33,7 @@ namespace BehaviorTreePlanner.Nodes
         }
         public virtual void StartLine()
         {
-            LineDraggerC.StartLine(this,null);
+            LineDraggerC.StartLine(this,null,NodeD.PrimaryCollor);
         }
     }
 }

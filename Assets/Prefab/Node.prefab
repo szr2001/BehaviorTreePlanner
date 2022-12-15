@@ -824,14 +824,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e68b30678bca24aa73f1d84fa0743b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachTrigger: {fileID: 1222826555044903075}
   lineTrigger: {fileID: 8293544676904850590}
   dragTrigger: {fileID: 3906086072139463384}
-  nodeT:
-    type: 
-    name: 
-    topColor: {r: 0, g: 0, b: 0, a: 0}
-    botColor: {r: 0, g: 0, b: 0, a: 0}
+  attachTrigger: {fileID: 1222826555044903075}
   TopImageReff: {fileID: 7076376119103257751}
   BotImageReff: {fileID: 7076376119089046383}
   TypeText: {fileID: 7076376120442092781}

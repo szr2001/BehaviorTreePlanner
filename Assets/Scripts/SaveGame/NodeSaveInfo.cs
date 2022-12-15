@@ -9,12 +9,12 @@ namespace BehaviorTreePlanner.SaveGame
     [Serializable]
     public class NodeSaveInfo
     {
-        public NodeType nodeType;
+        public NodeDesign nodeType;
         public int[] nodeLocation = new int[2];
         public int[] spawnedLinesIndexes;
         public int atachedLineIndex;
 
-        public NodeSaveInfo(int[] nodeLocation, int[] spawnedLinesIndexes, int atachedLineIndex, NodeType nodeType)
+        public NodeSaveInfo(int[] nodeLocation, int[] spawnedLinesIndexes, int atachedLineIndex, NodeDesign nodeType)
         {
             this.nodeLocation = nodeLocation;
             this.spawnedLinesIndexes = spawnedLinesIndexes;

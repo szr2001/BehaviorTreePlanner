@@ -1,6 +1,7 @@
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Interfaces;
 using BehaviorTreePlanner.Lines;
+using BehaviorTreePlanner.SaveGame;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
@@ -16,6 +17,10 @@ namespace BehaviorTreePlanner.Nodes
         {
             LineAttacherC = new LineAttachClass(gameObject, attachTrigger);
             base.Awake();
+        }
+        public override void LoadNode(NodeSaveInfo nodeInfo)
+        {
+            
         }
         private void Update()
         {

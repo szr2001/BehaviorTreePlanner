@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Nodes;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace BehaviorTreePlanner.MenuUi
@@ -10,27 +10,19 @@ namespace BehaviorTreePlanner.MenuUi
     {
         [SerializeField] private GameObject NodeHolder;
 
-        private List<NodeType> Nodetypes = new List<NodeType>();
+        private List<NodeDesign> NodeDesigns = new List<NodeDesign>();
         private List<GameObject> MenuSpawnedNodes = new List<GameObject>();
         void Start()
         {
-            Nodetypes.Add(new NodeType("Selector", "", new Color(0.33f, 1f, 0f), new Color(0.99f, 0.45f, 0.09f)));
-            Nodetypes.Add(new NodeType("Sequence", "", new Color(1f, 0.92f, 0f), new Color(0.99f, 0.45f, 0.09f)));
-            Nodetypes.Add(new NodeType("Parallel", "", new Color(0.80f, 0.35f, 1f), new Color(0.99f, 0.45f, 0.09f)));
-            Nodetypes.Add(new NodeType("Task", "", new Color(0f, 0.93f, 1f), new Color(0.99f, 0.45f, 0.09f)));
+            NodeDesigns.Add(new NodeDesign("Selector", "", new Color(0.33f, 1f, 0f), new Color(0.99f, 0.45f, 0.09f)));
+            NodeDesigns.Add(new NodeDesign("Sequence", "", new Color(1f, 0.92f, 0f), new Color(0.99f, 0.45f, 0.09f)));
+            NodeDesigns.Add(new NodeDesign("Parallel", "", new Color(0.80f, 0.35f, 1f), new Color(0.99f, 0.45f, 0.09f)));
+            NodeDesigns.Add(new NodeDesign("Task", "", new Color(0f, 0.93f, 1f), new Color(0.99f, 0.45f, 0.09f)));
             RefreshVisibleNodes();
         }
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-        /// <summary>
-        /// Check if a node type exists
-        /// </summary>
         public bool ContainsType(string type)
         {
-            foreach(NodeType nt in Nodetypes)
+            foreach(NodeDesign nt in NodeDesigns)
             {
                 if (type == nt.type)
                 {
@@ -39,23 +31,23 @@ namespace BehaviorTreePlanner.MenuUi
             }
             return false;
         }
-        public void LoadNodeTypes(List<NodeType> nodetypes)
+        public void LoadNodeTypes(List<NodeDesign> nodeDesigns)
         {
-            this.Nodetypes = nodetypes;
+            this.NodeDesigns = nodeDesigns;
             RefreshVisibleNodes();
         }
-        public void AddNewType(NodeType nt)
+        public void AddNewType(NodeDesign nd)
         {
-            Nodetypes.Add(nt);
+            NodeDesigns.Add(nd);
             RefreshVisibleNodes();
         }
-        public void DeleteNode(NodeType NodeT)
+        public void DeleteNode(NodeDesign NodeD)
         {
-            foreach(NodeType nt in Nodetypes)
+            foreach(NodeDesign nd in NodeDesigns)
             {
-                if(nt.type == NodeT.type)
+                if(nd.type == NodeD.type)
                 {
-                    Nodetypes.Remove(nt);
+                    NodeDesigns.Remove(nd);
                     RefreshVisibleNodes();
                     return;
                 }
@@ -70,12 +62,12 @@ namespace BehaviorTreePlanner.MenuUi
                     Destroy(g);
                 }
             }
-            if (Nodetypes.Count > 0)
+            if (NodeDesigns.Count > 0)
             {
-                foreach (NodeType T in Nodetypes)
+                foreach (NodeDesign D in NodeDesigns)
                 {
                     GameObject SpawnedNode = GameObject.Instantiate(SavedReff.NodeButtonPrefabReff);
-                    SpawnedNode.GetComponent<NodeButton>().SetNodeType(T);
+                    SpawnedNode.GetComponent<NodeButton>().SetNodeType(D);
                     SpawnedNode.transform.SetParent(NodeHolder.transform);
                     SpawnedNode.transform.localPosition = new Vector3(SpawnedNode.transform.position.x, SpawnedNode.transform.position.y, 0);
                     SpawnedNode.transform.localScale = Vector3.one;

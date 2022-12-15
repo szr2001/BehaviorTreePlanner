@@ -12,6 +12,7 @@ namespace BehaviorTreePlanner.Lines
     public class Line : MonoBehaviour
     {
         public NodeBase NodeRoot { get; set; }
+        public Color LineColor { get; set; }
         public MovingNode AttachedToNodeReff { get; set; }
         public Line AttachedToLineReff { get; set; }
         public LineDraggerClass LineDraggerC { get; set; }
@@ -26,16 +27,12 @@ namespace BehaviorTreePlanner.Lines
 
         private Image _point2Image;
         private LineRenderer lineRenderer;
-        private void Start()
+        private void Awake()
         {
             ChangePoint2(Point1.transform.position);
             lineRenderer = gameObject.GetComponent<LineRenderer>();
-        }
-        private void Awake()
-        {
             LineDraggerC = new LineDraggerClass(gameObject, Point2);
             _point2Image = _point2.GetComponent<Image>();
-            _point2Image.raycastTarget = false;
         }
         void Update()
         {
@@ -144,7 +141,7 @@ namespace BehaviorTreePlanner.Lines
             _point2.GetComponent<Collider2D>().enabled = true;
             IsFixed = true;
             IsMoving = false;
-            LineDraggerC.StartLine(NodeRoot,this);
+            LineDraggerC.StartLine(NodeRoot,this, LineColor);
         }
         public void LoadLine(LineSaveInfo lineInfo)
         {
@@ -200,6 +197,12 @@ namespace BehaviorTreePlanner.Lines
         {
             LineDraggerC.DeleteLines();
             Destroy(gameObject);
+        }
+        public void SetLineColor(Color lineColor)
+        {
+            LineColor = lineColor;
+            lineRenderer.startColor = lineColor;
+            lineRenderer.endColor = lineColor;
         }
         public void ChangePoint1(Vector2 newLoc)
         {
