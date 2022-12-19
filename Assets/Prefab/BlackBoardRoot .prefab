@@ -53,6 +53,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c744cae9cf06dc429d2991ef0628c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NodeD:
+    type: 
+    name: 
+    PrimaryCollor: {r: 0, g: 0, b: 0, a: 0}
+    SecondaryCollor: {r: 0, g: 0, b: 0, a: 0}
   lineTrigger: {fileID: 2693086320977431127}
 --- !u!61 &4512860190178993058
 BoxCollider2D:

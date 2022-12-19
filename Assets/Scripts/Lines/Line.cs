@@ -27,9 +27,13 @@ namespace BehaviorTreePlanner.Lines
 
         private Image _point2Image;
         private LineRenderer lineRenderer;
-        private void Awake()
+
+        private void Start()
         {
             ChangePoint2(Point1.transform.position);
+        }
+        private void Awake()
+        {
             lineRenderer = gameObject.GetComponent<LineRenderer>();
             LineDraggerC = new LineDraggerClass(gameObject, Point2);
             _point2Image = _point2.GetComponent<Image>();
