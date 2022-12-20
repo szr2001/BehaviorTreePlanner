@@ -7,11 +7,11 @@ using UnityEngine;
 namespace BehaviorTreePlanner.SaveGame
 {
     [Serializable]
-    public class SavedNodeTypesFile
+    public class NodeTypeSaveInfo
     {
         public NodeDesign[] Nodetypes;
 
-        public SavedNodeTypesFile(NodeDesign[] nodetypes)
+        public NodeTypeSaveInfo(NodeDesign[] nodetypes)
         {
             Nodetypes = nodetypes;
         }

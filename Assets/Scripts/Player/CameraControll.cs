@@ -17,6 +17,7 @@ namespace BehaviorTreePlanner.Player
         {
             MoveCamera();
             Zoom();
+            MoveSelection();
         }
         private void MoveCamera()
         {
@@ -38,6 +39,37 @@ namespace BehaviorTreePlanner.Player
         {
             float NewZoom = SavedReff.PlayerCamera.orthographicSize += -(Input.GetAxis("Mouse ScrollWheel") * 3);
             SavedReff.PlayerCamera.orthographicSize = Mathf.Clamp((float)System.Math.Round(NewZoom, 1), MinZoom, MaxZoom);
+        }
+        private void MoveSelection()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
+                if (!hit)
+                {
+                    SavedReff.MoveSelection.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+                    SavedReff.MoveSelection.SetActive(true);
+                    mousePos = Input.mousePosition;
+                }
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                ResizeMoveSelection();
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                Bounds MoveArea = new Bounds(SavedReff.MoveSelection.GetComponent<RectTransform>().anchoredPosition, SavedReff.MoveSelection.GetComponent<RectTransform>().sizeDelta);
+                SavedReff.MoveSelection.GetComponent<MoveSelection>().CheckOverlap(MoveArea);
+                SavedReff.MoveSelection.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+                SavedReff.MoveSelection.SetActive(false);
+            }
+        }
+        private void ResizeMoveSelection() 
+        {
+            float width = Input.mousePosition.x - mousePos.x;
+            float height = Input.mousePosition.y - mousePos.y;
+            SavedReff.MoveSelection.GetComponent<RectTransform>().anchoredPosition = new Vector2(mousePos.x, mousePos.y) + new Vector2(width / 2f, height / 2f);
+            SavedReff.MoveSelection.GetComponent<RectTransform>().sizeDelta = new Vector2(Mathf.Abs(width),Mathf.Abs(height));
         }
     }
 }

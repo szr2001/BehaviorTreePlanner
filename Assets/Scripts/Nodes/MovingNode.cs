@@ -2,11 +2,12 @@ using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Interfaces;
 using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.SaveGame;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class MovingNode : NodeBase,IAttachLine
+    public class MovingNode : NodeBase,IAttachLine,IMovable
     {
         public LineAttachClass LineAttacherC { get; set; }
         [SerializeField] private GameObject dragTrigger;
@@ -59,6 +60,13 @@ namespace BehaviorTreePlanner.Nodes
         public void DeatachLine()
         {
             LineAttacherC.DeatachLine();
+        }
+
+        public void MoveObj(Vector3 newPos)
+        {
+            gameObject.transform.position = newPos;
+            gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
+
         }
     }
 }

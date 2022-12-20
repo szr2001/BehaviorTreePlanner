@@ -20,6 +20,7 @@ namespace BehaviorTreePlanner.Nodes
         {
             IsMovingSelectedNode = false;
             activeNodeCopy = GameObject.Instantiate(node);
+            SavedReff.AddActiveNode(activeNodeCopy);
             activeNodeCopy.name = node.name;
             activeNodeCopy.transform.SetParent(SavedReff.Screen.transform);
             activeNodeCopy.transform.localScale = new Vector3(1, 1, 1);
@@ -34,6 +35,7 @@ namespace BehaviorTreePlanner.Nodes
             {
                 IsMovingSelectedNode = false;
                 activeNodeCopy = GameObject.Instantiate(node);
+                SavedReff.AddActiveNode(activeNodeCopy);
                 activeNodeCopy.name = node.name;
                 activeNodeCopy.transform.SetParent(SavedReff.Screen.transform);
                 activeNodeCopy.transform.localScale = new Vector3(1, 1, 1);
@@ -62,6 +64,7 @@ namespace BehaviorTreePlanner.Nodes
                     MoveLogic();
                     if (Input.GetMouseButtonDown(1))
                     {
+                        SavedReff.RemoveActiveNode(activeNodeComp.gameObject);
                         activeNodeComp.DestroyNode();
                         activeNodeCopy = null;
                     }
@@ -94,6 +97,7 @@ namespace BehaviorTreePlanner.Nodes
                 if (Input.GetMouseButtonDown(01))
                 {
                     SavedReff.IsSpawningNodes = false;
+                    SavedReff.RemoveActiveNode(activeNodeComp.gameObject);
                     activeNodeComp.DestroyNode();
                     activeNodeCopy = null;
                     IsMovingSpawnedNode = false;
@@ -114,8 +118,7 @@ namespace BehaviorTreePlanner.Nodes
                 RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
                 if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
                 {
-                    activeNodeCopy.transform.position = new Vector3(activeNodePos.x, activeNodePos.y, 0);
-                    activeNodeCopy.transform.localPosition = new Vector3(activeNodeCopy.transform.localPosition.x, activeNodeCopy.transform.localPosition.y, 0);
+                    activeNodeCopy.gameObject.GetComponent<IMovable>().MoveObj(new Vector3(activeNodePos.x, activeNodePos.y, 0));
                 }
             }
             else //Raycast will hit the node under the mouse and will not move,it looks like its teleporting,disable moved node collider
@@ -123,8 +126,7 @@ namespace BehaviorTreePlanner.Nodes
                 RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
                 if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag)) // add ignore self
                 {
-                    activeNodeCopy.transform.position = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
-                    activeNodeCopy.transform.localPosition = new Vector3(activeNodeCopy.transform.localPosition.x, activeNodeCopy.transform.localPosition.y, 0);
+                    activeNodeCopy.gameObject.GetComponent<IMovable>().MoveObj(new Vector3(mospos.x, mospos.y, 0) - MouseOffset);
                 }
             }
         }

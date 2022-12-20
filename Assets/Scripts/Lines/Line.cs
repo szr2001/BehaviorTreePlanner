@@ -6,6 +6,7 @@ using BehaviorTreePlanner.Nodes;
 using UnityEngine.UI;
 using System.Collections;
 using BehaviorTreePlanner.MenuUi;
+using Unity.VisualScripting;
 
 namespace BehaviorTreePlanner.Lines
 {
@@ -19,24 +20,22 @@ namespace BehaviorTreePlanner.Lines
         public bool IsFixed { get; set; } = false;
         public bool IsMoving { get; set; } = true;
         public bool IsDragging { get; set; } = false;
-        public GameObject Point1 { get { return _point1; } set { _point1 = value; } }
-        public GameObject Point2 { get { return _point2; } set { _point2 = value; } }
         [HideInInspector] public int Index { get; set; }
-        [SerializeField] private GameObject _point1;
-        [SerializeField] private GameObject _point2;
+        [field: SerializeField] public LinePoint Point1 { get; set; }
+        [field: SerializeField] public LinePoint Point2 { get; set; }
 
-        private Image _point2Image;
+        private Image Point2Image;
         private LineRenderer lineRenderer;
 
         private void Start()
         {
-            ChangePoint2(Point1.transform.position);
+            ChangePoint2(Point1.GetPointLocation());
         }
         private void Awake()
         {
             lineRenderer = gameObject.GetComponent<LineRenderer>();
-            LineDraggerC = new LineDraggerClass(gameObject, Point2);
-            _point2Image = _point2.GetComponent<Image>();
+            LineDraggerC = new LineDraggerClass(gameObject, Point2.gameObject);
+            Point2Image = Point2.GetComponent<Image>();
         }
         void Update()
         {
@@ -68,13 +67,13 @@ namespace BehaviorTreePlanner.Lines
                     //create a new line  if it dosent
                     else
                     {
-                        RaycastHit2D Phit = Physics2D.Raycast(Point2.transform.position, -Vector2.zero, 0.1f);
+                        RaycastHit2D Phit = Physics2D.Raycast(Point2.GetPointLocation(), -Vector2.zero, 0.1f);
                         if (!Phit)
                         {
                             StartLine();
                         }
                     }
-                    _point2Image.raycastTarget = true;
+                    Point2Image.raycastTarget = true;
                 }
             }
         }
@@ -133,8 +132,10 @@ namespace BehaviorTreePlanner.Lines
         /// </summary>
         private void UpdateLineRenderers()
         {
-            lineRenderer.SetPosition(0, new Vector3(_point1.transform.position.x, _point1.transform.position.y, 0));
-            lineRenderer.SetPosition(1, new Vector3(_point2.transform.position.x, _point2.transform.position.y, 0));
+            Vector3 P1Poss = Point1.GetPointLocation();
+            Vector3 P2Poss = Point2.GetPointLocation();
+            lineRenderer.SetPosition(0, new Vector3(P1Poss.x, P1Poss.y, 0));
+            lineRenderer.SetPosition(1, new Vector3(P2Poss.x, P2Poss.y, 0));
         }
         /// <summary>
         /// Spawns a new line
@@ -142,7 +143,7 @@ namespace BehaviorTreePlanner.Lines
         private void StartLine()
         {
             SavedReff.IsSpawningLines = true;
-            _point2.GetComponent<Collider2D>().enabled = true;
+            Point2.GetComponent<Collider2D>().enabled = true;
             IsFixed = true;
             IsMoving = false;
             LineDraggerC.StartLine(NodeRoot,this, LineColor);
@@ -199,6 +200,7 @@ namespace BehaviorTreePlanner.Lines
         }
         public void DestroyLine()
         {
+            SavedReff.RemoveActiveLine(this.gameObject);
             LineDraggerC.DeleteLines();
             Destroy(gameObject);
         }
@@ -210,11 +212,11 @@ namespace BehaviorTreePlanner.Lines
         }
         public void ChangePoint1(Vector2 newLoc)
         {
-            _point1.transform.position = new Vector3(newLoc.x, newLoc.y, 0);
+            Point1.MoveObj(new Vector3(newLoc.x, newLoc.y, 0));
         }
         public void ChangePoint2(Vector2 newLoc)
         {
-            _point2.transform.position = new Vector3(newLoc.x, newLoc.y, 0);
+            Point2.MoveObj(new Vector3(newLoc.x, newLoc.y, 0));
         }
     }
 }
