@@ -10,7 +10,7 @@ namespace BehaviorTreePlanner.Nodes
         private GameObject activeNodeCopy;
         private bool IsMovingSelectedNode = false; 
         private bool IsMovingSpawnedNode = false; 
-        private Vector3 MouseOffset = new Vector3(0, 0.3f, 0);
+        private Vector3 MouseOffset = new(0, 0.3f, 0);
         void Update()
         {
             MoveSelectedNode();
@@ -18,14 +18,7 @@ namespace BehaviorTreePlanner.Nodes
         }
         public void SpawnNode(GameObject node , Line attachedLine)
         {
-            IsMovingSelectedNode = false;
-            activeNodeCopy = GameObject.Instantiate(node);
-            SavedReff.AddActiveNode(activeNodeCopy);
-            activeNodeCopy.name = node.name;
-            activeNodeCopy.transform.SetParent(SavedReff.Screen.transform);
-            activeNodeCopy.transform.localScale = new Vector3(1, 1, 1);
-            MouseOffset = new Vector3(0, 0.3f, 0);
-            IsMovingSpawnedNode = true;
+            MakeNode(node);
             activeNodeCopy.GetComponent<Node>().IAttachLine(attachedLine);
         }
         public void SpawnNode(GameObject node)
@@ -33,19 +26,13 @@ namespace BehaviorTreePlanner.Nodes
             RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition), -Vector2.zero);
             if (!hit || hit.collider.gameObject.CompareTag("NodeButton"))
             {
-                IsMovingSelectedNode = false;
-                activeNodeCopy = GameObject.Instantiate(node);
-                SavedReff.AddActiveNode(activeNodeCopy);
-                activeNodeCopy.name = node.name;
-                activeNodeCopy.transform.SetParent(SavedReff.Screen.transform);
-                activeNodeCopy.transform.localScale = new Vector3(1, 1, 1);
-                MouseOffset = new Vector3(0, 0.3f, 0);
-                IsMovingSpawnedNode = true;
+                MakeNode(node);
                 node.GetComponent<BoxCollider2D>().enabled = true;
             }
         }
         public void MoveNode(GameObject node)
         {
+            SavedReff.IsMovingNode = true;
             IsMovingSpawnedNode = false;
             activeNodeCopy = node;
             MouseOffset = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition) - activeNodeCopy.transform.position;
@@ -64,6 +51,7 @@ namespace BehaviorTreePlanner.Nodes
                     MoveLogic();
                     if (Input.GetMouseButtonDown(1))
                     {
+                        SavedReff.IsMovingNode = false;
                         SavedReff.RemoveActiveNode(activeNodeComp.gameObject);
                         activeNodeComp.DestroyNode();
                         activeNodeCopy = null;
@@ -71,6 +59,7 @@ namespace BehaviorTreePlanner.Nodes
                 }
                 else
                 {
+                    SavedReff.IsMovingNode = false;
                     activeNodeComp.IsMoving = (false);
                     activeNodeComp.SetDragTriggerActive(true);
                     activeNodeCopy = null;
@@ -78,11 +67,22 @@ namespace BehaviorTreePlanner.Nodes
                 }
             }
         }
+        private void MakeNode(GameObject node)
+        {
+            IsMovingSelectedNode = false;
+            activeNodeCopy = GameObject.Instantiate(node);
+            SavedReff.AddActiveNode(activeNodeCopy);
+            activeNodeCopy.name = node.name;
+            activeNodeCopy.transform.SetParent(SavedReff.Screen.transform);
+            activeNodeCopy.transform.localScale = new Vector3(1, 1, 1);
+            MouseOffset = new Vector3(0, 0.3f, 0);
+            IsMovingSpawnedNode = true;
+        }
         private void MoveSpawnedNode()
         {
             if (activeNodeCopy != null && IsMovingSpawnedNode)
             {
-                SavedReff.IsSpawningNodes = true;
+                SavedReff.IsSpawningNode = true;
                 MovingNode activeNodeComp = activeNodeCopy.GetComponent<MovingNode>();
                 activeNodeComp.SetDragTriggerActive(false);
                 activeNodeComp.IsMoving = (true);
@@ -96,7 +96,7 @@ namespace BehaviorTreePlanner.Nodes
                 //destroy the node when right click
                 if (Input.GetMouseButtonDown(01))
                 {
-                    SavedReff.IsSpawningNodes = false;
+                    SavedReff.IsSpawningNode = false;
                     SavedReff.RemoveActiveNode(activeNodeComp.gameObject);
                     activeNodeComp.DestroyNode();
                     activeNodeCopy = null;
@@ -110,15 +110,12 @@ namespace BehaviorTreePlanner.Nodes
             Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
             if (SavedSettings.EnableSnapToGrid)
             {
-                float GridSizeX = 1.5f;
-                float GridSizeY = 1;
-                Vector3 activeNodePos = new Vector3(mospos.x, mospos.y, 0) - MouseOffset;
-                activeNodePos.x = Mathf.Round(activeNodePos.x / GridSizeX) * GridSizeX;
-                activeNodePos.y = Mathf.Round(activeNodePos.y / GridSizeY) * GridSizeY;
+                Vector2 GridSize = SavedSettings.NodeGridSize;
+                Vector3 activeNodePos = SavedReff.MousePositionToGrid(mospos, GridSize, MouseOffset);
                 RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
                 if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag))
                 {
-                    activeNodeCopy.gameObject.GetComponent<IMovable>().MoveObj(new Vector3(activeNodePos.x, activeNodePos.y, 0));
+                    activeNodeCopy.GetComponent<IMovable>().MoveObj(new Vector3(activeNodePos.x, activeNodePos.y, 0));
                 }
             }
             else //Raycast will hit the node under the mouse and will not move,it looks like its teleporting,disable moved node collider
@@ -126,7 +123,7 @@ namespace BehaviorTreePlanner.Nodes
                 RaycastHit2D hit = Physics2D.Raycast(mospos, -Vector2.zero);
                 if (!hit || hit.collider.gameObject.CompareTag(NodeButtonTag)) // add ignore self
                 {
-                    activeNodeCopy.gameObject.GetComponent<IMovable>().MoveObj(new Vector3(mospos.x, mospos.y, 0) - MouseOffset);
+                    activeNodeCopy.GetComponent<IMovable>().MoveObj(new Vector3(mospos.x, mospos.y, 0) - MouseOffset);
                 }
             }
         }

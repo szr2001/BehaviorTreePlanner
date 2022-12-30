@@ -6,6 +6,7 @@ namespace BehaviorTreePlanner.Global
 {
     public static class SavedReff
     {
+        //--------------------Game Refferencess--------------------------//
         public static NodeManager NodeManager;
         public static Camera PlayerCamera;
         public static GameObject Screen;
@@ -14,14 +15,22 @@ namespace BehaviorTreePlanner.Global
         public static GameObject NodeButtonPrefabReff;
         public static GameObject RootNode;
         public static GameObject NodesUiMenu;
-        public static GameObject MoveSelection;
         public static SettingsManager SettingsManager;
 
-        public static bool IsSpawningNodes = false;
-        public static bool IsSpawningLines = false;
+        public static bool IsSpawningNode = false;
+        public static bool IsMovingNode = false;
+        public static bool IsSpawningLine = false;
+        public static bool IsMovingLine = false;
 
-        public static List<GameObject> ActiveNodes = new List<GameObject>();
-        public static List<GameObject> ActiveLines = new List<GameObject>();
+        public static bool IsOverUi = false;
+
+        public static bool IsMovingSelection = false;
+
+        //--------------Active Scene objects refference------------------//
+
+        public static List<GameObject> ActiveNodes = new();
+        public static List<GameObject> ActiveLines = new();
+
         public static void AddActiveNode(GameObject node)
         {
             ActiveNodes.Add(node);
@@ -37,6 +46,18 @@ namespace BehaviorTreePlanner.Global
         public static void RemoveActiveLine(GameObject line)
         {
             ActiveLines.Remove(line);
+        }
+
+        //----------------------Helper Functions-------------------------//
+        /// <summary>
+        /// Converts mouse position to a grid position
+        /// </summary>
+        public static Vector2 MousePositionToGrid(Vector2 MousePos,Vector2 GridSize , Vector3 OptionalMouseOffset)
+        {
+            Vector2 GridPosition  = new Vector3(MousePos.x, MousePos.y, 0) - OptionalMouseOffset;
+            GridPosition.x = Mathf.Round(GridPosition.x / GridSize.x) * GridSize.x;
+            GridPosition.y = Mathf.Round(GridPosition.y / GridSize.y) * GridSize.y;
+            return GridPosition;
         }
     }
 }

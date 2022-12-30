@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner.Global
 {
-    public interface IMovable
+    public interface ISelectable
     {
-        public void MoveObj(Vector3 newPos);
+        public void Select();
+        public void Deselect();
+
     }
 }

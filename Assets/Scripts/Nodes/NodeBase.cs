@@ -22,10 +22,6 @@ namespace BehaviorTreePlanner.Nodes
         {
             NodeD = nd;
         }
-        public void MoveTrigger() 
-        {
-            SavedReff.NodeManager.MoveNode(gameObject);
-        }
         public virtual void DestroyNode()
         {
             LineDraggerC.DeleteLines();

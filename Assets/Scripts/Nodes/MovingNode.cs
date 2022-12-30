@@ -2,13 +2,14 @@ using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Interfaces;
 using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.SaveGame;
-using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class MovingNode : NodeBase,IAttachLine,IMovable
+    public class MovingNode : NodeBase,IAttachLine,IMovable,ISelectable
     {
+        [field:SerializeField]public GameObject NodeHighLight { get; set; }
         public LineAttachClass LineAttacherC { get; set; }
         [SerializeField] private GameObject dragTrigger;
         [SerializeField] private GameObject attachTrigger;
@@ -23,12 +24,23 @@ namespace BehaviorTreePlanner.Nodes
         {
             
         }
+        public void UpdateLineLocation()
+        {
+            LineDraggerC.SetLinesLocation();
+            LineAttacherC.SetLineLocation();
+        }
+        public void MoveTrigger()
+        {
+            if (!SavedReff.IsMovingSelection)
+            {
+                SavedReff.NodeManager.MoveNode(gameObject);
+            }
+        }
         private void Update()
         {
             if (IsMoving)
             {
-                LineDraggerC.SetLinesLocation();
-                LineAttacherC.SetLineLocation();
+                UpdateLineLocation();
             }
         }
         public void SetDragTriggerActive(bool active)
@@ -66,7 +78,17 @@ namespace BehaviorTreePlanner.Nodes
         {
             gameObject.transform.position = newPos;
             gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
+            UpdateLineLocation();
+        }
 
+        public virtual void Select()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void Deselect()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

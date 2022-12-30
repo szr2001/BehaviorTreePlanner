@@ -31,5 +31,14 @@ namespace BehaviorTreePlanner.Nodes
             }
 
         }
+        public override void Select()
+        {
+            NodeHighLight.SetActive(true);
+        }
+
+        public override void Deselect()
+        {
+            NodeHighLight.SetActive(false);
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace BehaviorTreePlanner.MenuUi
         /// </summary>
         public void SetSpawnNode()
         {
-            if (!SavedReff.IsSpawningNodes)
+            if (!SavedReff.IsSpawningNode)
             {
                 GameObject SpawnedNode = GameObject.Instantiate(SavedReff.NodePrefabReff);
                 SpawnedNode.GetComponent<Node>().SetNodeType(NodeD);
