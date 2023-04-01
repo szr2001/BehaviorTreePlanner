@@ -1,5 +1,4 @@
 using BehaviorTreePlanner.Global;
-using BehaviorTreePlanner.SaveGame;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
@@ -14,22 +13,13 @@ namespace BehaviorTreePlanner.Nodes
         {
             LineDraggerC = new LineDraggerClass(gameObject, lineTrigger);
         }
-        public virtual void LoadNode(NodeSaveInfo nodeInfo)
-        {
-
-        }
         public virtual void SetNodeType(NodeDesign nd)
         {
             NodeD = nd;
         }
         public virtual void DestroyNode()
         {
-            LineDraggerC.DeleteLines();
             Destroy(gameObject);
-        }
-        public virtual void StartLine()
-        {
-            LineDraggerC.StartLine(this,null,NodeD.PrimaryCollor);
         }
     }
 }

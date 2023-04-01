@@ -12,7 +12,6 @@ namespace BehaviorTreePlanner.Global
         [SerializeField] private GameObject nodeButtonPrefabReff;
         [SerializeField] private GameObject screenNodeRoot;
         [SerializeField] private GameObject nodesUiMenu;
-        [SerializeField] private NodeManager nodeManager;
         [SerializeField] private SettingsManager settingsManager;
 
         private void Awake()
@@ -24,7 +23,6 @@ namespace BehaviorTreePlanner.Global
             SavedReff.NodeButtonPrefabReff = nodeButtonPrefabReff;
             SavedReff.RootNode = screenNodeRoot;
             SavedReff.NodesUiMenu = nodesUiMenu;
-            SavedReff.NodeManager = nodeManager;
             SavedReff.SettingsManager = settingsManager;
         }
 

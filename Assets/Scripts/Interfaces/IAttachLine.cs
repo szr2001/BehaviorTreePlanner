@@ -7,6 +7,6 @@ namespace BehaviorTreePlanner.Interfaces
 {
     public interface IAttachLine 
     {
-        public void IAttachLine(Line Line);
+        public void IAttachLine(LinePoint Line);
     }
 }

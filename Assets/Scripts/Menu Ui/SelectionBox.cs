@@ -2,6 +2,7 @@ using UnityEngine;
 using BehaviorTreePlanner.Lines;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 namespace BehaviorTreePlanner.Global
 {
@@ -53,14 +54,15 @@ namespace BehaviorTreePlanner.Global
                 {
                     ResetSelectionBox(); //reset previous info
                     Debug.Log("InputHandler check if hit");
-                    IsResizingArea = true; //set is resizing to true to handle when the mouse goes over ui and to be able to reset
                     //check if it clicked on an empty space to begin selecting area
                     RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
                     if (!hit)
                     {
+                        IsResizingArea = true; //set is resizing to true to handle when the mouse goes over ui and to be able to reset
                         //set mouse pozition to the pozition where selection begine to be used in resizing the area math
                         MosPoss = Input.mousePosition;
                     }
+
                 }
                 //if the mouse is still down, resize the selected area
                 if (Input.GetMouseButton(0) && IsResizingArea)
@@ -129,17 +131,6 @@ namespace BehaviorTreePlanner.Global
         {
             //reset window size
             RectTrans.sizeDelta = Vector2.zero;
-
-            // add here saved reff to true if there is anything in the lists
-            foreach (GameObject Line in SavedReff.ActiveLines)
-            {
-                LinePoint LinePoint = Line.GetComponent<Line>().Point2;
-                if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(LinePoint.GetPointLocation()), Area))
-                {
-                    OverlapedLines.Add(Line);
-                    LinePoint.GetComponent<ISelectable>().Select();
-                }
-            }
             foreach(GameObject Node in SavedReff.ActiveNodes)
             {
                 if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
@@ -178,13 +169,6 @@ namespace BehaviorTreePlanner.Global
         }
         private void DisableSelectionHighlight()
         {
-            foreach(GameObject Line in OverlapedLines)
-            {
-                if(Line)
-                {
-                    Line.GetComponent<Line>().Point2.GetComponent<ISelectable>().Deselect();
-                }
-            }
             foreach(GameObject Node in OverlapedNodes)
             {
                 if (Node)

@@ -7,7 +7,6 @@ namespace BehaviorTreePlanner.Global
     public static class SavedReff
     {
         //--------------------Game Refferencess--------------------------//
-        public static NodeManager NodeManager;
         public static Camera PlayerCamera;
         public static GameObject Screen;
         public static GameObject LinePrefabReff;

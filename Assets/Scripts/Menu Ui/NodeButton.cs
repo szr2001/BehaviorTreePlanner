@@ -14,30 +14,11 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private Text TypeText;
         [SerializeField] private GameObject spawnTrigger;
         [SerializeField] private GameObject deleteCustomTypeTrigger;
-        [HideInInspector] private Line AttachedLineOnSpawn;
         [HideInInspector] public NodeDesign NodeD { get; set; }
         /// <summary>
         /// Create a new node and calls the right method from the manager to spawn it depending if there is a line to be attached
         /// </summary>
-        public void SetSpawnNode()
-        {
-            if (!SavedReff.IsSpawningNode)
-            {
-                GameObject SpawnedNode = GameObject.Instantiate(SavedReff.NodePrefabReff);
-                SpawnedNode.GetComponent<Node>().SetNodeType(NodeD);
-                SpawnedNode.GetComponent<BoxCollider2D>().enabled = false;
-                if (AttachedLineOnSpawn != null)
-                {
-                    SavedReff.NodeManager.SpawnNode(SpawnedNode, AttachedLineOnSpawn);
-                    AttachedLineOnSpawn = null;
-                }
-                else
-                {
-                    SavedReff.NodeManager.SpawnNode(SpawnedNode);
-                }
-                Destroy(SpawnedNode);
-            }
-        }
+       
         public void SetNodeType(NodeDesign nd)
         {
             NodeD = nd;
@@ -49,9 +30,10 @@ namespace BehaviorTreePlanner.MenuUi
         {
             SavedReff.NodesUiMenu.GetComponent<NodesMenu>().DeleteNode(NodeD);
         }
-        public void IAttachLine(Line Line)
+
+        public void IAttachLine(LinePoint Line)
         {
-            AttachedLineOnSpawn = Line;
+            throw new System.NotImplementedException();
         }
     }
 }

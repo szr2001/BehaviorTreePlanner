@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using BehaviorTreePlanner.SaveGame;
 
 namespace BehaviorTreePlanner.Nodes
 {
@@ -14,10 +13,6 @@ namespace BehaviorTreePlanner.Nodes
         {
             NameText.text = n;
             NodeD.name = n;
-        }
-        public override void LoadNode(NodeSaveInfo nodeInfo)
-        {
-
         }
         public override void SetNodeType(NodeDesign nd)
         {
