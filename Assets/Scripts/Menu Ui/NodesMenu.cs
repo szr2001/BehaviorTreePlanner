@@ -10,8 +10,8 @@ namespace BehaviorTreePlanner.MenuUi
     {
         [SerializeField] private GameObject NodeHolder;
 
-        private List<NodeDesign> NodeDesigns = new List<NodeDesign>();
-        private List<GameObject> MenuSpawnedNodes = new List<GameObject>();
+        private List<NodeDesign> NodeDesigns = new();
+        private List<GameObject> MenuSpawnedNodes = new ();
         void Start()
         {
             NodeDesigns.Add(new NodeDesign("Selector", "", new Color(0.33f, 1f, 0f), new Color(0.99f, 0.45f, 0.09f)));

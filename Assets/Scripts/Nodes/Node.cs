@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Global;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,6 @@ namespace BehaviorTreePlanner.Nodes
             {
                 NameText.text = NodeD.name;
             }
-
         }
         public override void Select()
         {

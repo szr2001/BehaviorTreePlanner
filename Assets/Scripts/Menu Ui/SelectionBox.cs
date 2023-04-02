@@ -136,7 +136,7 @@ namespace BehaviorTreePlanner.Global
                 if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
                 {
                     OverlapedNodes.Add(Node);
-                    Node.GetComponent<ISelectable>().Select();
+                    Node.GetComponent<IMovable>().Select();
                 }
             }
             if(OverlapedLines.Count > 1 || OverlapedNodes.Count > 1)
@@ -173,7 +173,7 @@ namespace BehaviorTreePlanner.Global
             {
                 if (Node)
                 {
-                    Node.GetComponent<ISelectable>().Deselect();
+                    Node.GetComponent<IMovable>().Deselect(); // add to imovable remake stuff
                 }
             }
         }

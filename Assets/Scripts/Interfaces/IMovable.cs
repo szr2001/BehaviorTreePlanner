@@ -6,6 +6,8 @@ namespace BehaviorTreePlanner.Global
 {
     public interface IMovable
     {
-        public void MoveObj(Vector3 newPos);
+        public void MoveObj(Vector3 MousePos);
+        public void Select();
+        public void Deselect();
     }
 }

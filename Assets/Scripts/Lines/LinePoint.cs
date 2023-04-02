@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner.Lines
 {
-    public class LinePoint : MonoBehaviour,IMovable,ISelectable
+    public class LinePoint : MonoBehaviour,IMovable
     {
         [field: SerializeField] private GameObject Highlight;
         public void MoveObj(Vector3 newPos)

@@ -7,23 +7,27 @@ namespace BehaviorTreePlanner.Global
     {
         [SerializeField] private Camera playerCamera;
         [SerializeField] private GameObject screenReff;
-        [SerializeField] private GameObject linePrefabReff;
         [SerializeField] private GameObject nodePrefabReff;
+        [SerializeField] private GameObject linePointPrefabReff;
         [SerializeField] private GameObject nodeButtonPrefabReff;
         [SerializeField] private GameObject screenNodeRoot;
         [SerializeField] private GameObject nodesUiMenu;
         [SerializeField] private SettingsManager settingsManager;
+        [SerializeField] private MoveObjectsManager moveObjectsManager;
+        [SerializeField] private SpawnManager spawnManager;
 
         private void Awake()
         {
             SavedReff.Screen = screenReff;
             SavedReff.PlayerCamera = playerCamera;
-            SavedReff.LinePrefabReff = linePrefabReff;
             SavedReff.NodePrefabReff = nodePrefabReff;
             SavedReff.NodeButtonPrefabReff = nodeButtonPrefabReff;
             SavedReff.RootNode = screenNodeRoot;
             SavedReff.NodesUiMenu = nodesUiMenu;
             SavedReff.SettingsManager = settingsManager;
+            SavedReff.LinePointPrefabReff = linePointPrefabReff;
+            SavedReff.MoveObjectsManager = moveObjectsManager;
+            SavedReff.SpawnManager = spawnManager;
         }
 
     }
