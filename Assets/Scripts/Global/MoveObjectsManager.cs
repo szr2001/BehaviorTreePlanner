@@ -8,17 +8,17 @@ namespace BehaviorTreePlanner
 {
     public class MoveObjectsManager : MonoBehaviour
     {
-        private List<IMovable> MovableObj = new();
+        private Dictionary<IMovable,Vector3> MovableObj = new();
         private bool IsMoving = false;
 
         private void Update()
         {
             if(IsMoving && MovableObj.Count > 0)
             {
-                foreach (IMovable movableObj in MovableObj)
+                foreach (KeyValuePair<IMovable, Vector3> movableObj in MovableObj)
                 {
                     Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
-                    movableObj.MoveObj(mospos);
+                    movableObj.Key.MoveObj(mospos, movableObj.Value);
                     if(Input.GetMouseButtonUp(0))
                     {
                         IsMoving = false;
@@ -30,6 +30,16 @@ namespace BehaviorTreePlanner
         }
         public void StartMoving()
         {
+            if(MovableObj.Count > 1)
+            {
+                Vector3 MosPoss = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                Dictionary<IMovable, Vector3> MovableObjTemp = new();
+                foreach (KeyValuePair<IMovable, Vector3> Obj in MovableObj) 
+                {
+                    MovableObjTemp.Add(Obj.Key, MosPoss - Obj.Key.GetStartPosition);
+                }
+                MovableObj = MovableObjTemp;
+            }
             IsMoving = true;
         }
         public void StopMoving()
@@ -38,8 +48,12 @@ namespace BehaviorTreePlanner
         }
         public void AddMovableObj(IMovable Obj)
         {
-            MovableObj.Add(Obj);
-            Obj.Select();
+            try
+            {
+                MovableObj.Add(Obj, Vector3.zero);
+                Obj.Select();
+            }
+            catch { }
         }
         public void RemoveMovableObj(IMovable Obj)
         {
@@ -48,9 +62,9 @@ namespace BehaviorTreePlanner
         }
         public void ClearMovableObj()
         {
-            foreach(IMovable obj in MovableObj)
+            foreach(KeyValuePair<IMovable, Vector3> obj in MovableObj)
             {
-                obj.Deselect();
+                obj.Key.Deselect();
             }
             MovableObj.Clear();
         }

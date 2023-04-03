@@ -18,19 +18,13 @@ namespace BehaviorTreePlanner.Global
         public static MoveObjectsManager MoveObjectsManager;
         public static SpawnManager SpawnManager;
 
-        public static bool IsSpawningNode = false;
-        public static bool IsMovingNode = false;
-        public static bool IsSpawningLine = false;
-        public static bool IsMovingLine = false;
-
         public static bool IsOverUi = false;
-
-        public static bool IsMovingSelection = false;
-
+        
         //--------------Active Scene objects refference------------------//
 
         public static List<GameObject> ActiveNodes = new();
         public static List<GameObject> ActiveLines = new();
+        public static List<GameObject> ActiveProjectNodes = new();
 
         public static void AddActiveNode(GameObject node)
         {

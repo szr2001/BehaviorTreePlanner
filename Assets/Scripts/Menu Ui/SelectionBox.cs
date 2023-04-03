@@ -12,137 +12,80 @@ namespace BehaviorTreePlanner.Global
         [SerializeField] private Image MainWindowArrow;
         [SerializeField] private RectTransform RectTrans;
 
-        private readonly List<GameObject> OverlapedLines = new();
-        private readonly List<GameObject> OverlapedNodes = new();
-
-        private readonly List<int> OverlapedOffsetsLines = new();
-        private readonly List<int> OverlapedOffsetsNodes = new();
-
-        private SelectionBoxState SelectionState = SelectionBoxState.Selecting;
         private bool IsResizingArea = false;
         private Vector2 MosPoss;
         void Update()
         {
-            Debug.Log("Selection State "+SelectionState);
             SelectObjects();
-            MoveObjects();
         }
 
         private void SelectObjects()
         {
-            //check to be in the selection state not moving state
-            if (SelectionState == SelectionBoxState.Selecting)
+            //check if is spawning lines/nodes or is mouse over ui, if yes, return
+            if (SavedReff.IsOverUi)
             {
-                //check if is spawning lines/nodes or is mouse over ui, if yes, return
-                if (SavedReff.IsSpawningLine || SavedReff.IsSpawningNode || SavedReff.IsOverUi ||SavedReff.IsMovingLine || SavedReff.IsMovingNode)
+                // Handle selection box reset if mouse goes over ui and code stops at return
+                if (IsResizingArea)
                 {
-                    // Handle selection box reset if mouse goes over ui and code stops at return
-                    if (IsResizingArea) 
+                    if (Input.GetMouseButtonUp(0))
                     {
-                        if (Input.GetMouseButtonUp(0))
-                        {
-                            Bounds MoveArea = new(RectTrans.anchoredPosition, RectTrans.sizeDelta); //force create an area using rect trans
-                            ResetSelectionBox(); // reset selection box info
-                            IsResizingArea = false; //set resizing area to false 
-                        }
+                        Bounds MoveArea = new(RectTrans.anchoredPosition, RectTrans.sizeDelta); //force create an area using rect trans
+                        ResetSelectionBox(); // reset selection box info
+                        IsResizingArea = false; //set resizing area to false 
                     }
-                    return;
+                }
+                return;
+            }
+
+            //initialize begin drag on mouse button down
+            if (Input.GetMouseButtonDown(0))
+            {
+                ResetSelectionBox(); //reset previous info
+                Debug.Log("InputHandler check if hit");
+                //check if it clicked on an empty space to begin selecting area
+                RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
+                if (!hit)
+                {
+                    SavedReff.MoveObjectsManager.ClearMovableObj();
+                    IsResizingArea = true; //set is resizing to true to handle when the mouse goes over ui and to be able to reset
+                                           //set mouse pozition to the pozition where selection begine to be used in resizing the area math
+                    MosPoss = Input.mousePosition;
                 }
 
-                //initialize begin drag on mouse button down
-                if (Input.GetMouseButtonDown(0))
-                {
-                    ResetSelectionBox(); //reset previous info
-                    Debug.Log("InputHandler check if hit");
-                    //check if it clicked on an empty space to begin selecting area
-                    RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
-                    if (!hit)
-                    {
-                        IsResizingArea = true; //set is resizing to true to handle when the mouse goes over ui and to be able to reset
-                        //set mouse pozition to the pozition where selection begine to be used in resizing the area math
-                        MosPoss = Input.mousePosition;
-                    }
-
-                }
-                //if the mouse is still down, resize the selected area
-                if (Input.GetMouseButton(0) && IsResizingArea)
-                {
-                    Debug.Log("InputHandler Resize");
-                    ResizeSelectedArea();
-                }
-                //if mouse button up, stop resizing area and call method to check what objects where inside selected area
-                if (Input.GetMouseButtonUp(0))
-                {
-                    Debug.Log("InputHandler released buton check overlap");
-                    IsResizingArea = false; // set resizing area to false because the mouse button is not pressed anymore
-                    Bounds MoveArea = new(RectTrans.anchoredPosition, RectTrans.sizeDelta); //create the area that was selected using the rect transform
-                    GetOverlapedObjects(MoveArea); //call method to find objects inside provided area
-                    //MAKE THIS 3 LINES A METHOD INSTEAD
-                }
+            }
+            //if the mouse is still down, resize the selected area
+            if (Input.GetMouseButton(0) && IsResizingArea)
+            {
+                Debug.Log("InputHandler Resize");
+                ResizeSelectedArea();
+            }
+            //if mouse button up, stop resizing area and call method to check what objects where inside selected area
+            if (Input.GetMouseButtonUp(0))
+            {
+                Debug.Log("InputHandler released buton check overlap");
+                IsResizingArea = false; // set resizing area to false because the mouse button is not pressed anymore
+                Bounds MoveArea = new(RectTrans.anchoredPosition, RectTrans.sizeDelta); //create the area that was selected using the rect transform
+                GetOverlapedObjects(MoveArea); //call method to find objects inside provided area
+                                               //MAKE THIS 3 LINES A METHOD INSTEAD
             }
         }
-
-        private void MoveObjects()
-        {
-            if (SelectionState == SelectionBoxState.Moving)
-            {
-                bool PressingOnValidObj = false;
-                bool Pressedbutton = false;
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Pressedbutton = true;
-                    Debug.Log("MoveObj pressed button ");
-                    Debug.Log("MoveObj check if hit anything");
-                    RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
-                    if (hit)
-                    {
-                        Debug.Log("MoveObj Hit detected");
-                        PressingOnValidObj = hit.collider.gameObject.TryGetComponent<IMovable>(out _); 
-                    }
-                    else
-                    {
-                        Debug.Log("MoveObj didnt hit anything");
-                        PressingOnValidObj = false;
-                        Pressedbutton=false;
-                        SavedReff.IsMovingSelection = false;
-                        SelectionState = SelectionBoxState.Selecting;
-                        ResetSelectionBox();
-                    }
-                }
-               
-                if (Pressedbutton)
-                {
-                    Debug.Log("pressed button =" + Pressedbutton);
-                    Debug.Log("pressed on valid obj=" + PressingOnValidObj);
-                    if (PressingOnValidObj)
-                    {
-                        Debug.Log("Moving");
-                        if (Input.GetMouseButtonUp(1))
-                        {
-                            Debug.Log("MoveObj Moving canceled");
-                            PressingOnValidObj = false;
-                            Pressedbutton = false;
-                        }
-                    }
-                }
-            }
-        }
+        
         private void GetOverlapedObjects(Bounds Area)
         {
-            //reset window size
             RectTrans.sizeDelta = Vector2.zero;
             foreach(GameObject Node in SavedReff.ActiveNodes)
             {
                 if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
                 {
-                    OverlapedNodes.Add(Node);
-                    Node.GetComponent<IMovable>().Select();
+                    SavedReff.MoveObjectsManager.AddMovableObj(Node.GetComponent<IMovable>());
                 }
             }
-            if(OverlapedLines.Count > 1 || OverlapedNodes.Count > 1)
+            foreach (GameObject Line in SavedReff.ActiveLines)
             {
-                SavedReff.IsMovingSelection = true;
-                SelectionState = SelectionBoxState.Moving;
+                if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
+                {
+                    SavedReff.MoveObjectsManager.AddMovableObj(Line.GetComponent<IMovable>());
+                }
             }
         }
 
@@ -153,31 +96,11 @@ namespace BehaviorTreePlanner.Global
             RectTrans.anchoredPosition = new Vector2(MosPoss.x, MosPoss.y) + new Vector2(width / 2f, height / 2f);
             RectTrans.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         }
-      
-        private void GetOverlapedObjectsOffsets()
-        {
-            MosPoss = Input.mousePosition;
-        }
         private void ResetSelectionBox()
         {
             RectTrans.sizeDelta = Vector2.zero;
-            DisableSelectionHighlight();
-            OverlapedLines.Clear();
-            OverlapedNodes.Clear();
-            OverlapedOffsetsNodes.Clear();
-            OverlapedOffsetsLines.Clear();
         }
-        private void DisableSelectionHighlight()
-        {
-            foreach(GameObject Node in OverlapedNodes)
-            {
-                if (Node)
-                {
-                    Node.GetComponent<IMovable>().Deselect(); // add to imovable remake stuff
-                }
-            }
-        }
-
+        
         private bool IsPointInsideArea(Vector2 poss, Bounds area)
         {
             return poss.x > area.min.x && poss.x < area.max.x

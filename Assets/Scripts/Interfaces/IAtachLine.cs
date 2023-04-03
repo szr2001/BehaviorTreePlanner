@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTreePlanner.Interfaces
+namespace BehaviorTreePlanner
 {
-    public interface IAttachLine 
+    public interface IAtachLine
     {
-        public void IAttachLine(LinePoint Line);
+        public void AtachLine(LinePoint Line);
     }
 }

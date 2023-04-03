@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
 using UnityEngine;
 
@@ -18,9 +19,15 @@ namespace BehaviorTreePlanner
             SavedReff.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<Node>());
             SavedReff.MoveObjectsManager.StartMoving();
         }
-        public void SpawnLinePoint()
+        public void SpawnLinePoint(GameObject Caller)
         {
-
+            GameObject TempLine = Instantiate(SavedReff.LinePointPrefabReff, SavedReff.Screen.transform);
+            TempLine.transform.localScale = new Vector3(1, 1, 1);
+            TempLine.name = "LinePoint";
+            TempLine.GetComponent<LinePoint>().OwnerParent = Caller;
+            SavedReff.AddActiveLine(TempLine);
+            SavedReff.MoveObjectsManager.AddMovableObj(TempLine.GetComponent<LinePoint>());
+            SavedReff.MoveObjectsManager.StartMoving();
         }
     }
 }

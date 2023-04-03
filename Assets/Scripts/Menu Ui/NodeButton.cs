@@ -2,12 +2,11 @@ using UnityEngine;
 using BehaviorTreePlanner.Nodes;
 using UnityEngine.UI;
 using BehaviorTreePlanner.Global;
-using BehaviorTreePlanner.Interfaces;
 using BehaviorTreePlanner.Lines;
 
 namespace BehaviorTreePlanner.MenuUi
 {
-    public class NodeButton : MonoBehaviour,IAttachLine
+    public class NodeButton : MonoBehaviour
     {
         [SerializeField] private Image TopImageReff;
         [SerializeField] private Image BotImageReff;
@@ -27,6 +26,7 @@ namespace BehaviorTreePlanner.MenuUi
         {
             if (Input.GetMouseButtonDown(0))
             {
+                SavedReff.MoveObjectsManager.ClearMovableObj();
                 SavedReff.SpawnManager.SpawnNode(NodeD);
             }
         }
