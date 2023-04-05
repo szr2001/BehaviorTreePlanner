@@ -18,11 +18,10 @@ namespace BehaviorTreePlanner
                 foreach (KeyValuePair<IMovable, Vector3> movableObj in MovableObj)
                 {
                     Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
-                    movableObj.Key.MoveObj(mospos, movableObj.Value);
+                    movableObj.Key.MoveObj(mospos, movableObj.Value,true);
                     if(Input.GetMouseButtonUp(0))
                     {
-                        IsMoving = false;
-                        ClearMovableObj();
+                        StopMoving();
                         break;
                     }
                 }
@@ -45,6 +44,7 @@ namespace BehaviorTreePlanner
         public void StopMoving()
         {
             IsMoving = false;
+            ClearMovableObj();
         }
         public void AddMovableObj(IMovable Obj)
         {

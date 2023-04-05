@@ -6,8 +6,8 @@ namespace BehaviorTreePlanner.Nodes
     public class NodeBase : MonoBehaviour
     {
         [HideInInspector] public NodeDesign NodeD;
-        [SerializeField] private GameObject lineTrigger;
-
+        [SerializeField] protected GameObject LineTrigger;
+        protected LineHandler lineHandler = new();
         public virtual void SetNodeType(NodeDesign nd)
         {
             NodeD = nd;

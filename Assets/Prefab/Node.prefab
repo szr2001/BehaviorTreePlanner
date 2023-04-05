@@ -861,7 +861,7 @@ MonoBehaviour:
     name: 
     PrimaryCollor: {r: 0, g: 0, b: 0, a: 0}
     SecondaryCollor: {r: 0, g: 0, b: 0, a: 0}
-  lineTrigger: {fileID: 8293544676904850590}
+  LineTrigger: {fileID: 8293544676904850590}
   <NodeHighLight>k__BackingField: {fileID: 2214209184994266405}
   dragTrigger: {fileID: 3906086072139463384}
   attachTrigger: {fileID: 1222826555044903075}

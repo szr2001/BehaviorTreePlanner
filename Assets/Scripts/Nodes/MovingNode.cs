@@ -8,21 +8,26 @@ namespace BehaviorTreePlanner.Nodes
     public class MovingNode : NodeBase,IMovable,IAtachLine
     {
         [field:SerializeField]public GameObject NodeHighLight { get; set; }
-        [SerializeField] private GameObject dragTrigger;
-        [SerializeField] private GameObject attachTrigger;
+        [SerializeField] protected GameObject dragTrigger;
+        [SerializeField] protected GameObject attachTrigger;
 
         public Vector3 GetStartPosition { get { return gameObject.transform.position;}}
 
-        public void MoveObj(Vector3 newPos, Vector3 Offset)
+        private void Awake()
+        {
+            lineHandler.InitializeLineHandler(attachTrigger.transform, LineTrigger.transform);
+        }
+        public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.NodeGridSize;
-            Vector3 activeNodePos = SavedReff.MousePositionToGrid(newPos, GridSize, Offset);
+            Vector3 activeNodePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (!hit)
             {
                 gameObject.transform.position = activeNodePos;
                 gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
             }
+            lineHandler.MoveObj(newPos, Offset, UseGrid);
         }
         public void SetMoveNode()
         {
@@ -36,7 +41,7 @@ namespace BehaviorTreePlanner.Nodes
         {
             if (Input.GetMouseButtonDown(0))
             {
-                SavedReff.SpawnManager.SpawnLinePoint(this.gameObject);
+                lineHandler.SpawnLine();
             }
         }
         public virtual void Select()
