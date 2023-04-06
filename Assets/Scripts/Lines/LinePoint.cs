@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace BehaviorTreePlanner.Lines
 {
-    public class LinePoint : MonoBehaviour,IMovable
+    public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler
     {
         public GameObject OwnerParent { get; set; }
         [SerializeField] private GameObject Highlight;
@@ -24,22 +24,25 @@ namespace BehaviorTreePlanner.Lines
                 gameObject.transform.position = activeLinePos;
                 gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
             }
+            foreach(LinePoint point in SpawnedPoints)
+            {
+                point.UpdateLineRenderer();
+            }
         }
-        public void Test(PointerEventData tes)
+        private void UpdateLineRenderer()
         {
-            Debug.Log(tes.clickCount);
+
         }
         public void SpawnPoint()
         {
-            SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(true,false));
-        }
-        public void StartMove()
-        {
-
-        }
-        public void StopMove()
-        {
-
+            if (IsRoot)
+            {
+                if(SpawnedPoints.Count >= 1)
+                {
+                    return;
+                }
+            }
+            SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(true, false));
         }
         public void SetRoot()
         {
@@ -53,6 +56,36 @@ namespace BehaviorTreePlanner.Lines
         public void Deselect()
         {
             Highlight.SetActive(false);
+        }
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (Highlight.activeSelf)
+            {
+                StartMove();
+            }
+            else
+            {
+                SpawnPoint();
+            }
+        }
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            StopMove();
+        }
+        public void OnDrag(PointerEventData eventData)
+        {
+        }
+        private void StartMove()
+        {
+            if (!IsRoot)
+            {
+                SavedReff.MoveObjectsManager.AddMovableObj(this);
+                SavedReff.MoveObjectsManager.StartMoving();
+            }
+        }
+        private void StopMove()
+        {
+            SavedReff.MoveObjectsManager.StopMoving();
         }
     }
 }

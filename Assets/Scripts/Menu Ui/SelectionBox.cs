@@ -40,7 +40,6 @@ namespace BehaviorTreePlanner.Global
             if (Input.GetMouseButtonDown(0))
             {
                 ResetSelectionBox(); //reset previous info
-                Debug.Log("InputHandler check if hit");
                 //check if it clicked on an empty space to begin selecting area
                 RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
                 if (!hit)
@@ -55,13 +54,11 @@ namespace BehaviorTreePlanner.Global
             //if the mouse is still down, resize the selected area
             if (Input.GetMouseButton(0) && IsResizingArea)
             {
-                Debug.Log("InputHandler Resize");
                 ResizeSelectedArea();
             }
             //if mouse button up, stop resizing area and call method to check what objects where inside selected area
             if (Input.GetMouseButtonUp(0))
             {
-                Debug.Log("InputHandler released buton check overlap");
                 IsResizingArea = false; // set resizing area to false because the mouse button is not pressed anymore
                 Bounds MoveArea = new(RectTrans.anchoredPosition, RectTrans.sizeDelta); //create the area that was selected using the rect transform
                 GetOverlapedObjects(MoveArea); //call method to find objects inside provided area
