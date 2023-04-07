@@ -18,7 +18,6 @@ namespace BehaviorTreePlanner.Global
         {
             SelectObjects();
         }
-
         private void SelectObjects()
         {
             //check if is spawning lines/nodes or is mouse over ui, if yes, return
@@ -35,7 +34,6 @@ namespace BehaviorTreePlanner.Global
                 }
                 return;
             }
-
             //initialize begin drag on mouse button down
             if (Input.GetMouseButtonDown(0))
             {
@@ -65,7 +63,6 @@ namespace BehaviorTreePlanner.Global
                                                //MAKE THIS 3 LINES A METHOD INSTEAD
             }
         }
-        
         private void GetOverlapedObjects(Bounds Area)
         {
             RectTrans.sizeDelta = Vector2.zero;
@@ -84,7 +81,6 @@ namespace BehaviorTreePlanner.Global
                 }
             }
         }
-
         private void ResizeSelectedArea()
         {
             float width = Input.mousePosition.x - MosPoss.x;
@@ -92,22 +88,14 @@ namespace BehaviorTreePlanner.Global
             RectTrans.anchoredPosition = new Vector2(MosPoss.x, MosPoss.y) + new Vector2(width / 2f, height / 2f);
             RectTrans.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         }
-
         private void ResetSelectionBox()
         {
             RectTrans.sizeDelta = Vector2.zero;
         }
-        
         private bool IsPointInsideArea(Vector2 poss, Bounds area)
         {
             return poss.x > area.min.x && poss.x < area.max.x
                 && poss.y > area.min.y && poss.y < area.max.y;
-        }
-
-        private enum SelectionBoxState
-        {
-            Selecting,
-            Moving
         }
     }
 }

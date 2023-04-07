@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6584025746825424112}
   - component: {fileID: 6240534012767762231}
-  - component: {fileID: 6422989574057321822}
+  - component: {fileID: -3800024683735823641}
   - component: {fileID: 1383214016423263910}
   m_Layer: 5
   m_Name: LinePoint
@@ -57,7 +57,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12.81
---- !u!120 &6422989574057321822
+--- !u!120 &-3800024683735823641
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,7 +77,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,7 +103,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -121,8 +121,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 0.90239954, b: 1, a: 1}
+      key1: {r: 0, g: 0.90239954, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Highlight: {fileID: 7949373341641040238}
-  LineR: {fileID: 6422989574057321822}
+  LineR: {fileID: -3800024683735823641}
 --- !u!1 &6422989574836838940
 GameObject:
   m_ObjectHideFlags: 0

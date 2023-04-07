@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Global;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -11,9 +12,10 @@ namespace BehaviorTreePlanner.Lines
         public GameObject OwnerParent { get; set; }
         [SerializeField] private GameObject Highlight;
         [SerializeField] private LineRenderer LineR;
+        private LinePoint ParentLine;
         private List<LinePoint> SpawnedPoints = new();
         private bool IsRoot = false;
-        public Vector3 GetStartPosition { get { return gameObject.transform.position;}}
+        public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.LineGridSize;
@@ -28,10 +30,33 @@ namespace BehaviorTreePlanner.Lines
             {
                 point.UpdateLineRenderer();
             }
+            if(ParentLine != null)
+            {
+                ParentLine.UpdateLineRenderer();
+            }
+        }
+        public void InitializeLine(LinePoint caller,bool root)
+        {
+            ParentLine = caller;
+            IsRoot = root;
+            if (IsRoot)
+            {
+                Destroy(LineR);
+            }
+            UpdateLineRenderer();
         }
         private void UpdateLineRenderer()
         {
-
+            Debug.Log($"UpdateLIneR: parent null {ParentLine == null} SpawnedLineCount: {SpawnedPoints.Count}");
+            if(LineR == null)
+            {
+                return;
+            }
+            if (ParentLine != null)
+            { 
+                LineR.SetPosition(0, new Vector3(ParentLine.GetObjPosition.x, ParentLine.GetObjPosition.y,0));
+            }
+            LineR.SetPosition(1, new Vector3(GetObjPosition.x, GetObjPosition.y, 0));
         }
         public void SpawnPoint()
         {
@@ -42,11 +67,7 @@ namespace BehaviorTreePlanner.Lines
                     return;
                 }
             }
-            SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(true, false));
-        }
-        public void SetRoot()
-        {
-            IsRoot = true;
+            SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(this,true, false));
         }
         public void Select()
         {

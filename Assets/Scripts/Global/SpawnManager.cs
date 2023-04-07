@@ -19,15 +19,12 @@ namespace BehaviorTreePlanner
             SavedReff.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<Node>());
             SavedReff.MoveObjectsManager.StartMoving();
         }
-        public LinePoint SpawnLinePoint(bool SaveReff,bool IsRoot)
+        public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot)
         {
             GameObject TempLine = Instantiate(SavedReff.LinePointPrefabReff, SavedReff.Screen.transform);
             TempLine.transform.localScale = new Vector3(1, 1, 1);
             TempLine.name = "LinePoint";
-            if (IsRoot)
-            {
-                TempLine.GetComponent<LinePoint>().SetRoot();
-            }
+            TempLine.GetComponent<LinePoint>().InitializeLine(Caller, IsRoot);
             if (SaveReff)
             {
                 SavedReff.AddActiveLine(TempLine);

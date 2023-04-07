@@ -11,11 +11,11 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] protected GameObject dragTrigger;
         [SerializeField] protected GameObject attachTrigger;
 
-        public Vector3 GetStartPosition { get { return gameObject.transform.position;}}
+        public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
 
         private void Awake()
         {
-            lineHandler.InitializeLineHandler(attachTrigger.transform, LineTrigger.transform);
+            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform);
         }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {

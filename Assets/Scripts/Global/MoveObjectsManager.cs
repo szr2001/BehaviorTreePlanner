@@ -35,7 +35,7 @@ namespace BehaviorTreePlanner
                 Dictionary<IMovable, Vector3> MovableObjTemp = new();
                 foreach (KeyValuePair<IMovable, Vector3> Obj in MovableObj) 
                 {
-                    MovableObjTemp.Add(Obj.Key, MosPoss - Obj.Key.GetStartPosition);
+                    MovableObjTemp.Add(Obj.Key, MosPoss - Obj.Key.GetObjPosition);
                 }
                 MovableObj = MovableObjTemp;
             }
