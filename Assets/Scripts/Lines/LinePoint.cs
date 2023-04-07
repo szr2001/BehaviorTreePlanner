@@ -26,7 +26,8 @@ namespace BehaviorTreePlanner.Lines
                 gameObject.transform.position = activeLinePos;
                 gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
             }
-            foreach(LinePoint point in SpawnedPoints)
+            UpdateLineRenderer();
+            foreach (LinePoint point in SpawnedPoints) // probl
             {
                 point.UpdateLineRenderer();
             }
@@ -45,9 +46,9 @@ namespace BehaviorTreePlanner.Lines
             }
             UpdateLineRenderer();
         }
-        private void UpdateLineRenderer()
+        private void UpdateLineRenderer() // probl poate nu se cheama la move ptr ca doar 1 se move
         {
-            Debug.Log($"UpdateLIneR: parent null {ParentLine == null} SpawnedLineCount: {SpawnedPoints.Count}");
+            Debug.Log($"UpdateLIneR; parent null: {ParentLine == null} SpawnedLineCount: {SpawnedPoints.Count}",gameObject);
             if(LineR == null)
             {
                 return;
