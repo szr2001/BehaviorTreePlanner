@@ -26,12 +26,12 @@ namespace BehaviorTreePlanner.Nodes
                 NameText.text = NodeD.name;
             }
         }
-        public override void Select()
+        public override void StartMoveObj()
         {
             NodeHighLight.SetActive(true);
         }
 
-        public override void Deselect()
+        public override void StopMoveObj()
         {
             NodeHighLight.SetActive(false);
         }

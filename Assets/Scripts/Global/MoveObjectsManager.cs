@@ -51,20 +51,20 @@ namespace BehaviorTreePlanner
             try
             {
                 MovableObj.Add(Obj, Vector3.zero);
-                Obj.Select();
+                Obj.StartMoveObj();
             }
             catch { }
         }
         public void RemoveMovableObj(IMovable Obj)
         {
             MovableObj.Remove(Obj);
-            Obj.Deselect();
+            Obj.StopMoveObj();
         }
         public void ClearMovableObj()
         {
             foreach(KeyValuePair<IMovable, Vector3> obj in MovableObj)
             {
-                obj.Key.Deselect();
+                obj.Key.StopMoveObj();
             }
             MovableObj.Clear();
         }

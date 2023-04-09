@@ -18,6 +18,7 @@ namespace BehaviorTreePlanner.Lines
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
+            //add an offset
             Vector2 GridSize = SavedSettings.LineGridSize;
             Vector3 activeLinePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeLinePos, -Vector2.zero);
@@ -70,12 +71,12 @@ namespace BehaviorTreePlanner.Lines
             }
             SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(this,true, false));
         }
-        public void Select()
+        public void StartMoveObj()
         {
             Highlight.SetActive(true);
         }
 
-        public void Deselect()
+        public void StopMoveObj()
         {
             Highlight.SetActive(false);
         }

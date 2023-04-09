@@ -49,11 +49,11 @@ namespace BehaviorTreePlanner
                 AttachedPoint.MoveObj(AttachedPointPos.position, Offset, false);
             }
         }
-        public void Deselect()
+        public void StopMoveObj()
         {
             throw new System.NotImplementedException();
         }
-        public void Select()
+        public void StartMoveObj()
         {
             throw new System.NotImplementedException();
         }

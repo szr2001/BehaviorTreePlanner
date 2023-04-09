@@ -8,7 +8,7 @@ namespace BehaviorTreePlanner.Global
     {
         Vector3 GetObjPosition { get;}
         public void MoveObj(Vector3 NewPos, Vector3 Offset,bool UseGrid);
-        public void Select();
-        public void Deselect();
+        public void StartMoveObj();
+        public void StopMoveObj();
     }
 }

@@ -44,11 +44,11 @@ namespace BehaviorTreePlanner.Nodes
                 lineHandler.SpawnLine();
             }
         }
-        public virtual void Select()
+        public virtual void StartMoveObj()
         {
             throw new System.NotImplementedException();
         }
-        public virtual void Deselect()
+        public virtual void StopMoveObj()
         {
             throw new System.NotImplementedException();
         }
