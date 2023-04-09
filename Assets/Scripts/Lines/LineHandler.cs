@@ -1,12 +1,14 @@
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
+using System;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BehaviorTreePlanner
 {
-    public class LineHandler : IMovable
+    public class LineHandler : IMovable,IAtachLine
     {
         public IMovable Parent { get; set; }
         public Transform SpawnedPointPos { get; set; }
@@ -30,13 +32,6 @@ namespace BehaviorTreePlanner
                 SpawnedPoint.SpawnPoint();
             }
         }
-        public void AttachLine(LinePoint point)
-        {
-            if(AttachedPointPos != null && AttachedPoint == null)
-            {
-                AttachedPoint = point;
-            }
-        }
         public Vector3 GetObjPosition { get { return Parent.GetObjPosition; } }
         public void MoveObj(Vector3 NewPos, Vector3 Offset, bool UseGrid)
         {
@@ -51,11 +46,21 @@ namespace BehaviorTreePlanner
         }
         public void StopMoveObj()
         {
-            throw new System.NotImplementedException();
+
         }
         public void StartMoveObj()
         {
-            throw new System.NotImplementedException();
+        }
+        public void AttachLine(LinePoint Line)
+        {
+            if (AttachedPointPos != null && AttachedPoint == null)
+            {
+                AttachedPoint = Line;
+            }
+        }
+        public void DeAttachLine()
+        {
+            AttachedPoint = null;
         }
     }
 }

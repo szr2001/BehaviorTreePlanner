@@ -10,6 +10,8 @@ namespace BehaviorTreePlanner.Lines
     public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler
     {
         public GameObject OwnerParent { get; set; }
+        public IAtachLine AtachedToObj { get; set; }
+
         [SerializeField] private GameObject Highlight;
         [SerializeField] private LineRenderer LineR;
         private LinePoint ParentLine;
@@ -47,9 +49,43 @@ namespace BehaviorTreePlanner.Lines
             }
             UpdateLineRenderer();
         }
-        private void UpdateLineRenderer() // probl poate nu se cheama la move ptr ca doar 1 se move
+        private void CheckAttach()
         {
-            Debug.Log($"UpdateLIneR; parent null: {ParentLine == null} SpawnedLineCount: {SpawnedPoints.Count}",gameObject);
+            if (SpawnedPoints.Count > 0)
+            {
+                foreach(LinePoint point in SpawnedPoints)
+                {
+                    point.DestroyPoint();
+                }
+            }
+
+            Vector3 activeNodePos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
+            if (hit && hit.collider.gameObject.TryGetComponent<IAtachLine>(out IAtachLine Itach))
+            {
+                AtachedToObj?.DeAttachLine();
+                AtachedToObj = Itach;
+                AtachedToObj.AttachLine(this);
+            }
+            else
+            {
+                if (AtachedToObj != null)
+                {
+                    AtachedToObj.DeAttachLine();
+                    AtachedToObj = null;
+                }
+            }
+        }
+        public void DestroyPoint()
+        {
+            foreach(LinePoint point in SpawnedPoints)
+            {
+                point.DestroyPoint();
+            }
+            Destroy(this.gameObject);
+        }
+        private void UpdateLineRenderer()
+        {
             if(LineR == null)
             {
                 return;
@@ -69,17 +105,23 @@ namespace BehaviorTreePlanner.Lines
                     return;
                 }
             }
+            if(AtachedToObj != null) 
+            {
+                return;
+            }
             SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(this,true, false));
         }
         public void StartMoveObj()
         {
             Highlight.SetActive(true);
         }
-
         public void StopMoveObj()
         {
             Highlight.SetActive(false);
+            CheckAttach();
         }
+
+        #region DragHandlers
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (Highlight.activeSelf)
@@ -98,6 +140,8 @@ namespace BehaviorTreePlanner.Lines
         public void OnDrag(PointerEventData eventData)
         {
         }
+        #endregion
+
         private void StartMove()
         {
             if (!IsRoot)

@@ -46,15 +46,20 @@ namespace BehaviorTreePlanner.Nodes
         }
         public virtual void StartMoveObj()
         {
-            throw new System.NotImplementedException();
+
         }
         public virtual void StopMoveObj()
         {
-            throw new System.NotImplementedException();
+
         }
-        public virtual void AtachLine(LinePoint Line)
+        public virtual void AttachLine(LinePoint Line)
         {
-            throw new System.NotImplementedException();
+            lineHandler.AttachLine(Line);
+        }
+
+        public void DeAttachLine()
+        {
+            lineHandler.DeAttachLine();
         }
     }
 }
