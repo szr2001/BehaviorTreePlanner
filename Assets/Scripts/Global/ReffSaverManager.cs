@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Nodes;
+using BehaviorTreePlanner.Player;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Global
@@ -15,6 +16,8 @@ namespace BehaviorTreePlanner.Global
         [SerializeField] private SettingsManager settingsManager;
         [SerializeField] private MoveObjectsManager moveObjectsManager;
         [SerializeField] private SpawnManager spawnManager;
+        [SerializeField] private SoundManager soundManager;
+        [SerializeField] private ActionManager actionManager;
 
         private void Awake()
         {
@@ -28,6 +31,8 @@ namespace BehaviorTreePlanner.Global
             SavedReff.LinePointPrefabReff = linePointPrefabReff;
             SavedReff.MoveObjectsManager = moveObjectsManager;
             SavedReff.SpawnManager = spawnManager;
+            SavedReff.SoundManager = soundManager;
+            SavedReff.ActionManager = actionManager;
         }
 
     }

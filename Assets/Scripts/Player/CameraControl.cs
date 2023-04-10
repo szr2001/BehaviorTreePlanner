@@ -1,9 +1,10 @@
 using BehaviorTreePlanner.Global;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BehaviorTreePlanner.Player
 {
-    public class CameraControll : MonoBehaviour
+    public class CameraControl : MonoBehaviour
     {
         private Vector3 mousePos;
         private Vector3 newMousePos;

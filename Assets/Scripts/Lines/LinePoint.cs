@@ -19,6 +19,7 @@ namespace BehaviorTreePlanner.Lines
         private LinePoint ParentLine;
         private List<LinePoint> SpawnedPoints = new();
         private bool IsRoot = false;
+
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
@@ -74,6 +75,7 @@ namespace BehaviorTreePlanner.Lines
 
                 AtachedToObj?.DeAttachLine();
                 AtachedToObj = Itach;
+                SavedReff.RemoveActiveLine(this.gameObject);
                 AtachedToObj.AttachLine(this);
             }
             else
@@ -82,6 +84,8 @@ namespace BehaviorTreePlanner.Lines
                 {
                     AtachedToObj.DeAttachLine();
                     AtachedToObj = null;
+                    SavedReff.AddActiveLine(this.gameObject);
+
                 }
             }
         }
@@ -118,11 +122,15 @@ namespace BehaviorTreePlanner.Lines
                     return;
                 }
             }
-            if(AtachedToObj != null) 
+            if (AtachedToObj != null)
             {
-                return;
+                SavedReff.MoveObjectsManager.AddMovableObj(this);
+                SavedReff.MoveObjectsManager.StartMoving();
             }
-            SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(this,true, false));
+            else
+            {
+                SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(this,true, false));
+            }
         }
         public void StartMoveObj()
         {

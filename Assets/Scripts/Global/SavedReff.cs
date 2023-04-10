@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Nodes;
+using BehaviorTreePlanner.Player;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ namespace BehaviorTreePlanner.Global
         public static SettingsManager SettingsManager;
         public static MoveObjectsManager MoveObjectsManager;
         public static SpawnManager SpawnManager;
+        public static SoundManager SoundManager;
+        public static ActionManager ActionManager;
+        public static CameraControl PlayerControll;
 
         public static bool IsOverUi = false;
         
