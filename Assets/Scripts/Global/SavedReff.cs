@@ -47,11 +47,12 @@ namespace BehaviorTreePlanner.Global
         /// <summary>
         /// Converts mouse position to a grid position
         /// </summary>
-        public static Vector2 MousePositionToGrid(Vector2 MousePos,Vector2 GridSize , Vector3 OptionalMouseOffset)
+        public static Vector2 MousePositionToGrid(Vector2 MousePos,Vector2 GridSize , Vector2 Offset,Vector2 OptionalOffset) 
         {
-            Vector2 GridPosition  = new Vector3(MousePos.x, MousePos.y, 0) - OptionalMouseOffset;
+            Vector2 GridPosition  = new Vector2(MousePos.x, MousePos.y) - Offset;
             GridPosition.x = Mathf.Round(GridPosition.x / GridSize.x) * GridSize.x;
             GridPosition.y = Mathf.Round(GridPosition.y / GridSize.y) * GridSize.y;
+            GridPosition -= OptionalOffset;
             return GridPosition;
         }
     }

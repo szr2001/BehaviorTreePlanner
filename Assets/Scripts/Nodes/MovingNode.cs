@@ -20,7 +20,7 @@ namespace BehaviorTreePlanner.Nodes
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.NodeGridSize;
-            Vector3 activeNodePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset) : newPos;
+            Vector3 activeNodePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (!hit)
             {

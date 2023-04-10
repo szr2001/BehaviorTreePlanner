@@ -9,6 +9,8 @@ namespace BehaviorTreePlanner
     public class MoveObjectsManager : MonoBehaviour
     {
         private Dictionary<IMovable,Vector3> MovableObj = new();
+        public int MoveObjCount { get { return MovableObj.Count;}}
+
         private bool IsMoving = false;
 
         private void Update()

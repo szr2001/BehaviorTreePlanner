@@ -1,7 +1,9 @@
 using BehaviorTreePlanner.Global;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Security.Cryptography;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,9 +22,9 @@ namespace BehaviorTreePlanner.Lines
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
-            //add an offset
             Vector2 GridSize = SavedSettings.LineGridSize;
-            Vector3 activeLinePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset) : newPos;
+            Vector2 CorectionOffset = new(0.08f, 0);
+            Vector3 activeLinePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeLinePos, -Vector2.zero);
             if (!hit)
             {
@@ -30,7 +32,7 @@ namespace BehaviorTreePlanner.Lines
                 gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
             }
             UpdateLineRenderer();
-            foreach (LinePoint point in SpawnedPoints) // probl
+            foreach (LinePoint point in SpawnedPoints)
             {
                 point.UpdateLineRenderer();
             }
@@ -51,18 +53,25 @@ namespace BehaviorTreePlanner.Lines
         }
         private void CheckAttach()
         {
-            if (SpawnedPoints.Count > 0)
+            if(SavedReff.MoveObjectsManager.MoveObjCount > 1)
             {
-                foreach(LinePoint point in SpawnedPoints)
-                {
-                    point.DestroyPoint();
-                }
+                return;
             }
 
             Vector3 activeNodePos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (hit && hit.collider.gameObject.TryGetComponent<IAtachLine>(out IAtachLine Itach))
             {
+                if (SpawnedPoints.Count > 0)
+                {
+                    foreach (LinePoint point in SpawnedPoints)
+                    {
+                        Debug.Log("Check attach Call DestroyPoint", gameObject);
+                        point.DestroyPoint();
+                    }
+                    SpawnedPoints.Clear();
+                }
+
                 AtachedToObj?.DeAttachLine();
                 AtachedToObj = Itach;
                 AtachedToObj.AttachLine(this);
@@ -78,10 +87,14 @@ namespace BehaviorTreePlanner.Lines
         }
         public void DestroyPoint()
         {
-            foreach(LinePoint point in SpawnedPoints)
+            SavedReff.RemoveActiveLine(this.gameObject);
+
+            for (int i = 0; i < SpawnedPoints.Count; i++)
             {
-                point.DestroyPoint();
+                Debug.Log("LinePoint Loop Call DestroyPoint", gameObject);
+                SpawnedPoints[i].DestroyPoint();
             }
+            Debug.Log("Destroy Point",gameObject);
             Destroy(this.gameObject);
         }
         private void UpdateLineRenderer()
