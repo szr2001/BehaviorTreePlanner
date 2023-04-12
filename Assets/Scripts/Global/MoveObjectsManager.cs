@@ -1,5 +1,4 @@
 using BehaviorTreePlanner.Global;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,11 +7,12 @@ namespace BehaviorTreePlanner
 {
     public class MoveObjectsManager : MonoBehaviour
     {
-        private Dictionary<IMovable,Vector3> MovableObj = new();
-        public int MoveObjCount { get { return MovableObj.Count;}}
+        private Dictionary<IMovable, Vector3> MovableObj = new();
+        public int MoveObjCount { get { return MovableObj.Count; } }
 
         private bool IsMoving = false;
 
+        public List<IMovable> MovableIList { get {return MovableObj.Keys.ToList(); } }
         private void Update()
         {
             if(IsMoving && MovableObj.Count > 0)
@@ -66,7 +66,7 @@ namespace BehaviorTreePlanner
         {
             foreach(KeyValuePair<IMovable, Vector3> obj in MovableObj)
             {
-                obj.Key.StopMoveObj();
+                obj.Key?.StopMoveObj();
             }
             MovableObj.Clear();
         }

@@ -11,7 +11,6 @@ namespace BehaviorTreePlanner.Lines
 {
     public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler
     {
-        public GameObject OwnerParent { get; set; }
         public IAtachLine AtachedToObj { get; set; }
 
         [SerializeField] private GameObject Highlight;
@@ -19,7 +18,8 @@ namespace BehaviorTreePlanner.Lines
         private LinePoint ParentLine;
         private List<LinePoint> SpawnedPoints = new();
         private bool IsRoot = false;
-
+        //on destroy remove itself from parent
+        public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
@@ -85,20 +85,19 @@ namespace BehaviorTreePlanner.Lines
                     AtachedToObj.DeAttachLine();
                     AtachedToObj = null;
                     SavedReff.AddActiveLine(this.gameObject);
-
                 }
             }
         }
+        public void RemoveLine(LinePoint point)
+        {
+            SpawnedPoints.Remove(point);
+        }
         public void DestroyPoint()
         {
-            SavedReff.RemoveActiveLine(this.gameObject);
-
             for (int i = 0; i < SpawnedPoints.Count; i++)
             {
-                Debug.Log("LinePoint Loop Call DestroyPoint", gameObject);
                 SpawnedPoints[i].DestroyPoint();
             }
-            Debug.Log("Destroy Point",gameObject);
             Destroy(this.gameObject);
         }
         private void UpdateLineRenderer()
@@ -141,6 +140,18 @@ namespace BehaviorTreePlanner.Lines
             Highlight.SetActive(false);
             CheckAttach();
         }
+        private void StartMove()
+        {
+            if (!IsRoot)
+            {
+                SavedReff.MoveObjectsManager.AddMovableObj(this);
+                SavedReff.MoveObjectsManager.StartMoving();
+            }
+        }
+        private void StopMove()
+        {
+            SavedReff.MoveObjectsManager.StopMoving();
+        }
 
         #region DragHandlers
         public void OnBeginDrag(PointerEventData eventData)
@@ -162,18 +173,10 @@ namespace BehaviorTreePlanner.Lines
         {
         }
         #endregion
-
-        private void StartMove()
+        private void OnDestroy() // use destroypoint
         {
-            if (!IsRoot)
-            {
-                SavedReff.MoveObjectsManager.AddMovableObj(this);
-                SavedReff.MoveObjectsManager.StartMoving();
-            }
-        }
-        private void StopMove()
-        {
-            SavedReff.MoveObjectsManager.StopMoving();
+            ParentLine?.RemoveLine(this);
+            SavedReff.RemoveActiveLine(this.gameObject);
         }
     }
 }

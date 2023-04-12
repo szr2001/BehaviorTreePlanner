@@ -32,6 +32,7 @@ namespace BehaviorTreePlanner
                 SpawnedPoint.SpawnPoint();
             }
         }
+        public GameObject GetGameObj { get { return Parent.GetGameObj; } }
         public Vector3 GetObjPosition { get { return Parent.GetObjPosition; } }
         public void MoveObj(Vector3 NewPos, Vector3 Offset, bool UseGrid)
         {
@@ -56,6 +57,17 @@ namespace BehaviorTreePlanner
             if (AttachedPointPos != null && AttachedPoint == null)
             {
                 AttachedPoint = Line;
+            }
+        }
+        public void DestroyLineHandler()
+        {
+            if(AttachedPoint != null)
+            {
+                AttachedPoint.DestroyPoint();
+            }
+            if(SpawnedPoint != null)
+            {
+                SpawnedPoint.DestroyPoint();
             }
         }
         public void DeAttachLine()

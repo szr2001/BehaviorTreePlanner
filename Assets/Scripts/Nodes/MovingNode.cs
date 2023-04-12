@@ -10,7 +10,7 @@ namespace BehaviorTreePlanner.Nodes
         [field:SerializeField]public GameObject NodeHighLight { get; set; }
         [SerializeField] protected GameObject dragTrigger;
         [SerializeField] protected GameObject attachTrigger;
-
+        public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
 
         private void Awake()
@@ -56,7 +56,6 @@ namespace BehaviorTreePlanner.Nodes
         {
             lineHandler.AttachLine(Line);
         }
-
         public void DeAttachLine()
         {
             lineHandler.DeAttachLine();

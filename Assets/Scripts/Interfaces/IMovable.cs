@@ -7,6 +7,7 @@ namespace BehaviorTreePlanner.Global
     public interface IMovable
     {
         Vector3 GetObjPosition { get;}
+        GameObject GetGameObj { get;}
         void MoveObj(Vector3 NewPos, Vector3 Offset,bool UseGrid); //replace with vector2
         void StartMoveObj();
         void StopMoveObj();

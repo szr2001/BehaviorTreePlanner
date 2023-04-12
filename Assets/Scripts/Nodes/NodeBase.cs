@@ -12,9 +12,10 @@ namespace BehaviorTreePlanner.Nodes
         {
             NodeD = nd;
         }
-        public virtual void DestroyNode()
+        private void OnDestroy()
         {
-            Destroy(gameObject);
+            lineHandler.DestroyLineHandler();
+            SavedReff.RemoveActiveNode(this.gameObject);
         }
     }
 }
