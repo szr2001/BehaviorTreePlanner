@@ -1,6 +1,8 @@
 using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.Nodes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -52,7 +54,41 @@ namespace BehaviorTreePlanner
         }
         private void CheckPaste()
         {
+            if (IsPressingLeftCtrl && Input.GetKeyDown(KeyCode.V))
+            {
+                if(mMovableCopyList.Count < 0)
+                {
+                    return;
+                }
 
+                if (CheckNodePresence())
+                {
+                    Debug.Log("Paste");
+
+                    //ToDo: Paste
+
+                    //foreach(IMovable move in mMovableCopyList)
+                    //{
+                    //    SavedReff.MoveObjectsManager.AddMovableObj(move);
+                    //    SavedReff.MoveObjectsManager.StartMoving();
+                    //}
+                }
+            }
+        }
+
+        //helper functions
+        private bool CheckNodePresence()
+        {
+            bool IsNodePreseant = false;
+            foreach (IMovable Mobj in mMovableCopyList)
+            {
+                if (Mobj.GetGameObj.TryGetComponent<NodeBase>(out _))
+                {
+                    IsNodePreseant = true;
+                    break;
+                }
+            }
+            return IsNodePreseant;
         }
     }
 }

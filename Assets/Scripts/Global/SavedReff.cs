@@ -21,6 +21,7 @@ namespace BehaviorTreePlanner.Global
         public static SoundManager SoundManager;
         public static ActionManager ActionManager;
         public static CameraControl PlayerControll;
+        public static SaveLoadManager SaveLoadManager;
 
         public static bool IsOverUi = false;
         

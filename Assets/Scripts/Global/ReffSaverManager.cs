@@ -18,6 +18,7 @@ namespace BehaviorTreePlanner.Global
         [SerializeField] private SpawnManager spawnManager;
         [SerializeField] private SoundManager soundManager;
         [SerializeField] private ActionManager actionManager;
+        [SerializeField] private SaveLoadManager saveLoadManager;
 
         private void Awake()
         {
@@ -33,6 +34,7 @@ namespace BehaviorTreePlanner.Global
             SavedReff.SpawnManager = spawnManager;
             SavedReff.SoundManager = soundManager;
             SavedReff.ActionManager = actionManager;
+            SavedReff.SaveLoadManager = saveLoadManager;
         }
 
     }
