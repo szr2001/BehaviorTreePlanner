@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Global;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -55,7 +56,7 @@ namespace BehaviorTreePlanner
                 MovableObj.Add(Obj, Vector3.zero);
                 Obj.StartMoveObj();
             }
-            catch { }
+            catch{}
         }
         public void RemoveMovableObj(IMovable Obj)
         {

@@ -63,11 +63,11 @@ namespace BehaviorTreePlanner
         {
             if(AttachedPoint != null)
             {
-                AttachedPoint.DestroyPoint();
+                AttachedPoint.DestroyObject();
             }
             if(SpawnedPoint != null)
             {
-                SpawnedPoint.DestroyPoint();
+                SpawnedPoint.DestroyObject();
             }
         }
         public void DeAttachLine()

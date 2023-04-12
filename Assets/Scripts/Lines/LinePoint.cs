@@ -9,14 +9,14 @@ using UnityEngine.EventSystems;
 
 namespace BehaviorTreePlanner.Lines
 {
-    public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler
+    public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler,IObjDestroyable
     {
         public IAtachLine AtachedToObj { get; set; }
 
         [SerializeField] private GameObject Highlight;
         [SerializeField] private LineRenderer LineR;
         private LinePoint ParentLine;
-        private List<LinePoint> SpawnedPoints = new();
+        private readonly List<LinePoint> SpawnedPoints = new();
         private bool IsRoot = false;
         //on destroy remove itself from parent
         public GameObject GetGameObj { get { return gameObject; } }
@@ -68,7 +68,7 @@ namespace BehaviorTreePlanner.Lines
                     foreach (LinePoint point in SpawnedPoints)
                     {
                         Debug.Log("Check attach Call DestroyPoint", gameObject);
-                        point.DestroyPoint();
+                        point.DestroyObject();
                     }
                     SpawnedPoints.Clear();
                 }
@@ -91,14 +91,6 @@ namespace BehaviorTreePlanner.Lines
         public void RemoveLine(LinePoint point)
         {
             SpawnedPoints.Remove(point);
-        }
-        public void DestroyPoint()
-        {
-            for (int i = 0; i < SpawnedPoints.Count; i++)
-            {
-                SpawnedPoints[i].DestroyPoint();
-            }
-            Destroy(this.gameObject);
         }
         private void UpdateLineRenderer()
         {
@@ -173,10 +165,18 @@ namespace BehaviorTreePlanner.Lines
         {
         }
         #endregion
-        private void OnDestroy() // use destroypoint
+        public void DestroyObject()
         {
-            ParentLine?.RemoveLine(this);
+            for (int i = 0; i < SpawnedPoints.Count; i++)
+            {
+                SpawnedPoints[i].DestroyObject();
+            }
+            if (ParentLine != null && ParentLine.IsRoot)
+            {
+                ParentLine.RemoveLine(this);
+            }
             SavedReff.RemoveActiveLine(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

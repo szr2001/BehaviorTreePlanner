@@ -44,10 +44,10 @@ namespace BehaviorTreePlanner
                 {
                     foreach (IMovable m in SavedReff.MoveObjectsManager.MovableIList)
                     {
-                        Destroy(m.GetGameObj);
+                        m.GetGameObj.GetComponent<IObjDestroyable>().DestroyObject();
                     }
+                    SavedReff.MoveObjectsManager.ClearMovableObj();
                 }
-                SavedReff.MoveObjectsManager.ClearMovableObj();
             }
         }
         private void CheckPaste()
