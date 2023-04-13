@@ -859,8 +859,6 @@ MonoBehaviour:
   NodeD:
     type: 
     name: 
-    PrimaryCollor: {r: 0, g: 0, b: 0, a: 0}
-    SecondaryCollor: {r: 0, g: 0, b: 0, a: 0}
   LineTrigger: {fileID: 8293544676904850590}
   <NodeHighLight>k__BackingField: {fileID: 2214209184994266405}
   dragTrigger: {fileID: 3906086072139463384}
@@ -1011,8 +1009,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.6848, y: -38.5}
-  m_SizeDelta: {x: 17, y: 17}
+  m_AnchoredPosition: {x: -4.5896, y: -35.17}
+  m_SizeDelta: {x: 13.3846, y: 10.34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7923591451975447413
 CanvasRenderer:
