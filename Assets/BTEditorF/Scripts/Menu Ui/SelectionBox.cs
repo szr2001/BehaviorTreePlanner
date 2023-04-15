@@ -8,6 +8,7 @@ namespace BehaviorTreePlanner.Global
 {
     public class SelectionBox : MonoBehaviour
     {
+        [SerializeField] private EditorManager EditorManager;
         [SerializeField] private Image MainWindow;
         [SerializeField] private Image MainWindowArrow;
         [SerializeField] private RectTransform RectTrans;
@@ -21,7 +22,7 @@ namespace BehaviorTreePlanner.Global
         private void SelectObjects()
         {
             //check if is spawning lines/nodes or is mouse over ui, if yes, return
-            if (SavedReff.IsOverUi)
+            if (EditorManager.IsOverUi)
             {
                 // Handle selection box reset if mouse goes over ui and code stops at return
                 if (IsResizingArea)
@@ -39,10 +40,10 @@ namespace BehaviorTreePlanner.Global
             {
                 ResetSelectionBox(); //reset previous info
                 //check if it clicked on an empty space to begin selecting area
-                RaycastHit2D hit = Physics2D.Raycast(SavedReff.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
+                RaycastHit2D hit = Physics2D.Raycast(EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
                 if (!hit)
                 {
-                    SavedReff.MoveObjectsManager.ClearMovableObj();
+                    EditorManager.MoveObjectsManager.ClearMovableObj();
                     IsResizingArea = true; //set is resizing to true to handle when the mouse goes over ui and to be able to reset
                                            //set mouse pozition to the pozition where selection begine to be used in resizing the area math
                     MosPoss = Input.mousePosition;
@@ -66,18 +67,18 @@ namespace BehaviorTreePlanner.Global
         private void GetOverlapedObjects(Bounds Area)
         {
             RectTrans.sizeDelta = Vector2.zero;
-            foreach(GameObject Node in SavedReff.ActiveNodes)
+            foreach(GameObject Node in EditorManager.ActiveNodes)
             {
-                if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
+                if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
                 {
-                    SavedReff.MoveObjectsManager.AddMovableObj(Node.GetComponent<IMovable>());
+                    EditorManager.MoveObjectsManager.AddMovableObj(Node.GetComponent<IMovable>());
                 }
             }
-            foreach (GameObject Line in SavedReff.ActiveLines)
+            foreach (GameObject Line in EditorManager.ActiveLines)
             {
-                if (IsPointInsideArea(SavedReff.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
+                if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
                 {
-                    SavedReff.MoveObjectsManager.AddMovableObj(Line.GetComponent<IMovable>());
+                    EditorManager.MoveObjectsManager.AddMovableObj(Line.GetComponent<IMovable>());
                 }
             }
         }

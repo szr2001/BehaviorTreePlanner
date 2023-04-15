@@ -6,6 +6,7 @@ namespace BehaviorTreePlanner.Player
 {
     public class CameraControl : MonoBehaviour
     {
+        public Camera PlayerCamera;
         private Vector3 mousePos;
         private Vector3 newMousePos;
         private Vector3 MouseOffset;
@@ -37,8 +38,8 @@ namespace BehaviorTreePlanner.Player
         }
         private void Zoom()
         {
-            float NewZoom = SavedReff.PlayerCamera.orthographicSize += -(Input.GetAxis("Mouse ScrollWheel") * 3);
-            SavedReff.PlayerCamera.orthographicSize = Mathf.Clamp((float)System.Math.Round(NewZoom, 1), MinZoom, MaxZoom);
+            float NewZoom = PlayerCamera.orthographicSize += -(Input.GetAxis("Mouse ScrollWheel") * 3);
+            PlayerCamera.orthographicSize = Mathf.Clamp((float)System.Math.Round(NewZoom, 1), MinZoom, MaxZoom);
         }
 
     }

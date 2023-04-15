@@ -8,22 +8,23 @@ namespace BehaviorTreePlanner
     public class SaveLoadManager : MonoBehaviour
     {
 
+        public EditorManager EditorManager;
         //test clear
         public void ClearScreen()
         {
-            for (int i = 0; i < SavedReff.ActiveNodes.Count; i++)
+            for (int i = 0; i < EditorManager.ActiveNodes.Count; i++)
             {
                 try
                 {
-                    SavedReff.ActiveNodes[i].GetComponent<IObjDestroyable>().DestroyObject();
+                    EditorManager.ActiveNodes[i].GetComponent<IObjDestroyable>().DestroyObject();
                 }
                 catch { Debug.Log("err"); }
             }
-            for (int i = 0; i < SavedReff.ActiveLines.Count; i++)
+            for (int i = 0; i < EditorManager.ActiveLines.Count; i++)
             {
                 try
                 {
-                    SavedReff.ActiveLines[i].GetComponent<IObjDestroyable>().DestroyObject();
+                    EditorManager.ActiveLines[i].GetComponent<IObjDestroyable>().DestroyObject();
                 }
                 catch { Debug.Log("err"); }
             }

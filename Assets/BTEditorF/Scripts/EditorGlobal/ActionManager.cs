@@ -10,6 +10,7 @@ namespace BehaviorTreePlanner
 {
     public class ActionManager : MonoBehaviour
     {
+        public EditorManager EditorManager;
         private List<IMovable> mMovableCopyList = new();
         private bool IsPressingLeftCtrl = false;
         private void Update()
@@ -34,21 +35,21 @@ namespace BehaviorTreePlanner
         {
             if (IsPressingLeftCtrl && Input.GetKeyDown(KeyCode.C))
             {
-                mMovableCopyList = SavedReff.MoveObjectsManager.MovableIList;
-                SavedReff.MoveObjectsManager.StopMoving();
+                mMovableCopyList = EditorManager.MoveObjectsManager.MovableIList;
+                EditorManager.MoveObjectsManager.StopMoving();
             }
         }
         private void CheckDelete()
         {
             if (Input.GetKeyDown(KeyCode.Delete))
             {
-                if(SavedReff.MoveObjectsManager.MovableIList.Count > 0)
+                if(EditorManager.MoveObjectsManager.MovableIList.Count > 0)
                 {
-                    foreach (IMovable m in SavedReff.MoveObjectsManager.MovableIList)
+                    foreach (IMovable m in EditorManager.MoveObjectsManager.MovableIList)
                     {
                         m.GetGameObj.GetComponent<IObjDestroyable>().DestroyObject();
                     }
-                    SavedReff.MoveObjectsManager.ClearMovableObj();
+                    EditorManager.MoveObjectsManager.ClearMovableObj();
                 }
             }
         }

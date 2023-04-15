@@ -8,6 +8,7 @@ namespace BehaviorTreePlanner.MenuUi
 {
     public class NodesMenu : MonoBehaviour
     {
+        [SerializeField] private EditorManager EditorManager;
         [SerializeField] private GameObject NodeHolder;
 
         private List<NodeDesign> NodeDesigns = new();
@@ -66,8 +67,8 @@ namespace BehaviorTreePlanner.MenuUi
             {
                 foreach (NodeDesign D in NodeDesigns)
                 {
-                    GameObject SpawnedNode = GameObject.Instantiate(SavedReff.NodeButtonPrefabReff);
-                    SpawnedNode.GetComponent<NodeButton>().SetNodeType(D);
+                    GameObject SpawnedNode = GameObject.Instantiate(EditorManager.NodeButtonPrefabReff);
+                    SpawnedNode.GetComponent<NodeButton>().InitializeButton(D,EditorManager);
                     SpawnedNode.transform.SetParent(NodeHolder.transform);
                     SpawnedNode.transform.localPosition = new Vector3(SpawnedNode.transform.position.x, SpawnedNode.transform.position.y, 0);
                     SpawnedNode.transform.localScale = Vector3.one;

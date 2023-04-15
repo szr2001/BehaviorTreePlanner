@@ -8,6 +8,7 @@ namespace BehaviorTreePlanner
 {
     public class MoveObjectsManager : MonoBehaviour
     {
+        public EditorManager EditorManager;
         private Dictionary<IMovable, Vector3> MovableObj = new();
         public int MoveObjCount { get { return MovableObj.Count; } }
 
@@ -20,7 +21,7 @@ namespace BehaviorTreePlanner
             {
                 foreach (KeyValuePair<IMovable, Vector3> movableObj in MovableObj)
                 {
-                    Vector2 mospos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                    Vector2 mospos = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                     movableObj.Key.MoveObj(mospos, movableObj.Value,true);
                     if(Input.GetMouseButtonUp(0))
                     {
@@ -34,7 +35,7 @@ namespace BehaviorTreePlanner
         {
             if(MovableObj.Count > 1)
             {
-                Vector3 MosPoss = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                Vector3 MosPoss = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 Dictionary<IMovable, Vector3> MovableObjTemp = new();
                 foreach (KeyValuePair<IMovable, Vector3> Obj in MovableObj) 
                 {
@@ -70,6 +71,14 @@ namespace BehaviorTreePlanner
                 obj.Key?.StopMoveObj();
             }
             MovableObj.Clear();
+        }
+        public Vector2 MousePositionToGrid(Vector2 MousePos, Vector2 GridSize, Vector2 Offset, Vector2 OptionalOffset)
+        {
+            Vector2 GridPosition = new Vector2(MousePos.x, MousePos.y) - Offset;
+            GridPosition.x = Mathf.Round(GridPosition.x / GridSize.x) * GridSize.x;
+            GridPosition.y = Mathf.Round(GridPosition.y / GridSize.y) * GridSize.y;
+            GridPosition -= OptionalOffset;
+            return GridPosition;
         }
     }
 }

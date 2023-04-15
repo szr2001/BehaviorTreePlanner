@@ -1,6 +1,7 @@
 using BehaviorTreePlanner.Global;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,6 +9,7 @@ namespace BehaviorTreePlanner.Lines
 {
     public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler,IObjDestroyable
     {
+        public EditorManager EditorManager;
         public IAtachLine AtachedToObj { get; set; }
 
         [SerializeField] private GameObject Highlight;
@@ -22,7 +24,7 @@ namespace BehaviorTreePlanner.Lines
         {
             Vector2 GridSize = SavedSettings.LineGridSize;
             Vector2 CorectionOffset = new(0.08f, 0);
-            Vector3 activeLinePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
+            Vector3 activeLinePos = UseGrid ? EditorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeLinePos, -Vector2.zero);
             if (!hit)
             {
@@ -39,8 +41,9 @@ namespace BehaviorTreePlanner.Lines
                 ParentLine.UpdateLineRenderer();
             }
         }
-        public void InitializeLine(LinePoint caller,bool root)
+        public void InitializeLine(LinePoint caller,bool root,EditorManager editorManager)
         {
+            EditorManager = editorManager;
             ParentLine = caller;
             IsRoot = root;
             if (IsRoot)
@@ -51,12 +54,12 @@ namespace BehaviorTreePlanner.Lines
         }
         private void CheckAttach()
         {
-            if(SavedReff.MoveObjectsManager.MoveObjCount > 1)
+            if(EditorManager.MoveObjectsManager.MoveObjCount > 1)
             {
                 return;
             }
 
-            Vector3 activeNodePos = SavedReff.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+            Vector3 activeNodePos = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (hit && hit.collider.gameObject.TryGetComponent<IAtachLine>(out IAtachLine Itach))
             {
@@ -72,7 +75,7 @@ namespace BehaviorTreePlanner.Lines
 
                 AtachedToObj?.DeAttachLine();
                 AtachedToObj = Itach;
-                SavedReff.RemoveActiveLine(this.gameObject);
+                EditorManager.RemoveActiveLine(this.gameObject);
                 AtachedToObj.AttachLine(this);
             }
             else
@@ -81,7 +84,7 @@ namespace BehaviorTreePlanner.Lines
                 {
                     AtachedToObj.DeAttachLine();
                     AtachedToObj = null;
-                    SavedReff.AddActiveLine(this.gameObject);
+                    EditorManager.AddActiveLine(this.gameObject);
                 }
             }
         }
@@ -112,12 +115,12 @@ namespace BehaviorTreePlanner.Lines
             }
             if (AtachedToObj != null)
             {
-                SavedReff.MoveObjectsManager.AddMovableObj(this);
-                SavedReff.MoveObjectsManager.StartMoving();
+                EditorManager.MoveObjectsManager.AddMovableObj(this);
+                EditorManager.MoveObjectsManager.StartMoving();
             }
             else
             {
-                SpawnedPoints.Add(SavedReff.SpawnManager.SpawnLinePoint(this,true, false));
+                SpawnedPoints.Add(EditorManager.SpawnManager.SpawnLinePoint(this,true, false));
             }
         }
         public void StartMoveObj()
@@ -133,13 +136,13 @@ namespace BehaviorTreePlanner.Lines
         {
             if (!IsRoot)
             {
-                SavedReff.MoveObjectsManager.AddMovableObj(this);
-                SavedReff.MoveObjectsManager.StartMoving();
+                EditorManager.MoveObjectsManager.AddMovableObj(this);
+                EditorManager.MoveObjectsManager.StartMoving();
             }
         }
         private void StopMove()
         {
-            SavedReff.MoveObjectsManager.StopMoving();
+            EditorManager.MoveObjectsManager.StopMoving();
         }
 
         #region DragHandlers
@@ -172,7 +175,7 @@ namespace BehaviorTreePlanner.Lines
             {
                 ParentLine.RemoveLine(this);
             }
-            SavedReff.RemoveActiveLine(this.gameObject);
+            EditorManager.RemoveActiveLine(this.gameObject);
             Destroy(this.gameObject);
         }
     }

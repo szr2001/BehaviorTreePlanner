@@ -5,6 +5,7 @@ namespace BehaviorTreePlanner.Nodes
 {
     public class NodeBase : MonoBehaviour, IObjDestroyable
     {
+        protected EditorManager EditorManager;
         [HideInInspector] public NodeDesign NodeD;
         [SerializeField] protected GameObject LineTrigger;
         protected LineHandler lineHandler = new();
@@ -12,12 +13,13 @@ namespace BehaviorTreePlanner.Nodes
         public virtual void DestroyObject()
         {
             lineHandler.DestroyLineHandler();
-            SavedReff.RemoveActiveNode(this.gameObject);
+            EditorManager.RemoveActiveNode(this.gameObject);
             Destroy(this.gameObject);
         }
 
-        public virtual void SetNodeType(NodeDesign nd)
+        public virtual void InitializeNode(NodeDesign nd,EditorManager editormanager)
         {
+            EditorManager = editormanager;
             NodeD = nd;
         }
     }

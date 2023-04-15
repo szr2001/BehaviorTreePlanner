@@ -7,6 +7,7 @@ namespace BehaviorTreePlanner.MenuUi
 {
     public class CreateNodeMenu : MonoBehaviour
     {
+        [SerializeField] private EditorManager EditorManager;
         [SerializeField] private Image topNode;
         [SerializeField] private Image botNode;
         [SerializeField] private GameObject colorPicker;
@@ -29,7 +30,7 @@ namespace BehaviorTreePlanner.MenuUi
         {
             if (nodeType.text != "Node Type" && !nodeType.text.StartsWith(" ") && nodeType.text != "")
             {
-                if (!SavedReff.NodesUiMenu.GetComponent<NodesMenu>().ContainsType(nodeType.text))
+                if (!EditorManager.NodesUiMenu.GetComponent<NodesMenu>().ContainsType(nodeType.text))
                 {
                     NodeDesign NewNt = new NodeDesign(nodeType.text, "", topNode.color, botNode.color);
                     NodeListMenu.GetComponent<NodesMenu>().AddNewType(NewNt);

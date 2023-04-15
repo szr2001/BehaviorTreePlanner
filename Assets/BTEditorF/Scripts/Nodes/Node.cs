@@ -15,9 +15,9 @@ namespace BehaviorTreePlanner.Nodes
             NameText.text = n;
             NodeD.name = n;
         }
-        public override void SetNodeType(NodeDesign nd)
+        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
-            NodeD = nd;
+            base.InitializeNode(nd, editormanager);
             TopImageReff.color = NodeD.PrimaryCollor;
             BotImageReff.color = NodeD.SecondaryCollor;
             TypeText.text = NodeD.type;

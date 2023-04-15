@@ -5,8 +5,9 @@ namespace BehaviorTreePlanner.Nodes
     public class ProjectNode : MovingNode
     {
         private SavedProject project;
-        protected void Awake()
+        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
+            base.InitializeNode(nd, editormanager);
             NodeD = new NodeDesign(null, null, new Color(0.57f, 0.3f, 1), Color.white);
         }
         public void OpenProjectNode()

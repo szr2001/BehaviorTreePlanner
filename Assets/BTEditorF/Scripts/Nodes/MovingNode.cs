@@ -12,15 +12,15 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] protected GameObject attachTrigger;
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
-
-        private void Awake()
+        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
-            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform);
+            base.InitializeNode(nd, editormanager);
+            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform,EditorManager);
         }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.NodeGridSize;
-            Vector3 activeNodePos = UseGrid ? SavedReff.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
+            Vector3 activeNodePos = UseGrid ? EditorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (!hit)
             {
@@ -33,8 +33,8 @@ namespace BehaviorTreePlanner.Nodes
         {
             if (Input.GetMouseButtonDown(0))
             {
-                SavedReff.MoveObjectsManager.AddMovableObj(this);
-                SavedReff.MoveObjectsManager.StartMoving();
+                EditorManager.MoveObjectsManager.AddMovableObj(this);
+                EditorManager.MoveObjectsManager.StartMoving();
             }
         }
         public void CallSpawnLine()

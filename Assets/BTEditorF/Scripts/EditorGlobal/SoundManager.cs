@@ -6,16 +6,7 @@ namespace BehaviorTreePlanner
 {
     public class SoundManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        public EditorManager EditorManager;
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }
