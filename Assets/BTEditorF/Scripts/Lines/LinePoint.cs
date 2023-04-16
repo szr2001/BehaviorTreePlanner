@@ -17,7 +17,6 @@ namespace BehaviorTreePlanner.Lines
         private LinePoint ParentLine;
         private readonly List<LinePoint> SpawnedPoints = new();
         private bool IsRoot = false;
-        //on destroy remove itself from parent
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)

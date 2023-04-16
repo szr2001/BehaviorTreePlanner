@@ -32,19 +32,31 @@ namespace BehaviorTreePlanner
 
         public void AddActiveNode(GameObject node)
         {
-            ActiveNodes.Add(node);
+            if (!ActiveNodes.Contains(node))
+            {
+                ActiveNodes.Add(node);
+            }
         }
         public void RemoveActiveNode(GameObject node)
         {
-            ActiveNodes.Remove(node);
+            if (ActiveNodes.Contains(node))
+            {
+                ActiveNodes.Remove(node);
+            }
         }
         public void AddActiveLine(GameObject line)
         {
-            ActiveLines.Add(line);
+            if (!ActiveLines.Contains(line))
+            {
+                ActiveLines.Add(line);
+            }
         }
         public void RemoveActiveLine(GameObject line)
         {
-            ActiveLines.Remove(line);
+            if (ActiveLines.Contains(line))
+            {
+                ActiveLines.Remove(line);
+            }
         }
 
         //----------------------Helper Functions-------------------------//
