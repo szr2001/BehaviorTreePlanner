@@ -8,6 +8,7 @@ namespace BehaviorTreePlanner
     [Serializable]
     public class SavedLinePoint
     {
+        //use List index of nodes/lines from savedref for savedline/savednode index
         public int Index;
         public float[] Position = new float[3];
 

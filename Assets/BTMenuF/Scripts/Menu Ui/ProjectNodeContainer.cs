@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner
 {
-    public class MenuManager : MonoBehaviour
+    public class ProjectNodeContainer : MonoBehaviour
     {
-        [SerializeField] private ProjectsManager projectsManager;
+        // Start is called before the first frame update
         void Start()
         {
         

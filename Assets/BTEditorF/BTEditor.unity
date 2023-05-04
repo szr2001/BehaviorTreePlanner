@@ -2082,7 +2082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696cf5d92aa2d0847b59d3faefea320d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 0}
+  EditorManager: {fileID: 1219174125}
   topNode: {fileID: 243404664}
   botNode: {fileID: 558224238}
   colorPicker: {fileID: 1176176539}

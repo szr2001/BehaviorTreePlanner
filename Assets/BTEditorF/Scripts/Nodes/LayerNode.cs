@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class ProjectNode : MovingNode
+    public class LayerNode : MovingNode
     {
-        private SavedProject project;
+        private SavedProjectLayer project;
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
             base.InitializeNode(nd, editormanager);
