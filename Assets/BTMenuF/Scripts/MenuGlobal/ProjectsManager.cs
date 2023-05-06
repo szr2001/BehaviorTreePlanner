@@ -1,3 +1,5 @@
+using BehaviorTreePlanner.MenuUi;
+using BehaviorTreePlanner.Nodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -9,12 +11,16 @@ namespace BehaviorTreePlanner
 {
     public class ProjectsManager : MonoBehaviour
     {
-        [SerializeField] private GridLayoutGroup projectContainer;
+        public MenuManager MenuManager;
+        [SerializeField] private GameObject projectContainer;
+        [SerializeField] private GameObject ProjectNodePrefabReff;
 
         private string ProjectsFolder = "";
 
-        private List<ProjectNode> projectNodes = new();
-        private ProjectNode tempProjectNode;
+        private List<SavedProject> projectNodes = new();
+
+        public GameObject EditProjectNode { get; set; }
+
         void Start()
         {
             ProjectsFolder = Application.dataPath + "/Projects";
@@ -24,32 +30,47 @@ namespace BehaviorTreePlanner
             }
         }
 
-        void Update()
+        public void CreateNewProjectNode() 
         {
-        
-        }
-        public void CreateNewProjectNode()
-        {
-            if(tempProjectNode == null)
+            if(EditProjectNode == null)
             {
-
+                EditProjectNode = GameObject.Instantiate(ProjectNodePrefabReff);
+                EditProjectNode.GetComponent<ProjectNode>().InitializeProjectNode(this);
+                EditProjectNode.transform.SetParent(projectContainer.transform); 
+                EditProjectNode.transform.localScale = Vector3.one;
+                EditProjectNode.transform.localPosition = new Vector3(EditProjectNode.transform.position.x, EditProjectNode.transform.position.y, 0);
             }
         }
-        public void ConfirmNewProjectNode()
+
+
+
+        public void ConfirmNewProjectNode(SavedProject project)
         {
-            projectNodes.Add(tempProjectNode);
-            tempProjectNode = null;
+            projectNodes.Add(project);
+            EditProjectNode = null;
         }
         public void CancelNewProjectNode()
         {
-            tempProjectNode = null;
+            Destroy(EditProjectNode);
         }
-        public void DeleteProject(ProjectNode prooject)
+
+
+
+        public void DeleteProject(SavedProject project)
+        {
+            projectNodes.Remove(project);
+        }
+        public void EditProject(SavedProject project)
         {
 
         }
 
+
         private void DetectProjects()
+        {
+
+        }
+        private void RefreashVisibleProjects()
         {
 
         }

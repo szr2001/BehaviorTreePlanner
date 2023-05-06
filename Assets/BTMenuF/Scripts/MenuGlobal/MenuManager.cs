@@ -6,7 +6,7 @@ namespace BehaviorTreePlanner
 {
     public class MenuManager : MonoBehaviour
     {
-        [SerializeField] private ProjectsManager projectsManager;
+        public ProjectsManager ProjectsManager;
         void Start()
         {
         

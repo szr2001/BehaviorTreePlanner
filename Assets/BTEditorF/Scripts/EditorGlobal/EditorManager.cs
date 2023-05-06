@@ -9,7 +9,7 @@ namespace BehaviorTreePlanner
     public class EditorManager : MonoBehaviour
     {
         public GameObject Screen;
-        public GameObject NodePrefabReff;
+        public GameObject NodePrefabReff; //move prefabb reff to managers
         public GameObject LinePointPrefabReff;
         public GameObject NodeButtonPrefabReff;
         public GameObject NodesUiMenu;

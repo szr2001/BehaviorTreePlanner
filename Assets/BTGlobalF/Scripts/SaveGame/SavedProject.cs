@@ -10,7 +10,7 @@ namespace BehaviorTreePlanner
     {
         public string ProjectName = "";
         public int AppVersion = 0;
-        public List<SavedProjectLayer> Layers;
+        public List<SavedProjectLayer> Layers = new();
 
         public SavedProject(SavedProjectLayer Default, int appVersion, string name)
         {
