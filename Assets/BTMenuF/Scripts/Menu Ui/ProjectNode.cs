@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using Button = UnityEngine.UI.Button;
 
 namespace BehaviorTreePlanner
@@ -9,8 +13,8 @@ namespace BehaviorTreePlanner
     public class ProjectNode : MonoBehaviour
     {
         private ProjectsManager projectManager;
-        private SavedProject Project;
-        private string ProjectName = "";
+        public SavedProject Project { get; private set; }
+        private string ProjectName = ""; 
         private bool IsEditing = true;
         [SerializeField] private InputField Name;
         [SerializeField] private Button Confirm;
@@ -18,6 +22,10 @@ namespace BehaviorTreePlanner
         [SerializeField] private Button Cancel;
         [SerializeField] private Text CancelT;
         [SerializeField] private GameObject EditToggle;
+        [SerializeField] private Text NodeNumber;
+        [SerializeField] private Text LineNumber;
+        [SerializeField] private Text LayerNumber;
+        [SerializeField] private Text Date;
 
         public void InitializeProjectNode(ProjectsManager projectmanager)
         {
@@ -26,20 +34,29 @@ namespace BehaviorTreePlanner
             Cancel.onClick.AddListener(CancelProjectNode);
         }
 
-
+        public void OverrideProjectNode(ProjectsManager projectmanager,SavedProject project)
+        {
+            projectManager = projectmanager;
+            Project = project;
+            ToggleEditMode();
+            UpdateDisplayInfo();
+        }
         public void ConfirmProjectNode()
         {
             if(Name.text == "")
-            {
                 return;
-            }
 
-            List<SavedNodeBase> nodes = new List<SavedNodeBase>();
-            List<SavedLinePoint> lines = new List<SavedLinePoint>();
-            SavedProjectLayer test = new(nodes, lines);
-            Project = new SavedProject(test, 1, name);
+
             ProjectName = Name.text;
+
+            List<SavedNodeBase> nodes = new();
+            List<SavedLinePoint> lines = new();
+            SavedProjectLayer baseLayer = new(nodes, lines);
+            Project = new SavedProject(baseLayer, 1, ProjectName,DateTime.UtcNow);
+
             projectManager.ConfirmNewProjectNode(Project);
+
+            UpdateDisplayInfo();
 
             ToggleEditMode();
         }
@@ -51,8 +68,13 @@ namespace BehaviorTreePlanner
 
         public void ConfirmEditProjectNode()
         {
+            Project.Date = DateTime.UtcNow;
+            string OldName = ProjectName;
             ProjectName = Name.text;
+            Project.ProjectName = ProjectName;
+            projectManager.EditProjectFile(Project, OldName);
             ToggleEditMode();
+            UpdateDisplayInfo();
         }
         public void CancelEditProjectNode()
         {
@@ -63,15 +85,15 @@ namespace BehaviorTreePlanner
 
         public void OpenProjectNode()
         {
-
+            ProjectsManager.OpenedProject = Project;
+            SceneManager.LoadScene("BTEditor");
         }
         public void DeleteProjectNode()
         {
-            projectManager.DeleteProject(Project);
-            Destroy(this.gameObject);
+            projectManager.DeleteProject(this);
         }
 
-
+        
         public void ToggleEditMode()
         {
             if (IsEditing)
@@ -107,6 +129,22 @@ namespace BehaviorTreePlanner
                     projectManager.EditProjectNode = this.gameObject;
                 }
             }
+        }
+        private void UpdateDisplayInfo()
+        {
+            Date.text = Project.Date.Date.ToString();
+            ProjectName = Project.ProjectName;
+            Name.text = ProjectName;
+            LayerNumber.text = Project.Layers.Count.ToString();
+            int Nodes = 0;
+            int Lines = 0;
+            foreach (var layer in Project.Layers)
+            {
+                Nodes += layer.SavedNodes.Count;
+                Lines += layer.SavedLinePoints.Count;
+            }
+            NodeNumber.text = Nodes.ToString();
+            LineNumber.text = Lines.ToString();
         }
     }
 }

@@ -7,15 +7,6 @@ namespace BehaviorTreePlanner
     public class MenuManager : MonoBehaviour
     {
         public ProjectsManager ProjectsManager;
-        void Start()
-        {
-        
-        }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

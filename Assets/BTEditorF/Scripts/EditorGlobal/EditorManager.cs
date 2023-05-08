@@ -22,7 +22,6 @@ namespace BehaviorTreePlanner
         public SaveLoadManager SaveLoadManager;
 
 
-
         [HideInInspector]public bool IsOverUi = false;
 
         //--------------Active Scene objects refference------------------//
