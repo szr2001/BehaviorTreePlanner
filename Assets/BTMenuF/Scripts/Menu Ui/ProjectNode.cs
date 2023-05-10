@@ -72,7 +72,7 @@ namespace BehaviorTreePlanner
             string OldName = ProjectName;
             ProjectName = Name.text;
             Project.ProjectName = ProjectName;
-            projectManager.EditProjectFile(Project, OldName);
+            ProjectsManager.EditProjectFile(Project, OldName);
             ToggleEditMode();
             UpdateDisplayInfo();
         }
@@ -90,7 +90,7 @@ namespace BehaviorTreePlanner
         }
         public void DeleteProjectNode()
         {
-            projectManager.DeleteProject(this);
+            projectManager.DeleteProjectFile(this);
         }
 
         

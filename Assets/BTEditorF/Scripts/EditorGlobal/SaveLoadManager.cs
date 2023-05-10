@@ -12,19 +12,19 @@ namespace BehaviorTreePlanner
         //test clear
         public void ClearScreen()
         {
-            for (int i = 0; i < EditorManager.ActiveNodes.Count; i++)
+            for (int i = 0; i < EditorManager.SpawnManager.ActiveNodes.Count; i++)
             {
                 try
                 {
-                    EditorManager.ActiveNodes[i].GetComponent<IObjDestroyable>().DestroyObject();
+                    EditorManager.SpawnManager.ActiveNodes[i].GetComponent<IObjDestroyable>().DestroyObject();
                 }
                 catch { Debug.Log("err"); }
             }
-            for (int i = 0; i < EditorManager.ActiveLines.Count; i++)
+            for (int i = 0; i < EditorManager.SpawnManager.ActiveLines.Count; i++)
             {
                 try
                 {
-                    EditorManager.ActiveLines[i].GetComponent<IObjDestroyable>().DestroyObject();
+                    EditorManager.SpawnManager.ActiveLines[i].GetComponent<IObjDestroyable>().DestroyObject();
                 }
                 catch { Debug.Log("err"); }
             }

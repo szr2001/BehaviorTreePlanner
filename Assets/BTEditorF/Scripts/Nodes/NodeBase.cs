@@ -13,7 +13,7 @@ namespace BehaviorTreePlanner.Nodes
         public virtual void DestroyObject()
         {
             lineHandler.DestroyLineHandler();
-            EditorManager.RemoveActiveNode(this.gameObject);
+            EditorManager.SpawnManager.RemoveActiveNode(this.gameObject);
             Destroy(this.gameObject);
         }
 

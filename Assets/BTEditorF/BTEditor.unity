@@ -879,6 +879,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EditorManager: {fileID: 1219174125}
+  Screen: {fileID: 1512923892}
+  NodePrefabReff: {fileID: 7076376120747382241, guid: c7a5bd876dfc4c348b731498fbda72ec, type: 3}
+  LinePointPrefabReff: {fileID: 5158441732787755458, guid: 0b5d738c886de65408ba4f30b7977048, type: 3}
+  NodeButtonPrefabReff: {fileID: 7076376120747382241, guid: c06c9a20882cca44c82434d77347bc18, type: 3}
 --- !u!1 &272706071
 GameObject:
   m_ObjectHideFlags: 0
@@ -4451,10 +4455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dcc3fe80f9d2e448251ce9222360ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Screen: {fileID: 1512923892}
-  NodePrefabReff: {fileID: 7076376120747382241, guid: c7a5bd876dfc4c348b731498fbda72ec, type: 3}
-  LinePointPrefabReff: {fileID: 5158441732787755458, guid: 0b5d738c886de65408ba4f30b7977048, type: 3}
-  NodeButtonPrefabReff: {fileID: 7076376120747382241, guid: c06c9a20882cca44c82434d77347bc18, type: 3}
   NodesUiMenu: {fileID: 2035499601}
   PlayerControll: {fileID: 519420033}
   SettingsManager: {fileID: 334092813}
@@ -4464,8 +4464,6 @@ MonoBehaviour:
   ActionManager: {fileID: 745281219}
   SaveLoadManager: {fileID: 715139895}
   IsOverUi: 0
-  ActiveNodes: []
-  ActiveLines: []
 --- !u!1 &1223927018
 GameObject:
   m_ObjectHideFlags: 0

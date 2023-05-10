@@ -26,18 +26,15 @@ namespace BehaviorTreePlanner
         [SerializeField] private GameObject projectContainer;
         [SerializeField] private GameObject ProjectNodePrefabReff;
 
-        private string ProjectsFolder = "";
+        public static string ProjectsFolder = "";
 
         private readonly List<SavedProject> projectNodes = new();
 
         void Start()
         {
             ProjectsFolder = Application.dataPath + "/Projects";
-            if (!Directory.Exists(ProjectsFolder))
-            {
-                Directory.CreateDirectory(ProjectsFolder);
-            }
-            DetectProjects();
+
+            DetectProjectFiles();
         }
 
         public void CreateNewProjectNode()
@@ -53,7 +50,6 @@ namespace BehaviorTreePlanner
         }
 
 
-
         public void ConfirmNewProjectNode(SavedProject project)
         {
             projectNodes.Add(project);
@@ -67,8 +63,9 @@ namespace BehaviorTreePlanner
 
 
 
-        public void DeleteProject(ProjectNode ProjectNode)
+        public void DeleteProjectFile(ProjectNode ProjectNode)
         {
+            CheckProjectFolderExists();
             SavedProject project = ProjectNode.Project;
             foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
             {
@@ -82,8 +79,10 @@ namespace BehaviorTreePlanner
         }
 
 
-        private void DetectProjects()
+        private void DetectProjectFiles()
         {
+            CheckProjectFolderExists();
+
             BinaryFormatter bf = new();
             foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
             {
@@ -102,16 +101,27 @@ namespace BehaviorTreePlanner
         }
 
 
-        private void WriteProjectFile(SavedProject Project)
+        private static void CheckProjectFolderExists()
         {
+            if (!Directory.Exists(ProjectsFolder))
+            {
+                Directory.CreateDirectory(ProjectsFolder);
+            }
+        }
+
+
+        private static void WriteProjectFile(SavedProject Project)
+        {
+            CheckProjectFolderExists();
             BinaryFormatter bf = new();
             using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
             {
                 bf.Serialize(fs, Project);
             }
         }
-        public void EditProjectFile(SavedProject Project,string oldname)
+        public static void EditProjectFile(SavedProject Project,string oldname)
         {
+            CheckProjectFolderExists();
             foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
             {
                 if (FileUrl.Contains(oldname))
@@ -122,8 +132,11 @@ namespace BehaviorTreePlanner
                     {
                         bf.Serialize(fs, Project);
                     }
+                    return;
                 }
             }
+            //if the code continues, the file is  missing, recreate it
+            WriteProjectFile(Project);
         }
     }
 }

@@ -67,14 +67,14 @@ namespace BehaviorTreePlanner.Global
         private void GetOverlapedObjects(Bounds Area)
         {
             RectTrans.sizeDelta = Vector2.zero;
-            foreach(GameObject Node in EditorManager.ActiveNodes)
+            foreach(GameObject Node in EditorManager.SpawnManager.ActiveNodes)
             {
                 if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
                 {
                     EditorManager.MoveObjectsManager.AddMovableObj(Node.GetComponent<IMovable>());
                 }
             }
-            foreach (GameObject Line in EditorManager.ActiveLines)
+            foreach (GameObject Line in EditorManager.SpawnManager.ActiveLines)
             {
                 if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
                 {

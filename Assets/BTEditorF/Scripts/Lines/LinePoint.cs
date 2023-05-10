@@ -74,7 +74,7 @@ namespace BehaviorTreePlanner.Lines
 
                 AtachedToObj?.DeAttachLine();
                 AtachedToObj = Itach;
-                EditorManager.RemoveActiveLine(this.gameObject);
+                EditorManager.SpawnManager.RemoveActiveLine(this.gameObject);
                 AtachedToObj.AttachLine(this);
             }
             else
@@ -83,7 +83,7 @@ namespace BehaviorTreePlanner.Lines
                 {
                     AtachedToObj.DeAttachLine();
                     AtachedToObj = null;
-                    EditorManager.AddActiveLine(this.gameObject);
+                    EditorManager.SpawnManager.AddActiveLine(this.gameObject);
                 }
             }
         }
@@ -174,7 +174,7 @@ namespace BehaviorTreePlanner.Lines
             {
                 ParentLine.RemoveLine(this);
             }
-            EditorManager.RemoveActiveLine(this.gameObject);
+            EditorManager.SpawnManager.RemoveActiveLine(this.gameObject);
             Destroy(this.gameObject);
         }
     }
