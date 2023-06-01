@@ -29,5 +29,23 @@ namespace BehaviorTreePlanner
                 catch { Debug.Log("err"); }
             }
         }
+
+        public void UpdateProjectFile()
+        {
+            //convert scene to savedproject
+            //update the project file and replace the ProjectManager.OpenedProject using ProjectManager.EdidProjectFile
+        }
+
+        public void ProcessProjectFile()
+        {
+            //load file in ProjectManager.OpenedProject
+        }
+
+        private SavedProject ConvertSceneToSavedProject()
+        {
+            SavedProject SceneProject = null;
+
+            return SceneProject;
+        }
     }
 }

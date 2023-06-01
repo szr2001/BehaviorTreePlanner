@@ -10,6 +10,12 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] private Image BotImageReff;
         [SerializeField] private Text TypeText;
         [SerializeField] private InputField NameText;
+
+        public override NodeBase CreateNode()
+        {
+            return new Node();
+        }
+
         public void EditName(string n)
         {
             NameText.text = n;

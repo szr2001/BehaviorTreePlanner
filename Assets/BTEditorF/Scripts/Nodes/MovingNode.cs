@@ -12,6 +12,11 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] protected GameObject attachTrigger;
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
+
+        public override NodeBase CreateNode()
+        {
+            throw new System.NotImplementedException();
+        }
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
             base.InitializeNode(nd, editormanager);
@@ -60,5 +65,6 @@ namespace BehaviorTreePlanner.Nodes
         {
             lineHandler.DeAttachLine();
         }
+
     }
 }

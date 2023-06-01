@@ -3,12 +3,14 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class NodeBase : MonoBehaviour, IObjDestroyable
+    public abstract class NodeBase : MonoBehaviour, IObjDestroyable
     {
         protected EditorManager EditorManager;
         [HideInInspector] public NodeDesign NodeD;
         [SerializeField] protected GameObject LineTrigger;
         protected LineHandler lineHandler = new();
+
+        public abstract NodeBase CreateNode();
 
         public virtual void DestroyObject()
         {

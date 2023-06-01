@@ -5,6 +5,12 @@ namespace BehaviorTreePlanner.Nodes
     public class LayerNode : MovingNode
     {
         private SavedProjectLayer project;
+
+        public override NodeBase CreateNode()
+        {
+            return new LayerNode();
+        }
+
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
             base.InitializeNode(nd, editormanager);
