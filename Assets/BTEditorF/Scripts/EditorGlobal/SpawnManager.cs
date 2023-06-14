@@ -11,10 +11,13 @@ namespace BehaviorTreePlanner
     {
         public EditorManager EditorManager;
 
+        //move some stufff in the menus like buttons reff
         public GameObject Screen;
         public GameObject NodePrefabReff;
+        public GameObject LayerNodePrefabReff;
         public GameObject LinePointPrefabReff;
         public GameObject NodeButtonPrefabReff;
+        public GameObject LayerNodeButtonPrefabReff;
 
         public List<GameObject> ActiveNodes { get; set; } = new();
         public List<GameObject> ActiveLines { get; set; } = new();

@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4865343860953234251}
   - component: {fileID: 1456447487504982806}
   m_Layer: 5
-  m_Name: ProjectNode
+  m_Name: LayerNode
   m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,9 +133,7 @@ MonoBehaviour:
   NodeD:
     type: 
     name: 
-    PrimaryCollor: {r: 0, g: 0, b: 0, a: 0}
-    SecondaryCollor: {r: 0, g: 0, b: 0, a: 0}
-  lineTrigger: {fileID: 2693086320977431127}
+  LineTrigger: {fileID: 2693086320977431127}
   <NodeHighLight>k__BackingField: {fileID: 8040966128021363100}
   dragTrigger: {fileID: 8514072784890358632}
   attachTrigger: {fileID: 1364990840232021878}
@@ -525,7 +523,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Project
+  m_Text: Layer
 --- !u!1 &8040966128021363100
 GameObject:
   m_ObjectHideFlags: 0
