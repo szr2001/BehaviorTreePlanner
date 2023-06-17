@@ -18,50 +18,16 @@ namespace BehaviorTreePlanner
 {
     public class ProjectsManager : MonoBehaviour
     {
-
+        //try make it a static class maybe?
         public MenuManager MenuManager;
-        public static SavedProject OpenedProject { get; set; }
-        public GameObject EditProjectNode { get; set; }
+        public SavedProject OpenedProject { get; set; }
+        public string ProjectsFolder = "";
 
-        [SerializeField] private GameObject projectContainer;
-        [SerializeField] private GameObject ProjectNodePrefabReff;
-
-        public static string ProjectsFolder = "";
-
-        private readonly List<SavedProject> projectNodes = new();
-
-        void Start()
+        private void Awake()
         {
+            DontDestroyOnLoad(this.gameObject);
             ProjectsFolder = Application.dataPath + "/Projects";
-
-            DetectProjectFiles();
         }
-
-        public void CreateNewProjectNode()
-        {
-            if (EditProjectNode == null)
-            {
-                EditProjectNode = GameObject.Instantiate(ProjectNodePrefabReff);
-                EditProjectNode.GetComponent<ProjectNode>().InitializeProjectNode(this);
-                EditProjectNode.transform.SetParent(projectContainer.transform);
-                EditProjectNode.transform.localScale = Vector3.one;
-                EditProjectNode.transform.localPosition = new Vector3(EditProjectNode.transform.position.x, EditProjectNode.transform.position.y, 0);
-            }
-        }
-
-
-        public void ConfirmNewProjectNode(SavedProject project)
-        {
-            projectNodes.Add(project);
-            WriteProjectFile(project);
-            EditProjectNode = null;
-        }
-        public void CancelNewProjectNode()
-        {
-            Destroy(EditProjectNode);
-        }
-
-
 
         public void DeleteProjectFile(ProjectNode ProjectNode)
         {
@@ -74,34 +40,26 @@ namespace BehaviorTreePlanner
                     File.Delete(FileUrl);
                 }
             }
-            projectNodes.Remove(project);
-            Destroy(ProjectNode.gameObject);
         }
 
-
-        private void DetectProjectFiles()
+        public List<SavedProject> DetectSavedProjectFiles()
         {
             CheckProjectFolderExists();
 
             BinaryFormatter bf = new();
+            List<SavedProject> projects = new();
             foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
             {
                 using (FileStream fs = new(FileUrl, FileMode.Open))
                 {
                     SavedProject LoadedProject = (SavedProject)bf.Deserialize(fs);
-                    GameObject TempProjectNode = GameObject.Instantiate(ProjectNodePrefabReff);
-                    TempProjectNode.GetComponent<ProjectNode>().OverrideProjectNode(this, LoadedProject);
-                    TempProjectNode.transform.SetParent(projectContainer.transform);
-                    TempProjectNode.transform.localScale = Vector3.one;
-                    TempProjectNode.transform.localPosition = new Vector3(TempProjectNode.transform.position.x, TempProjectNode.transform.position.y, 0);
-                    projectNodes.Add(LoadedProject);
+                    projects.Add(LoadedProject);
                 }
-
             }
+            return projects;
         }
 
-
-        private static void CheckProjectFolderExists()
+        public void CheckProjectFolderExists()
         {
             if (!Directory.Exists(ProjectsFolder))
             {
@@ -109,8 +67,7 @@ namespace BehaviorTreePlanner
             }
         }
 
-
-        private static void WriteProjectFile(SavedProject Project)
+        public void WriteProjectFile(SavedProject Project)
         {
             CheckProjectFolderExists();
             BinaryFormatter bf = new();
@@ -119,7 +76,7 @@ namespace BehaviorTreePlanner
                 bf.Serialize(fs, Project);
             }
         }
-        public static void EditProjectFile(SavedProject Project,string oldname)
+        public void EditProjectFile(SavedProject Project,string oldname)
         {
             CheckProjectFolderExists();
             foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))

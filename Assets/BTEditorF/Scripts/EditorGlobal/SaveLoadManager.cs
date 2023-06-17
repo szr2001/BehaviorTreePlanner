@@ -45,9 +45,9 @@ namespace BehaviorTreePlanner
         {
             //convert scene to savedproject
             //update the project file and replace the ProjectManager.OpenedProject using ProjectManager.EdidProjectFile
-            
+
             //activate loading anim
-            ProjectsManager.OpenedProject = await ConvertSceneToSavedProject();
+            EditorManager.ProjectsManager.OpenedProject = await ConvertSceneToSavedProject();
             //stop loading anim
         }
         private async Task<SavedProject> ConvertSceneToSavedProject()

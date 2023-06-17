@@ -16,8 +16,12 @@ namespace BehaviorTreePlanner
         public SoundManager SoundManager;
         public ActionManager ActionManager;
         public SaveLoadManager SaveLoadManager;
+        public ProjectsManager ProjectsManager;
 
         [HideInInspector]public bool IsOverUi = false;
-
+        private void Awake()
+        {
+            ProjectsManager = GameObject.FindObjectOfType<ProjectsManager>();
+        }
     }
 }

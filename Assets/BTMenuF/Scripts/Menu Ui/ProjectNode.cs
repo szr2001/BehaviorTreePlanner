@@ -12,7 +12,7 @@ namespace BehaviorTreePlanner
 {
     public class ProjectNode : MonoBehaviour
     {
-        private ProjectsManager projectManager;
+        private ProjectMenu projectMenu;
         public SavedProject Project { get; private set; }
         private string ProjectName = ""; 
         private bool IsEditing = true;
@@ -27,17 +27,17 @@ namespace BehaviorTreePlanner
         [SerializeField] private Text LayerNumber;
         [SerializeField] private Text Date;
 
-        public void InitializeProjectNode(ProjectsManager projectmanager)
+        public void InitializeProjectNode(ProjectMenu projectmenu) // initialize and override?
         {
-            projectManager = projectmanager;
+            projectMenu = projectmenu;
             Confirm.onClick.AddListener(ConfirmProjectNode);
             Cancel.onClick.AddListener(CancelProjectNode);
         }
 
-        public void OverrideProjectNode(ProjectsManager projectmanager,SavedProject project)
+        public void OverrideProjectNode(ProjectMenu projectmenu,SavedProject project)
         {
-            projectManager = projectmanager;
             Project = project;
+            projectMenu = projectmenu;
             ToggleEditMode();
             UpdateDisplayInfo();
         }
@@ -54,7 +54,7 @@ namespace BehaviorTreePlanner
             SavedProjectLayer baseLayer = new(nodes, lines);
             Project = new SavedProject(baseLayer, 1, ProjectName,DateTime.UtcNow);
 
-            projectManager.ConfirmNewProjectNode(Project);
+            projectMenu.ConfirmNewProjectNode(Project);
 
             UpdateDisplayInfo();
 
@@ -62,7 +62,7 @@ namespace BehaviorTreePlanner
         }
         public void CancelProjectNode() 
         {
-            projectManager.CancelNewProjectNode();
+            projectMenu.CancelNewProjectNode();
         }
 
 
@@ -72,7 +72,7 @@ namespace BehaviorTreePlanner
             string OldName = ProjectName;
             ProjectName = Name.text;
             Project.ProjectName = ProjectName;
-            ProjectsManager.EditProjectFile(Project, OldName);
+            projectMenu.CallEditProjectFile(Project, OldName);
             ToggleEditMode();
             UpdateDisplayInfo();
         }
@@ -85,12 +85,12 @@ namespace BehaviorTreePlanner
 
         public void OpenProjectNode()
         {
-            ProjectsManager.OpenedProject = Project;
+            projectMenu.SetOpenedProject(Project);
             SceneManager.LoadScene("BTEditor");
         }
         public void DeleteProjectNode()
         {
-            projectManager.DeleteProjectFile(this);
+            projectMenu.CallDeleteProjectFile(this);
         }
 
         
@@ -109,11 +109,11 @@ namespace BehaviorTreePlanner
                 Cancel.onClick.AddListener(DeleteProjectNode);
                 EditToggle.SetActive(true);
                 IsEditing = false;
-                projectManager.EditProjectNode = null;
+                projectMenu.EditProjectNode = null;// null reff error
             }
             else
             {
-                if(projectManager.EditProjectNode == null)
+                if(projectMenu.EditProjectNode == null)
                 {
                     Name.interactable = true;
 
@@ -126,7 +126,7 @@ namespace BehaviorTreePlanner
                     Cancel.onClick.AddListener(CancelEditProjectNode);
                     EditToggle.SetActive(false);
                     IsEditing = true;
-                    projectManager.EditProjectNode = this.gameObject;
+                    projectMenu.EditProjectNode = this.gameObject;
                 }
             }
         }
