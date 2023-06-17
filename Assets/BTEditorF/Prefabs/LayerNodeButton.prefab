@@ -155,8 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5ebe98e38102445a5e7557c23b240f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeName: {fileID: 5227323244197062649}
-  NodeLayerNr: {fileID: 6624007886452503672}
+  nodeName: {fileID: 5227323244197062649}
+  nodeLayerNr: {fileID: 6624007886452503672}
+  NodeColor: {fileID: 2693086321424396429}
 --- !u!1 &2693086320977431127
 GameObject:
   m_ObjectHideFlags: 0
