@@ -27,6 +27,18 @@ namespace BehaviorTreePlanner
         {
             NodeColor.color = new Color(0.5751644f, 0.3066038f, 1);
         }
-        //call layermenu for changes
+
+        public void CallDeleteLayerButton()
+        {
+            layersMenu.DeleteLayerButton(this);
+        }
+        public void CallOpenLayer()
+        {
+            layersMenu.OpenLayer(this);
+        }
+        public void CallSpawnlayerNode()
+        {
+            layersMenu.SpawnLayerNode(projectLayer);
+        }
     }
 }

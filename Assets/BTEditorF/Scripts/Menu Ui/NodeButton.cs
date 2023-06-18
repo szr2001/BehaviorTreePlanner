@@ -7,8 +7,9 @@ using BehaviorTreePlanner.Lines;
 namespace BehaviorTreePlanner.MenuUi
 {
     public class NodeButton : MonoBehaviour
-    {
+    {//edit this to spawn with a reff to the NodesUiMenu and move methods inside it and call them from the node
         private EditorManager EditorManager;
+        private NodesMenu nodesMenu;
         [SerializeField] private Image TopImageReff;
         [SerializeField] private Image BotImageReff;
         [SerializeField] private Text TypeText;
@@ -16,15 +17,16 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private GameObject deleteCustomTypeTrigger;
         [HideInInspector] public NodeDesign NodeD { get; set; }
 
-        public void InitializeButton(NodeDesign nd,EditorManager editormanager)
+        public void InitializeButton(NodeDesign nd,EditorManager editormanager,NodesMenu nodesmenu)
         {
             EditorManager = editormanager;
             NodeD = nd;
+            nodesMenu = nodesmenu;
             TopImageReff.color = NodeD.PrimaryCollor;
             BotImageReff.color = NodeD.SecondaryCollor;
             TypeText.text = NodeD.type;
         }
-        public void SpawnNodeCall()
+        public void CallSpawnNode()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -34,7 +36,7 @@ namespace BehaviorTreePlanner.MenuUi
         }
         public void DeleteNode()
         {
-            EditorManager.NodesUiMenu.GetComponent<NodesMenu>().DeleteNode(NodeD);
+            nodesMenu.DeleteNode(NodeD);
         }
     }
 }

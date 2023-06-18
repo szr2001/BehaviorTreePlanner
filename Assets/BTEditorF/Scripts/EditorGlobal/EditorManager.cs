@@ -8,7 +8,6 @@ namespace BehaviorTreePlanner
 {
     public class EditorManager : MonoBehaviour
     {
-        public GameObject NodesUiMenu;
         public CameraControl PlayerControll;
         public SettingsManager SettingsManager;
         public MoveObjectsManager MoveObjectsManager;

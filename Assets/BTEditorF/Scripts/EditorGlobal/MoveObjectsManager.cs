@@ -29,6 +29,7 @@ namespace BehaviorTreePlanner
                         break;
                     }
                 }
+                Debug.Log(MovableObj.Count,gameObject);
             }
         }
         public void StartMoving()

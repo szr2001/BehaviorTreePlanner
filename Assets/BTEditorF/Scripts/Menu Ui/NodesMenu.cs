@@ -68,7 +68,7 @@ namespace BehaviorTreePlanner.MenuUi
                 foreach (NodeDesign D in NodeDesigns)
                 {
                     GameObject SpawnedNode = GameObject.Instantiate(EditorManager.SpawnManager.NodeButtonPrefabReff);
-                    SpawnedNode.GetComponent<NodeButton>().InitializeButton(D,EditorManager);
+                    SpawnedNode.GetComponent<NodeButton>().InitializeButton(D,EditorManager,this);
                     SpawnedNode.transform.SetParent(NodeHolder.transform);
                     SpawnedNode.transform.localPosition = new Vector3(SpawnedNode.transform.position.x, SpawnedNode.transform.position.y, 0);
                     SpawnedNode.transform.localScale = Vector3.one;

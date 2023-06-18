@@ -4,17 +4,17 @@ namespace BehaviorTreePlanner.Nodes
 {
     public class LayerNode : MovingNode
     {
-        private SavedProjectLayer project;
+        private SavedProjectLayer projectLayer;
 
         public override NodeBase CreateNode()
         {
             return new LayerNode();
         }
 
-        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
+        public override void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer projectlayer)
         {
             base.InitializeNode(nd, editormanager);
-            NodeD = new NodeDesign(null, null, new Color(0.57f, 0.3f, 1), Color.white);
+            projectLayer = projectlayer;
         }
         public void OpenProjectNode()
         {
@@ -23,6 +23,7 @@ namespace BehaviorTreePlanner.Nodes
         public override void StartMoveObj()
         {
             NodeHighLight.SetActive(true);
+            Debug.Log(projectLayer is null,gameObject);//dell
         }
 
         public override void StopMoveObj()

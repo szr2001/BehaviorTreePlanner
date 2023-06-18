@@ -29,7 +29,18 @@ namespace BehaviorTreePlanner
             TempNode.name = "Node";
             TempNode.GetComponent<Node>().InitializeNode(Nd, EditorManager);
             AddActiveNode(TempNode);
-            EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<Node>());
+            EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
+            EditorManager.MoveObjectsManager.StartMoving();
+        }
+        public void SpawnLayerNode(SavedProjectLayer layer)
+        {
+            GameObject TempNode = Instantiate(LayerNodePrefabReff, Screen.transform);
+            TempNode.transform.localScale = new Vector3(1, 1, 1);
+            TempNode.name = "Node";
+            NodeDesign NodeD = new(null, null, new Color(0.57f, 0.3f, 1), Color.white);
+            TempNode.GetComponent<LayerNode>().InitializeNode(NodeD,EditorManager,layer);
+            AddActiveNode(TempNode);
+            EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());//problem? get nodebase or movingnode
             EditorManager.MoveObjectsManager.StartMoving();
         }
         public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot)

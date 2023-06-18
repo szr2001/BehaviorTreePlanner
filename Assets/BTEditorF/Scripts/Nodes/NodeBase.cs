@@ -24,5 +24,10 @@ namespace BehaviorTreePlanner.Nodes
             EditorManager = editormanager;
             NodeD = nd;
         }
+        public virtual void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer Projectlayer)
+        {
+            EditorManager = editormanager;
+            NodeD = nd;
+        }
     }
 }

@@ -21,7 +21,8 @@ namespace BehaviorTreePlanner
         //try make it a static class maybe?
         public MenuManager MenuManager;
         public SavedProject OpenedProject { get; set; }
-        public string ProjectsFolder = "";
+
+        [HideInInspector] public string ProjectsFolder { get; set; } = "";
 
         private void Awake()
         {
@@ -75,6 +76,10 @@ namespace BehaviorTreePlanner
             {
                 bf.Serialize(fs, Project);
             }
+        }
+        public void WriteOpenedProjectFile()
+        {
+            WriteProjectFile(OpenedProject);
         }
         public void EditProjectFile(SavedProject Project,string oldname)
         {
