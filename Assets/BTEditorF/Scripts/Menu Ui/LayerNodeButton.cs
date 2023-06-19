@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,10 @@ namespace BehaviorTreePlanner
     {
         private LayersMenu layersMenu;
         public SavedProjectLayer projectLayer { get; set; }
-        [SerializeField] private GameObject nodeName;
-        [SerializeField] private GameObject nodeLayerNr;
+        [SerializeField] private Text nodeName;
+        [SerializeField] private Text Layer;
         [SerializeField] private Image NodeColor;
         
-        //save the layer inside the button dont use the index, because you want to also save thel ayer
         public void InitializeNodeButton(LayersMenu layersmenu, SavedProjectLayer projectlayer)
         {
             layersMenu = layersmenu;
@@ -32,9 +32,22 @@ namespace BehaviorTreePlanner
         {
             layersMenu.DeleteLayer(this);
         }
+        int clickcount = 0;
         public void CallOpenLayer()
         {
-            layersMenu.OpenLayer(this);
+            clickcount++;
+            _ = CallOpenLayerDoubleClickTrigger();
+        }
+        private async Task CallOpenLayerDoubleClickTrigger()
+        {
+            if (clickcount == 2)
+            {
+                layersMenu.OpenLayer(this);
+                clickcount = 0;
+                return;
+            }
+            await Task.Delay(500);
+            clickcount = 0;
         }
         public void CallSpawnlayerNode()
         {

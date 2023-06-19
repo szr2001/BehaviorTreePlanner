@@ -49,6 +49,10 @@ namespace BehaviorTreePlanner
             {
                 return;
             }
+            if (layerButtons[0] == layerButton)
+            {
+                return;
+            }
             editorManager.SaveLoadManager.RemoveLayerFromProject(layerButton.projectLayer);
             layerButtons.Remove(layerButton);
             Destroy(layerButton.gameObject);
@@ -57,8 +61,7 @@ namespace BehaviorTreePlanner
         {
             SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>());
             CreatelayerNodeButton(NewLayer);
-            editorManager.ProjectsManager.OpenedProject.Layers.Add(NewLayer);
-            editorManager.ProjectsManager.WriteOpenedProjectFile();
+            editorManager.SaveLoadManager.AddLayerToProject(NewLayer);
         }
         public void SpawnLayerNode(SavedProjectLayer layer)
         {

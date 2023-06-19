@@ -16,13 +16,7 @@ namespace BehaviorTreePlanner
         [field: SerializeField] public GameObject LoadingScreenPrefabReff { get; set; }
 
         private GameObject loadingScreen;
-        private async void Start()
-        {
-            await Task.Delay(2000);
-            ShowLoadingScreen();
-            await Task.Delay(5000);
-            HideLoadingScreen();       
-        }
+
         public void ClearScreen()//edit to use selected layer
         {
             for (int i = 0; i < EditorManager.SpawnManager.ActiveNodes.Count; i++)
@@ -46,16 +40,23 @@ namespace BehaviorTreePlanner
         public void RemoveLayerFromProject(SavedProjectLayer layer)
         {
             EditorManager.ProjectsManager.OpenedProject.Layers.Remove(layer);
+            _ = SaveProject();
         }
-        public async Task SaveProject()
+        public void AddLayerToProject(SavedProjectLayer layer)
         {
-            await Task.CompletedTask;
-            EditorManager.ProjectsManager.WriteOpenedProjectFile();
+            EditorManager.ProjectsManager.OpenedProject.Layers.Add(layer);
+            _ = SaveProject();
         }
-        public async Task SaveToLayer(SavedProjectLayer projectlayer)
+        private async Task SaveProject()
+        {
+            ShowLoadingScreen();
+            await EditorManager.ProjectsManager.SaveOpenedProjectFile();
+            HideLoadingScreen();
+        }
+        public async Task SaveLayer(SavedProjectLayer projectlayerreff)//might not work
         {
             //show loading screen
-            projectlayer = await ConvertSceeneToSavedLayer();
+            projectlayerreff = await ConvertSceeneToSavedLayer();
             //remove loadingscreen
             await Task.CompletedTask;
         }
@@ -64,6 +65,15 @@ namespace BehaviorTreePlanner
             SavedProjectLayer savedProjectLayer = null;
             await Task.CompletedTask;
             return savedProjectLayer;
+        }
+        public async Task LoadLayer(SavedProjectLayer projectlayer)
+        {
+            ShowLoadingScreen();
+            ActiveProjectLayer = projectlayer;
+            ClearScreen();
+            //await loading and spawning
+            await Task.CompletedTask;
+            HideLoadingScreen();
         }
         public void ShowLoadingScreen()
         {
@@ -76,15 +86,6 @@ namespace BehaviorTreePlanner
         public void HideLoadingScreen()
         {
             loadingScreen.GetComponent<LoadingScreen>().ClearLoadingSCreen();
-        }
-        public async Task LoadLayer(SavedProjectLayer projectlayer)
-        {
-            ActiveProjectLayer = projectlayer;
-            ClearScreen();
-            //show loading screen
-            //await loading and spawning
-            //remove loadingscreen
-            await Task.CompletedTask;
         }
     }
 }

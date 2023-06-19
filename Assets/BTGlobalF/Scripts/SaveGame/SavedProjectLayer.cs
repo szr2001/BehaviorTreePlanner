@@ -12,6 +12,7 @@ namespace BehaviorTreePlanner
     {
         public List<SavedNodeBase> SavedNodes;
         public List<SavedLinePoint> SavedLinePoints;
+        public string LayerName;
         public SavedProjectLayer(List<SavedNodeBase> savedNodes, List<SavedLinePoint> savedLinePoints)
         {
             SavedNodes = savedNodes;

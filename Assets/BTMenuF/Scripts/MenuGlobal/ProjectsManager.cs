@@ -18,8 +18,6 @@ namespace BehaviorTreePlanner
 {
     public class ProjectsManager : MonoBehaviour
     {
-        //try make it a static class maybe?
-        public MenuManager MenuManager;
         public SavedProject OpenedProject { get; set; }
 
         [HideInInspector] public string ProjectsFolder { get; set; } = "";
@@ -28,6 +26,13 @@ namespace BehaviorTreePlanner
         {
             DontDestroyOnLoad(this.gameObject);
             ProjectsFolder = Application.dataPath + "/Projects";
+        }
+        public void CheckProjectFolderExists()
+        {
+            if (!Directory.Exists(ProjectsFolder))
+            {
+                Directory.CreateDirectory(ProjectsFolder);
+            }
         }
 
         public void DeleteProjectFile(ProjectNode ProjectNode)
@@ -42,7 +47,19 @@ namespace BehaviorTreePlanner
                 }
             }
         }
-
+        public async Task CreateProjectFile(SavedProject Project)
+        {
+            CheckProjectFolderExists();
+            BinaryFormatter bf = new();
+            await Task.Run(() => 
+            {
+                using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
+                {
+                    bf.Serialize(fs, Project);
+                }
+            });
+        }
+        
         public List<SavedProject> DetectSavedProjectFiles()
         {
             CheckProjectFolderExists();
@@ -59,29 +76,13 @@ namespace BehaviorTreePlanner
             }
             return projects;
         }
-
-        public void CheckProjectFolderExists()
+        
+        public async Task SaveOpenedProjectFile()
         {
-            if (!Directory.Exists(ProjectsFolder))
-            {
-                Directory.CreateDirectory(ProjectsFolder);
-            }
+           await CreateProjectFile(OpenedProject);
         }
-
-        public void WriteProjectFile(SavedProject Project)
-        {
-            CheckProjectFolderExists();
-            BinaryFormatter bf = new();
-            using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
-            {
-                bf.Serialize(fs, Project);
-            }
-        }
-        public void WriteOpenedProjectFile()
-        {
-            WriteProjectFile(OpenedProject);
-        }
-        public void EditProjectFile(SavedProject Project,string oldname)
+        
+        public async Task EditProjectFile(SavedProject Project,string oldname)
         {
             CheckProjectFolderExists();
             foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
@@ -89,16 +90,9 @@ namespace BehaviorTreePlanner
                 if (FileUrl.Contains(oldname))
                 {
                     File.Delete(FileUrl);
-                    BinaryFormatter bf = new();
-                    using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
-                    {
-                        bf.Serialize(fs, Project);
-                    }
-                    return;
                 }
             }
-            //if the code continues, the file is  missing, recreate it
-            WriteProjectFile(Project);
+            await CreateProjectFile(Project);
         }
     }
 }
