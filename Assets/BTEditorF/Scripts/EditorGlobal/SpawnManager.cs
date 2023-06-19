@@ -24,7 +24,7 @@ namespace BehaviorTreePlanner
 
         public void SpawnNode(NodeDesign Nd)
         {
-            GameObject TempNode = Instantiate(EditorManager.SpawnManager.NodePrefabReff, EditorManager.SpawnManager.Screen.transform);
+            GameObject TempNode = Instantiate(NodePrefabReff, Screen.transform);
             TempNode.transform.localScale = new Vector3(1, 1, 1);
             TempNode.name = "Node";
             TempNode.GetComponent<Node>().InitializeNode(Nd, EditorManager);

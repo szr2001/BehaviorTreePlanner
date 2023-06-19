@@ -30,7 +30,7 @@ namespace BehaviorTreePlanner
 
         public void CallDeleteLayerButton()
         {
-            layersMenu.DeleteLayerButton(this);
+            layersMenu.DeleteLayer(this);
         }
         public void CallOpenLayer()
         {

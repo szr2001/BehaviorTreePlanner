@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace BehaviorTreePlanner
 {
@@ -23,13 +24,7 @@ namespace BehaviorTreePlanner
         {
             foreach (var layer in editorManager.ProjectsManager.OpenedProject.Layers)
             {
-                GameObject LayerNodeButton = GameObject.Instantiate(LayerNodeButtonPrefabReff);
-                LayerNodeButton layernode =  LayerNodeButton.GetComponent<LayerNodeButton>();
-                layernode.InitializeNodeButton(this, layer);
-                LayerNodeButton.transform.SetParent(LayersHolder.transform);
-                LayerNodeButton.transform.localPosition = new Vector3(LayerNodeButton.transform.position.x, LayerNodeButton.transform.position.y, 0);
-                LayerNodeButton.transform.localScale = Vector3.one;
-                layerButtons.Add(layernode);
+                CreatelayerNodeButton(layer);
             }
 
             ActiveLayerButton = layerButtons[0].GetComponent<LayerNodeButton>();
@@ -37,11 +32,33 @@ namespace BehaviorTreePlanner
 
             _ = editorManager.SaveLoadManager.LoadLayer(ActiveLayerButton.projectLayer);
         }
-        public void DeleteLayerButton(LayerNodeButton layerButton)
+        private GameObject CreatelayerNodeButton(SavedProjectLayer layer)
         {
+            GameObject LayerNodeButton = GameObject.Instantiate(LayerNodeButtonPrefabReff);
+            LayerNodeButton layernode = LayerNodeButton.GetComponent<LayerNodeButton>();
+            layernode.InitializeNodeButton(this, layer);
+            LayerNodeButton.transform.SetParent(LayersHolder.transform);
+            LayerNodeButton.transform.localPosition = new Vector3(LayerNodeButton.transform.position.x, LayerNodeButton.transform.position.y, 0);
+            LayerNodeButton.transform.localScale = Vector3.one;
+            layerButtons.Add(LayerNodeButton.GetComponent<LayerNodeButton>());
+            return LayerNodeButton;
+        }
+        public void DeleteLayer(LayerNodeButton layerButton)
+        {
+            if (editorManager.SaveLoadManager.ActiveProjectLayer == layerButton.projectLayer)
+            {
+                return;
+            }
             editorManager.SaveLoadManager.RemoveLayerFromProject(layerButton.projectLayer);
             layerButtons.Remove(layerButton);
             Destroy(layerButton.gameObject);
+        }
+        public void CreateLayer()
+        {
+            SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>());
+            CreatelayerNodeButton(NewLayer);
+            editorManager.ProjectsManager.OpenedProject.Layers.Add(NewLayer);
+            editorManager.ProjectsManager.WriteOpenedProjectFile();
         }
         public void SpawnLayerNode(SavedProjectLayer layer)
         {

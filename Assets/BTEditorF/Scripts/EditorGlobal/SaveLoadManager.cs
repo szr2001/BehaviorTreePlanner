@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Nodes;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,8 +11,18 @@ namespace BehaviorTreePlanner
         //Save every change back to the same oppenedsavedproject variable
         //then save it to a file. Load ands save the same file but with modified values.
        [field:SerializeField] public EditorManager EditorManager { get; set; }
-        public SavedProjectLayer ActiveProjectLayer { get; set; }   
+        [field: SerializeField] public SavedProjectLayer ActiveProjectLayer { get; set; }   
+        [field: SerializeField] public GameObject CameraCanvas { get; set; }   
+        [field: SerializeField] public GameObject LoadingScreenPrefabReff { get; set; }
 
+        private GameObject loadingScreen;
+        private async void Start()
+        {
+            await Task.Delay(2000);
+            ShowLoadingScreen();
+            await Task.Delay(5000);
+            HideLoadingScreen();       
+        }
         public void ClearScreen()//edit to use selected layer
         {
             for (int i = 0; i < EditorManager.SpawnManager.ActiveNodes.Count; i++)
@@ -34,10 +45,6 @@ namespace BehaviorTreePlanner
         }
         public void RemoveLayerFromProject(SavedProjectLayer layer)
         {
-            if (ActiveProjectLayer == layer)
-            {
-                return;
-            }
             EditorManager.ProjectsManager.OpenedProject.Layers.Remove(layer);
         }
         public async Task SaveProject()
@@ -58,10 +65,22 @@ namespace BehaviorTreePlanner
             await Task.CompletedTask;
             return savedProjectLayer;
         }
+        public void ShowLoadingScreen()
+        {
+            if(loadingScreen != null)
+            {
+                HideLoadingScreen();
+            }
+            loadingScreen = Instantiate(LoadingScreenPrefabReff, CameraCanvas.transform);
+        }
+        public void HideLoadingScreen()
+        {
+            loadingScreen.GetComponent<LoadingScreen>().ClearLoadingSCreen();
+        }
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
             ActiveProjectLayer = projectlayer;
-            //ClearScreen();
+            ClearScreen();
             //show loading screen
             //await loading and spawning
             //remove loadingscreen
