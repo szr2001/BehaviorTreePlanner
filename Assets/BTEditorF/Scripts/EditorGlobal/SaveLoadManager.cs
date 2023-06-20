@@ -2,7 +2,9 @@ using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BehaviorTreePlanner
@@ -21,21 +23,11 @@ namespace BehaviorTreePlanner
 
         public void ClearScreen()
         {
-            for (int i = 0; i < EditorManager.SpawnManager.ActiveNodes.Count; i++)
+            //nodes automaticaly delete any atached lines
+            while(EditorManager.SpawnManager.ActiveNodes.Count > 0)
             {
-                try
-                {
-                    EditorManager.SpawnManager.ActiveNodes[i].GetComponent<IObjDestroyable>().DestroyObject();
-                }
-                catch { Debug.Log("err"); }
-            }
-            for (int i = 0; i < EditorManager.SpawnManager.ActiveLines.Count; i++)
-            {
-                try
-                {
-                    EditorManager.SpawnManager.ActiveLines[i].GetComponent<IObjDestroyable>().DestroyObject();
-                }
-                catch { Debug.Log("err"); }
+                EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
+                Debug.Log(EditorManager.SpawnManager.ActiveNodes.Count + "Nodes");
             }
             //no need to clear the lists after because DestroyObject removes itself from lists.
         }

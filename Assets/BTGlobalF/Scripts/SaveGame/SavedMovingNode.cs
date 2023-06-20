@@ -7,8 +7,9 @@ using UnityEngine;
 namespace BehaviorTreePlanner
 {
     [Serializable]
-    public class SavedNodeBase
+    public class SavedMovingNode : SavedNodeBase
     {
-        public int NodeIndex;
+        public float[] Position = new float[3];
+        public NodeDesign Nd;
     }
 }

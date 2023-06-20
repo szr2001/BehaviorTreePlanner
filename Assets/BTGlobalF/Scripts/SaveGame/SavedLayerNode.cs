@@ -1,4 +1,3 @@
-using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,8 +6,9 @@ using UnityEngine;
 namespace BehaviorTreePlanner
 {
     [Serializable]
-    public class SavedNodeBase
+    public class SavedLayerNode : SavedMovingNode
     {
-        public int NodeIndex;
+        public string layername;
+        public int layerindex;
     }
 }
