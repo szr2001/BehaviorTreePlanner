@@ -1,5 +1,7 @@
+using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -17,7 +19,7 @@ namespace BehaviorTreePlanner
 
         private GameObject loadingScreen;
 
-        public void ClearScreen()//edit to use selected layer
+        public void ClearScreen()
         {
             for (int i = 0; i < EditorManager.SpawnManager.ActiveNodes.Count; i++)
             {
@@ -63,6 +65,16 @@ namespace BehaviorTreePlanner
         private async Task<SavedProjectLayer> ConvertSceeneToSavedLayer()
         {
             SavedProjectLayer savedProjectLayer = null;
+            List<SavedNodeBase> NewNodes = new();
+            List<SavedLinePoint> NewLines = new();
+            foreach(NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+            {
+                SavedNodeBase savednode = new(); //set in node base factory pattern to return a savednodebase and invers in savednodebase to return a nodebase
+            }
+            foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+            {
+
+            }
             await Task.CompletedTask;
             return savedProjectLayer;
         }

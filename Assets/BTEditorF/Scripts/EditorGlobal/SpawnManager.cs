@@ -19,16 +19,17 @@ namespace BehaviorTreePlanner
         public GameObject NodeButtonPrefabReff;
         public GameObject LayerNodeButtonPrefabReff;
 
-        public List<GameObject> ActiveNodes { get; set; } = new();
-        public List<GameObject> ActiveLines { get; set; } = new();
+        public List<NodeBase> ActiveNodes { get; set; } = new();
+        public List<LinePoint> ActiveLines { get; set; } = new();
 
         public void SpawnNode(NodeDesign Nd)
         {
             GameObject TempNode = Instantiate(NodePrefabReff, Screen.transform);
             TempNode.transform.localScale = new Vector3(1, 1, 1);
             TempNode.name = "Node";
-            TempNode.GetComponent<Node>().InitializeNode(Nd, EditorManager);
-            AddActiveNode(TempNode);
+            NodeBase nodebase = TempNode.GetComponent<NodeBase>();
+            nodebase.InitializeNode(Nd, EditorManager);
+            AddActiveNode(nodebase);
             EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
             EditorManager.MoveObjectsManager.StartMoving();
         }
@@ -38,20 +39,26 @@ namespace BehaviorTreePlanner
             TempNode.transform.localScale = new Vector3(1, 1, 1);
             TempNode.name = "Node";
             NodeDesign NodeD = new(null, null, new Color(0.57f, 0.3f, 1), Color.white);
-            TempNode.GetComponent<LayerNode>().InitializeNode(NodeD,EditorManager,layer);
-            AddActiveNode(TempNode);
+            NodeBase nodebase = TempNode.GetComponent<NodeBase>();
+            nodebase.InitializeNode(NodeD, EditorManager, layer);
+            AddActiveNode(nodebase);
             EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());//problem? get nodebase or movingnode
             EditorManager.MoveObjectsManager.StartMoving();
+        }
+        private void SpawnNode()
+        {
+            //move stuff from spawnnodenode/layer
         }
         public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot)
         {
             GameObject TempLine = Instantiate(EditorManager.SpawnManager.LinePointPrefabReff, EditorManager.SpawnManager.Screen.transform);
             TempLine.transform.localScale = new Vector3(1, 1, 1);
             TempLine.name = "LinePoint";
-            TempLine.GetComponent<LinePoint>().InitializeLine(Caller, IsRoot,EditorManager);
+            LinePoint linepoint = TempLine.GetComponent<LinePoint>();
+            linepoint.InitializeLine(Caller, IsRoot, EditorManager);
             if (SaveReff)
             {
-                AddActiveLine(TempLine);
+                AddActiveLine(linepoint);
                 EditorManager.MoveObjectsManager.AddMovableObj(TempLine.GetComponent<LinePoint>());
                 EditorManager.MoveObjectsManager.StartMoving();
             }
@@ -61,28 +68,28 @@ namespace BehaviorTreePlanner
 
 
 
-        public void AddActiveNode(GameObject node)
+        public void AddActiveNode(NodeBase node)
         {
             if (!ActiveNodes.Contains(node))
             {
                 ActiveNodes.Add(node);
             }
         }
-        public void RemoveActiveNode(GameObject node)
+        public void RemoveActiveNode(NodeBase node)
         {
             if (ActiveNodes.Contains(node))
             {
                 ActiveNodes.Remove(node);
             }
         }
-        public void AddActiveLine(GameObject line)
+        public void AddActiveLine(LinePoint line)
         {
             if (!ActiveLines.Contains(line))
             {
                 ActiveLines.Add(line);
             }
         }
-        public void RemoveActiveLine(GameObject line)
+        public void RemoveActiveLine(LinePoint line)
         {
             if (ActiveLines.Contains(line))
             {

@@ -46,7 +46,7 @@ namespace BehaviorTreePlanner
         public void ConfirmNewProjectNode(SavedProject project)
         {
             projectNodes.Add(project);
-            ProjectManager.CreateProjectFile(project);
+            _ = ProjectManager.CreateProjectFile(project);
             EditProjectNode = null;
         }
         public void CancelNewProjectNode()
@@ -55,7 +55,7 @@ namespace BehaviorTreePlanner
         }
         public void CallEditProjectFile(SavedProject Project, string oldname)
         {
-            ProjectManager.EditProjectFile(Project, oldname);
+            _ = ProjectManager.EditProjectFile(Project, oldname);
         }
         public void SetOpenedProject(SavedProject project)
         {
