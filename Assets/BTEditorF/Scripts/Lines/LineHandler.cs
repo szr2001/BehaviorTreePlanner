@@ -15,8 +15,8 @@ namespace BehaviorTreePlanner
         public Transform SpawnedPointPos { get; set; }
         public Transform AttachedPointPos { get; set; }
 
-        private LinePoint SpawnedPoint;
-        private LinePoint AttachedPoint;
+        public LinePoint SpawnedPoint { get; set; } 
+        public LinePoint AttachedPoint { get; set; }
 
         public void InitializeLineHandler(IMovable parent, Transform attachpointpos,Transform spawnpointpos,EditorManager editormanager)
         {

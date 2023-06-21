@@ -11,9 +11,17 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] private Text TypeText;
         [SerializeField] private InputField NameText;
 
-        public override NodeBase CreateNode()
+        public override SavedNodeBase Save()
         {
-            return new Node();
+            float[] nodepos = new float[]{gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z};
+            return new SavedNode
+                (
+                    nodepos,
+                    NodeD,
+                    SaveIndex,
+                    lineHandler.AttachedPoint.SaveIndex,
+                    lineHandler.SpawnedPoint.SaveIndex
+                );
         }
 
         public void EditName(string n)

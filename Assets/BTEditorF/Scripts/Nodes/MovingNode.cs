@@ -13,7 +13,7 @@ namespace BehaviorTreePlanner.Nodes
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
 
-        public override NodeBase CreateNode()
+        public override SavedNodeBase Save()
         {
             throw new System.NotImplementedException();
         }

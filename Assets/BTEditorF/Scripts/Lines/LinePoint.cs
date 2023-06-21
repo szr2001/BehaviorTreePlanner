@@ -19,6 +19,35 @@ namespace BehaviorTreePlanner.Lines
         private bool IsRoot = false;
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
+        public int SaveIndex { get; set; }
+        public SavedLinePoint Save()
+        {
+            float[] linepos = new float[]{gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z};
+            Vector3 LinerendererPos1V = LineR.GetPosition(0);
+            Vector3 LinerendererPos2V = LineR.GetPosition(1);
+            float[] lineRendererpos1 = new float[]{ LinerendererPos1V.x, LinerendererPos1V.y, LinerendererPos1V.z};
+            float[] lineRendererpos2 = new float[]{ LinerendererPos2V.x, LinerendererPos2V.y, LinerendererPos2V.z};
+            List<int> spawnedLinesIndexes = new();
+            foreach(LinePoint point in SpawnedPoints)
+            {
+                spawnedLinesIndexes.Add(point.SaveIndex);
+            }
+
+            return new SavedLinePoint
+                (
+                    SaveIndex,
+                    linepos,
+                    lineRendererpos1,
+                    lineRendererpos2,
+                    ParentLine.SaveIndex,
+                    spawnedLinesIndexes.ToArray()
+
+                );
+        }
+        public void AsignUniqueIndex(int index)
+        {
+            SaveIndex = index;
+        }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.LineGridSize;

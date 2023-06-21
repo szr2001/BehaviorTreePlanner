@@ -9,8 +9,12 @@ namespace BehaviorTreePlanner.Nodes
         [HideInInspector] public NodeDesign NodeD;
         [SerializeField] protected GameObject LineTrigger;
         protected LineHandler lineHandler = new();
-
-        public abstract NodeBase CreateNode();
+        public int SaveIndex { get; set; }
+        public abstract SavedNodeBase Save();
+        public void AsignUniqueIndex(int index)
+        {
+            SaveIndex = index;
+        }
 
         public virtual void DestroyObject()
         {

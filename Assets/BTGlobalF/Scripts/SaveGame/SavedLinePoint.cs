@@ -9,11 +9,23 @@ namespace BehaviorTreePlanner
     public class SavedLinePoint
     {
         //use List index of nodes/lines from savedref for savedline/savednode index
-        public int Index;
-        public float[] Position = new float[3];
+        public int LineIndex;
+        public float[] Position = new float[2];
 
-        public float[] LineRendererPos1 = new float[3];
-        public float[] LineRendererPos2 = new float[3];
+        public float[] LineRendererPos1 = new float[2];
+        public float[] LineRendererPos2 = new float[2];
 
+        public int ParentLineIndex;
+        public int[] SpawnedLinesIndex;
+
+        public SavedLinePoint(int lineIndex, float[] position, float[] lineRendererPos1, float[] lineRendererPos2, int parentLineIndex, int[] spawnedLinesIndex)
+        {
+            LineIndex = lineIndex;
+            Position = position;
+            LineRendererPos1 = lineRendererPos1;
+            LineRendererPos2 = lineRendererPos2;
+            ParentLineIndex = parentLineIndex;
+            SpawnedLinesIndex = spawnedLinesIndex;
+        }
     }
 }

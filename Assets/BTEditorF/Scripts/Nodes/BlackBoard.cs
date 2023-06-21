@@ -4,9 +4,9 @@ namespace BehaviorTreePlanner.Nodes
 {
     public class BlackBoard : NodeBase
     {
-        public override NodeBase CreateNode()
+        public override SavedNodeBase Save()
         {
-            return new BlackBoard();
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -6,9 +6,19 @@ namespace BehaviorTreePlanner.Nodes
     {
         private SavedProjectLayer projectLayer;
 
-        public override NodeBase CreateNode()
+        public override SavedNodeBase Save()
         {
-            return new LayerNode();
+            float[] Nodepos = new float[] { gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z };
+
+            return new SavedLayerNode //get rid of layer index and use layer name as an identifier
+                (
+                    projectLayer.LayerName,
+                    Nodepos,
+                    NodeD,
+                    SaveIndex,
+                    lineHandler.AttachedPoint.SaveIndex,
+                    lineHandler.SpawnedPoint.SaveIndex
+                );
         }
 
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer projectlayer)

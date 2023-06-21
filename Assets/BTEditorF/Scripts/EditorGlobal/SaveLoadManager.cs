@@ -59,13 +59,27 @@ namespace BehaviorTreePlanner
             SavedProjectLayer savedProjectLayer = null;
             List<SavedNodeBase> NewNodes = new();
             List<SavedLinePoint> NewLines = new();
+            //asign an unique index based on list order to each line and node for indentifing purposes
+            for(int index = 0; index <= EditorManager.SpawnManager.ActiveNodes.Count; index++)
+            {
+                EditorManager.SpawnManager.ActiveNodes[index].AsignUniqueIndex(index);
+
+            }
+            for (int index = 0; index <= EditorManager.SpawnManager.ActiveLines.Count; index++)
+            {
+                EditorManager.SpawnManager.ActiveLines[index].AsignUniqueIndex(index);
+
+            }
+            //call save on each node/line
             foreach(NodeBase node in EditorManager.SpawnManager.ActiveNodes)
             {
-                SavedNodeBase savednode = new(); //set in node base factory pattern to return a savednodebase and invers in savednodebase to return a nodebase
+                SavedNodeBase savedn = node.Save();
+                NewNodes.Add(savedn);
             }
             foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
             {
-
+                SavedLinePoint savedp = line.Save();
+                NewLines.Add(savedp);
             }
             await Task.CompletedTask;
             return savedProjectLayer;
