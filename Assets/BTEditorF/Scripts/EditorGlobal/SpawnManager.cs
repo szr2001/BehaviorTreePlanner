@@ -19,8 +19,8 @@ namespace BehaviorTreePlanner
         public GameObject NodeButtonPrefabReff;
         public GameObject LayerNodeButtonPrefabReff;
 
-        public List<NodeBase> ActiveNodes { get; set; } = new();
-        public List<LinePoint> ActiveLines { get; set; } = new();
+        [field:SerializeField] public List<NodeBase> ActiveNodes { get; set; } = new();
+        [field: SerializeField] public List<LinePoint> ActiveLines { get; set; } = new();
 
         public void SpawnNode(NodeDesign Nd)
         {

@@ -14,8 +14,8 @@ namespace BehaviorTreePlanner
         //while the app is loaded in the editor, load the OppenedSavedProject.
         //Save every change back to the same oppenedsavedproject variable
         //then save it to a file. Load ands save the same file but with modified values.
-       [field:SerializeField] public EditorManager EditorManager { get; set; }
-        [field: SerializeField] public SavedProjectLayer ActiveProjectLayer { get; set; }   
+        [field:SerializeField] public EditorManager EditorManager { get; set; }
+        [field: SerializeField] public SavedProjectLayer ActiveProjectLayer { get; set; } //why its not saving reff to OpenedProject?  
         [field: SerializeField] public GameObject CameraCanvas { get; set; }   
         [field: SerializeField] public GameObject LoadingScreenPrefabReff { get; set; }
 
@@ -27,7 +27,6 @@ namespace BehaviorTreePlanner
             while(EditorManager.SpawnManager.ActiveNodes.Count > 0)
             {
                 EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
-                Debug.Log(EditorManager.SpawnManager.ActiveNodes.Count + "Nodes");
             }
             //no need to clear the lists after because DestroyObject removes itself from lists.
         }
@@ -47,31 +46,31 @@ namespace BehaviorTreePlanner
             await EditorManager.ProjectsManager.SaveOpenedProjectFile();
             HideLoadingScreen();
         }
-        public async Task SaveLayer(SavedProjectLayer projectlayerreff)//might not work
+        public async Task SaveLayer()
         {
-            //show loading screen
-            projectlayerreff = await ConvertSceeneToSavedLayer();
-            //remove loadingscreen
-            await Task.CompletedTask;
+            SavedProjectLayer NewLayerData = await ConvertSceeneToSavedLayer();
+            ActiveProjectLayer.SavedNodes = NewLayerData.SavedNodes;
+            ActiveProjectLayer.SavedLinePoints = NewLayerData.SavedLinePoints;
         }
         private async Task<SavedProjectLayer> ConvertSceeneToSavedLayer()
         {
-            SavedProjectLayer savedProjectLayer = null;
             List<SavedNodeBase> NewNodes = new();
             List<SavedLinePoint> NewLines = new();
-            //asign an unique index based on list order to each line and node for indentifing purposes
-            for(int index = 0; index <= EditorManager.SpawnManager.ActiveNodes.Count; index++)
-            {
-                EditorManager.SpawnManager.ActiveNodes[index].AsignUniqueIndex(index);
 
-            }
-            for (int index = 0; index <= EditorManager.SpawnManager.ActiveLines.Count; index++)
+            await Task.Run(() =>
             {
-                EditorManager.SpawnManager.ActiveLines[index].AsignUniqueIndex(index);
-
-            }
-            //call save on each node/line
-            foreach(NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+                //asign an unique index based on list order to each line and node for indentifing purposes
+                for (int index = 0; index < EditorManager.SpawnManager.ActiveNodes.Count; index++)
+                {
+                    EditorManager.SpawnManager.ActiveNodes[index].AsignUniqueIndex(index);
+                }
+                for (int index = 0; index < EditorManager.SpawnManager.ActiveLines.Count; index++)
+                {
+                    EditorManager.SpawnManager.ActiveLines[index].AsignUniqueIndex(index);
+                }
+            });
+            //call save on each node/line CANT RUN ON NEW THREAD
+            foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
             {
                 SavedNodeBase savedn = node.Save();
                 NewNodes.Add(savedn);
@@ -81,18 +80,32 @@ namespace BehaviorTreePlanner
                 SavedLinePoint savedp = line.Save();
                 NewLines.Add(savedp);
             }
-            await Task.CompletedTask;
-            return savedProjectLayer;
+            //problem, creating a new savedprojectlayer instead of oepenedProject layer reff
+            return new SavedProjectLayer(NewNodes,NewLines);
         }
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
             ShowLoadingScreen();
-            ActiveProjectLayer = projectlayer;
+            //save the curent active layer before loading another layer
+            await SaveLayer();
+            //clear the data from the other layer
             ClearScreen();
-            //await loading and spawning
-            await Task.CompletedTask;
+            //await loading of data and spawning stuff
+            ActiveProjectLayer = projectlayer;
+            //test
+            int test = 0;
+            foreach(var x in EditorManager.ProjectsManager.OpenedProject.Layers)
+            {
+                if(x == ActiveProjectLayer)
+                {
+                    Debug.Log($"Active at index {test}");
+                    Debug.Log($"Nodes at Opened Project Layer{EditorManager.ProjectsManager.OpenedProject.Layers[test].SavedNodes.Count}");
+                    Debug.Log($"Nodes at ActiveLayer{ActiveProjectLayer.SavedNodes.Count}");
+                }
+                test++;
+            }
             HideLoadingScreen();
-        }
+}
         public void ShowLoadingScreen()
         {
             if(loadingScreen != null)

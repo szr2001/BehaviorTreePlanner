@@ -13,7 +13,7 @@ namespace BehaviorTreePlanner
         [SerializeField] private GameObject LayerNodeButtonPrefabReff;
         [SerializeField] private GameObject LayersHolder;
 
-        private List<LayerNodeButton> layerButtons = new();// maybe needs to be gameobject instead of layernodebutton
+        private List<LayerNodeButton> layerButtons = new();
         private LayerNodeButton ActiveLayerButton;
 
         void Start()
@@ -22,7 +22,7 @@ namespace BehaviorTreePlanner
         }
         private void SpawnLayerButtons()
         {
-            foreach (var layer in editorManager.ProjectsManager.OpenedProject.Layers)
+            foreach (SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
             {
                 CreatelayerNodeButton(layer);
             }

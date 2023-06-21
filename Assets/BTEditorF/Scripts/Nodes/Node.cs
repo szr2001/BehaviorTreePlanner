@@ -13,14 +13,14 @@ namespace BehaviorTreePlanner.Nodes
 
         public override SavedNodeBase Save()
         {
-            float[] nodepos = new float[]{gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z};
+            float[] nodepos = new float[]{transform.position.x,transform.position.y,transform.position.z};
             return new SavedNode
                 (
                     nodepos,
                     NodeD,
                     SaveIndex,
-                    lineHandler.AttachedPoint.SaveIndex,
-                    lineHandler.SpawnedPoint.SaveIndex
+                    lineHandler.AttachedPoint != null ? lineHandler.AttachedPoint.SaveIndex : -1 ,
+                    lineHandler.SpawnedPoint != null ? lineHandler.SpawnedPoint.SaveIndex : -1
                 );
         }
 
