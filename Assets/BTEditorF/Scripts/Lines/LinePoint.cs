@@ -35,6 +35,7 @@ namespace BehaviorTreePlanner.Lines
 
             return new SavedLinePoint
                 (
+                    IsRoot ? (byte)1 : (byte)0,
                     SaveIndex,
                     linepos,
                     lineRendererpos1,
@@ -43,6 +44,10 @@ namespace BehaviorTreePlanner.Lines
                     spawnedLinesIndexes.ToArray()
 
                 );
+        }
+        public void Load(SavedLinePoint pointdata)
+        {
+
         }
         public void AsignUniqueIndex(int index)
         {

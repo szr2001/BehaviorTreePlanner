@@ -17,11 +17,18 @@ namespace BehaviorTreePlanner.Nodes
         {
             throw new System.NotImplementedException();
         }
+
+        public override void Load(SavedNodeBase savedata)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
             base.InitializeNode(nd, editormanager);
             lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform,EditorManager);
         }
+
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.NodeGridSize;
@@ -34,6 +41,7 @@ namespace BehaviorTreePlanner.Nodes
             }
             lineHandler.MoveObj(newPos, Offset, UseGrid);
         }
+
         public void SetMoveNode()
         {
             if (Input.GetMouseButtonDown(0))
@@ -49,22 +57,25 @@ namespace BehaviorTreePlanner.Nodes
                 lineHandler.SpawnLine();
             }
         }
+
         public virtual void StartMoveObj()
         {
 
         }
+
         public virtual void StopMoveObj()
         {
 
         }
+
         public virtual void AttachLine(LinePoint Line)
         {
             lineHandler.AttachLine(Line);
         }
+
         public void DeAttachLine()
         {
             lineHandler.DeAttachLine();
         }
-
     }
 }

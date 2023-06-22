@@ -10,14 +10,14 @@ namespace BehaviorTreePlanner.Nodes
         {
             float[] Nodepos = new float[] { gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z };
 
-            return new SavedLayerNode //get rid of layer index and use layer name as an identifier
+            return new SavedLayerNode
                 (
                     projectLayer.LayerName,
                     Nodepos,
                     NodeD,
                     SaveIndex,
-                    lineHandler.AttachedPoint.SaveIndex,
-                    lineHandler.SpawnedPoint.SaveIndex
+                    lineHandler.AttachedPoint != null ? lineHandler.AttachedPoint.SaveIndex : -1,
+                    lineHandler.SpawnedPoint != null ? lineHandler.SpawnedPoint.SaveIndex : -1
                 );
         }
 

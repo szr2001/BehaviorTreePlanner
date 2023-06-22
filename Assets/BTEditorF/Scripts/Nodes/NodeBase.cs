@@ -11,6 +11,7 @@ namespace BehaviorTreePlanner.Nodes
         protected LineHandler lineHandler = new();
         public int SaveIndex { get; set; }
         public abstract SavedNodeBase Save();
+        public abstract void Load(SavedNodeBase savedata);
         public void AsignUniqueIndex(int index)
         {
             SaveIndex = index;

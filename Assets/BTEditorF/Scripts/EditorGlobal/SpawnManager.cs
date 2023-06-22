@@ -22,7 +22,7 @@ namespace BehaviorTreePlanner
         [field:SerializeField] public List<NodeBase> ActiveNodes { get; set; } = new();
         [field: SerializeField] public List<LinePoint> ActiveLines { get; set; } = new();
 
-        public void SpawnNode(NodeDesign Nd)
+        public NodeBase SpawnNode(NodeDesign Nd)
         {
             GameObject TempNode = Instantiate(NodePrefabReff, Screen.transform);
             TempNode.transform.localScale = new Vector3(1, 1, 1);
@@ -32,8 +32,10 @@ namespace BehaviorTreePlanner
             AddActiveNode(nodebase);
             EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
             EditorManager.MoveObjectsManager.StartMoving();
+            return nodebase;
         }
-        public void SpawnLayerNode(SavedProjectLayer layer)
+
+        public NodeBase SpawnLayerNode(SavedProjectLayer layer)
         {
             GameObject TempNode = Instantiate(LayerNodePrefabReff, Screen.transform);
             TempNode.transform.localScale = new Vector3(1, 1, 1);
@@ -42,13 +44,11 @@ namespace BehaviorTreePlanner
             NodeBase nodebase = TempNode.GetComponent<NodeBase>();
             nodebase.InitializeNode(NodeD, EditorManager, layer);
             AddActiveNode(nodebase);
-            EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());//problem? get nodebase or movingnode
+            EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
             EditorManager.MoveObjectsManager.StartMoving();
+            return nodebase;
         }
-        private void SpawnNode()
-        {
-            //move stuff from spawnnodenode/layer
-        }
+
         public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot)
         {
             GameObject TempLine = Instantiate(EditorManager.SpawnManager.LinePointPrefabReff, EditorManager.SpawnManager.Screen.transform);
@@ -62,11 +62,8 @@ namespace BehaviorTreePlanner
                 EditorManager.MoveObjectsManager.AddMovableObj(TempLine.GetComponent<LinePoint>());
                 EditorManager.MoveObjectsManager.StartMoving();
             }
-
-            return TempLine.GetComponent<LinePoint>();
+            return linepoint;
         }
-
-
 
         public void AddActiveNode(NodeBase node)
         {
@@ -75,6 +72,7 @@ namespace BehaviorTreePlanner
                 ActiveNodes.Add(node);
             }
         }
+
         public void RemoveActiveNode(NodeBase node)
         {
             if (ActiveNodes.Contains(node))
@@ -82,6 +80,7 @@ namespace BehaviorTreePlanner
                 ActiveNodes.Remove(node);
             }
         }
+
         public void AddActiveLine(LinePoint line)
         {
             if (!ActiveLines.Contains(line))
@@ -89,6 +88,7 @@ namespace BehaviorTreePlanner
                 ActiveLines.Add(line);
             }
         }
+
         public void RemoveActiveLine(LinePoint line)
         {
             if (ActiveLines.Contains(line))
