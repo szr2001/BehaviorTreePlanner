@@ -20,6 +20,12 @@ namespace BehaviorTreePlanner.Lines
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public int SaveIndex { get; set; }
+        private SavedLinePoint saveData;
+        public void InitializeSave(int index)
+        {
+            SaveIndex = index;
+        }
+
         public SavedLinePoint Save()
         {
             float[] linepos = new float[]{gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z};
@@ -40,18 +46,20 @@ namespace BehaviorTreePlanner.Lines
                     linepos,
                     lineRendererpos1,
                     lineRendererpos2,
-                    ParentLine.SaveIndex,
+                    ParentLine != null ? ParentLine.SaveIndex : -1,
                     spawnedLinesIndexes.ToArray()
 
                 );
         }
-        public void Load(SavedLinePoint pointdata)
+        public void InitializeLoad(SavedLinePoint savedata)
+        {
+            saveData = savedata;
+            SaveIndex = savedata.LineIndex;
+        }
+
+        public void Load()
         {
 
-        }
-        public void AsignUniqueIndex(int index)
-        {
-            SaveIndex = index;
         }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {

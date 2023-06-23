@@ -17,8 +17,12 @@ namespace BehaviorTreePlanner.Nodes
         {
             throw new System.NotImplementedException();
         }
+        public override void InitializeLoad(SavedNodeBase savedata)
+        {
+            base.InitializeLoad(savedata);
+        }
 
-        public override void Load(SavedNodeBase savedata)
+        public override void Load()
         {
             throw new System.NotImplementedException();
         }

@@ -10,12 +10,18 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] protected GameObject LineTrigger;
         protected LineHandler lineHandler = new();
         public int SaveIndex { get; set; }
-        public abstract SavedNodeBase Save();
-        public abstract void Load(SavedNodeBase savedata);
-        public void AsignUniqueIndex(int index)
+        protected SavedNodeBase saveData;
+        public void InitializeSave(int index)
         {
             SaveIndex = index;
         }
+        public abstract SavedNodeBase Save();
+        public virtual void InitializeLoad(SavedNodeBase savedata)  //save data and asign location,index
+        {
+            saveData = savedata;
+            SaveIndex = savedata.NodeIndex;
+        }
+        public abstract void Load();//asign refferences with the indexes from intialize
 
         public virtual void DestroyObject()
         {

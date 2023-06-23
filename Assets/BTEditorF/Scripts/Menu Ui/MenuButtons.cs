@@ -7,16 +7,16 @@ namespace BehaviorTreePlanner
 {
     public class MenuButtons : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        [SerializeField] private EditorManager editorManager;
 
-        // Update is called once per frame
-        void Update()
+        public void CallSaveProject()
         {
-        
+            _ = editorManager.SaveLoadManager.SaveProject();
+        }
+        public void CallReturnToMenu()
+        {
+            _ = editorManager.SaveLoadManager.BackToMenu();
+
         }
     }
 }

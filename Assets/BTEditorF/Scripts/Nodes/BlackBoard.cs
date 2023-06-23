@@ -4,7 +4,11 @@ namespace BehaviorTreePlanner.Nodes
 {
     public class BlackBoard : NodeBase
     {
-        public override void Load(SavedNodeBase savedata)
+        public override void InitializeLoad(SavedNodeBase savedata)
+        {
+            throw new System.NotImplementedException();
+        }
+        public override void Load()
         {
             throw new System.NotImplementedException();
         }

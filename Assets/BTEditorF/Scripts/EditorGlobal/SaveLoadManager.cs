@@ -3,6 +3,7 @@ using BehaviorTreePlanner.Nodes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BehaviorTreePlanner
 {
@@ -37,9 +38,10 @@ namespace BehaviorTreePlanner
             EditorManager.ProjectsManager.OpenedProject.Layers.Add(layer);
             _ = SaveProject();
         }
-        private async Task SaveProject()
+        public async Task SaveProject()
         {
             ShowLoadingScreen();
+            await SaveActiveLayer();
             await EditorManager.ProjectsManager.SaveOpenedProjectFile();
             HideLoadingScreen();
         }
@@ -48,6 +50,11 @@ namespace BehaviorTreePlanner
             SavedProjectLayer NewLayerData = await ConvertSceeneToSavedLayer();
             ActiveProjectLayer.SavedNodes = NewLayerData.SavedNodes;
             ActiveProjectLayer.SavedLinePoints = NewLayerData.SavedLinePoints;
+        }
+        public async Task BackToMenu()
+        {
+            await SaveProject();
+            SceneManager.LoadScene("BTMenu");
         }
         private async Task<SavedProjectLayer> ConvertSceeneToSavedLayer()
         {
@@ -59,11 +66,11 @@ namespace BehaviorTreePlanner
                 //asign an unique index based on list order to each line and node for indentifing purposes
                 for (int index = 0; index < EditorManager.SpawnManager.ActiveNodes.Count; index++)
                 {
-                    EditorManager.SpawnManager.ActiveNodes[index].AsignUniqueIndex(index);
+                    EditorManager.SpawnManager.ActiveNodes[index].InitializeSave(index);
                 }
                 for (int index = 0; index < EditorManager.SpawnManager.ActiveLines.Count; index++)
                 {
-                    EditorManager.SpawnManager.ActiveLines[index].AsignUniqueIndex(index);
+                    EditorManager.SpawnManager.ActiveLines[index].InitializeSave(index);
                 }
             });
             //call save on each node/line CANT RUN ON NEW THREAD
@@ -72,6 +79,7 @@ namespace BehaviorTreePlanner
                 SavedNodeBase savedn = node.Save();
                 NewNodes.Add(savedn);
             }
+
             foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
             {
                 SavedLinePoint savedp = line.Save();
@@ -81,24 +89,35 @@ namespace BehaviorTreePlanner
         }
         private async Task ConvertSavedLayerToScene()
         {
+            //initialize load (asign the corect index and set position)
             foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
             {
                 NodeBase spawnedNode;
                 if(nodedata.GetType() == typeof(Node))
                 {
                     spawnedNode = EditorManager.SpawnManager.SpawnNode(null);
-                    spawnedNode.Load(nodedata);
+                    spawnedNode.InitializeLoad(nodedata);
                 }
                 else if(nodedata.GetType() == typeof(LayerNode))
                 {
                     spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null);
-                    spawnedNode.Load(nodedata);
+                    spawnedNode.InitializeLoad(nodedata);
                 }
             }
             foreach(SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
             {
                 LinePoint spawnedLine = EditorManager.SpawnManager.SpawnLinePoint(null,false,false);
-                spawnedLine.Load(linedata);
+                spawnedLine.InitializeLoad(linedata);
+            }
+
+            //call load(set up refferences between objects)
+            foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+            {
+                node.Load();
+            }
+            foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+            {
+                line.Load();
             }
             await Task.CompletedTask;
         }
@@ -131,13 +150,18 @@ namespace BehaviorTreePlanner
         {
             if(loadingScreen != null)
             {
-                HideLoadingScreen();
+                return;
             }
             loadingScreen = Instantiate(LoadingScreenPrefabReff, CameraCanvas.transform);
         }
         public void HideLoadingScreen()
         {
+            if(loadingScreen == null ) 
+            {
+                return;
+            }
             loadingScreen.GetComponent<LoadingScreen>().ClearLoadingSCreen();
+            loadingScreen = null;
         }
     }
 }
