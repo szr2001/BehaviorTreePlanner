@@ -1,5 +1,6 @@
 using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -93,26 +94,27 @@ namespace BehaviorTreePlanner
             foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
             {
                 NodeBase spawnedNode;
-                if(nodedata.GetType() == typeof(Node))
+                if(nodedata.GetType() == typeof(SavedNode))
                 {
-                    spawnedNode = EditorManager.SpawnManager.SpawnNode(null);
-                    spawnedNode.InitializeLoad(nodedata);
+                    spawnedNode = EditorManager.SpawnManager.SpawnNode(null,false);
+                    spawnedNode.InitializeLoad(nodedata,EditorManager);
                 }
-                else if(nodedata.GetType() == typeof(LayerNode))
+                else if(nodedata.GetType() == typeof(SavedLayerNode))
                 {
-                    spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null);
-                    spawnedNode.InitializeLoad(nodedata);
+                    spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null,false);
+                    spawnedNode.InitializeLoad(nodedata,EditorManager);
                 }
             }
-            foreach(SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
+            foreach (SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
             {
-                LinePoint spawnedLine = EditorManager.SpawnManager.SpawnLinePoint(null,false,false);
+                LinePoint spawnedLine = EditorManager.SpawnManager.SpawnLinePoint(null,true,false,false);
                 spawnedLine.InitializeLoad(linedata);
             }
 
             //call load(set up refferences between objects)
             foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
             {
+                Debug.Log($"INDEX:{node.SaveIndex}");
                 node.Load();
             }
             foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
@@ -132,18 +134,7 @@ namespace BehaviorTreePlanner
             ActiveProjectLayer = projectlayer;
 
             await ConvertSavedLayerToScene();
-            //test
-            int test = 0;
-            foreach(var x in EditorManager.ProjectsManager.OpenedProject.Layers)
-            {
-                if(x == ActiveProjectLayer)
-                {
-                    Debug.Log($"Active at index {test}");
-                    Debug.Log($"Nodes at Opened Project Layer{EditorManager.ProjectsManager.OpenedProject.Layers[test].SavedNodes.Count}");
-                    Debug.Log($"Nodes at ActiveLayer{ActiveProjectLayer.SavedNodes.Count}");
-                }
-                test++;
-            }
+            
             HideLoadingScreen();
 }
         public void ShowLoadingScreen()

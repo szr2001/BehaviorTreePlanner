@@ -23,14 +23,15 @@ namespace BehaviorTreePlanner.Nodes
                     lineHandler.SpawnedPoint != null ? lineHandler.SpawnedPoint.SaveIndex : -1
                 );
         }
-        public override void InitializeLoad(SavedNodeBase savedata)
+        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
         {
-            base.InitializeLoad(savedata);
+            base.InitializeLoad(savedata, editormanager);
+            InitializeNode(NodeD,editormanager);
         }
 
         public override void Load()
         {
-            throw new System.NotImplementedException();
+            base.Load();
         }
         public void EditName(string n)
         {

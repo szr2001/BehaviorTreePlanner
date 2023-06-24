@@ -17,26 +17,34 @@ namespace BehaviorTreePlanner.Nodes
         {
             throw new System.NotImplementedException();
         }
-        public override void InitializeLoad(SavedNodeBase savedata)
+        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
         {
-            base.InitializeLoad(savedata);
+            base.InitializeLoad(savedata, editormanager);
+            SavedMovingNode savedMovingNode = savedata as SavedMovingNode;
+            Vector3 SavedPosition = new
+                (
+                savedMovingNode.Position[0],
+                savedMovingNode.Position[1],
+                savedMovingNode.Position[2]);
+            gameObject.transform.position = SavedPosition;
+            NodeD = savedMovingNode.Nd;
         }
 
         public override void Load()
         {
-            throw new System.NotImplementedException();
+            base.Load();
         }
 
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
             base.InitializeNode(nd, editormanager);
-            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform,EditorManager);
+            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform,editorManager);
         }
 
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = SavedSettings.NodeGridSize;
-            Vector3 activeNodePos = UseGrid ? EditorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
+            Vector3 activeNodePos = UseGrid ? editorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (!hit)
             {
@@ -50,8 +58,8 @@ namespace BehaviorTreePlanner.Nodes
         {
             if (Input.GetMouseButtonDown(0))
             {
-                EditorManager.MoveObjectsManager.AddMovableObj(this);
-                EditorManager.MoveObjectsManager.StartMoving();
+                editorManager.MoveObjectsManager.AddMovableObj(this);
+                editorManager.MoveObjectsManager.StartMoving();
             }
         }
         public void CallSpawnLine()

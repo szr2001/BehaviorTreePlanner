@@ -20,14 +20,14 @@ namespace BehaviorTreePlanner.Nodes
                     lineHandler.SpawnedPoint != null ? lineHandler.SpawnedPoint.SaveIndex : -1
                 );
         }
-        public override void InitializeLoad(SavedNodeBase savedata)
+        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
         {
-            base.InitializeLoad(savedata);
+            base.InitializeLoad(savedata, editormanager);
         }
 
         public override void Load()
         {
-            throw new System.NotImplementedException();
+            base.Load();
         }
 
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer projectlayer)

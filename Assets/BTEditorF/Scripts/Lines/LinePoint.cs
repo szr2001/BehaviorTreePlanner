@@ -55,11 +55,41 @@ namespace BehaviorTreePlanner.Lines
         {
             saveData = savedata;
             SaveIndex = savedata.LineIndex;
+            Vector3 savedlinepos = new Vector3
+                (
+                 savedata.Position[0],
+                 savedata.Position[1],
+                 savedata.Position[2]
+                );
+            IsRoot = savedata.IsRoot == (byte)0 ? false : true;
+            gameObject.transform.position = savedlinepos;
+            Vector3 savedlinerender1 = new Vector3
+                        (
+                         savedata.LineRendererPos1[0],
+                         savedata.LineRendererPos1[1],
+                         savedata.LineRendererPos1[2]
+                        );
+            Vector3 savedlinerender2 = new Vector3
+            (
+             savedata.LineRendererPos2[0],
+             savedata.LineRendererPos2[1],
+             savedata.LineRendererPos2[2]
+            );
+            LineR.SetPosition(0, savedlinerender1);
+            LineR.SetPosition(1, savedlinerender2);
         }
 
         public void Load()
         {
-
+            ParentLine = saveData.ParentLineIndex == -1 ? null : EditorManager.SpawnManager.ActiveLines[saveData.ParentLineIndex];
+            foreach(int spawnedlineindex in saveData.SpawnedLinesIndex)
+            {
+                if(spawnedlineindex == -1)
+                {
+                    return;
+                }
+                SpawnedPoints.Add(EditorManager.SpawnManager.ActiveLines[spawnedlineindex]);
+            }
         }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
