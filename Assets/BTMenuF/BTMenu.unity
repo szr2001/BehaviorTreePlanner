@@ -2134,8 +2134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff43c8e1cd0a5de46b802b1939912962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuManager: {fileID: 812831302}
-  ProjectsFolder: 
 --- !u!1 &1650156225
 GameObject:
   m_ObjectHideFlags: 0

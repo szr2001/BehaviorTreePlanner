@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BehaviorTreePlanner.Nodes
 {
     public class LayerNode : MovingNode
     {
         private SavedProjectLayer projectLayer;
+        [SerializeField] private Text layerNameT;
 
         public override SavedNodeBase Save()
         {
@@ -23,6 +25,8 @@ namespace BehaviorTreePlanner.Nodes
         public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
         {
             base.InitializeLoad(savedata, editormanager);
+            SavedLayerNode savedlayerdata = savedata as SavedLayerNode;
+            layerNameT.text = savedlayerdata.LayerName;
         }
 
         public override void Load()
@@ -34,6 +38,7 @@ namespace BehaviorTreePlanner.Nodes
         {
             base.InitializeNode(nd, editormanager);
             projectLayer = projectlayer;
+            layerNameT.text = projectLayer.LayerName;
         }
         public void OpenProjectNode()
         {
