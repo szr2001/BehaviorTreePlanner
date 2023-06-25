@@ -62,9 +62,9 @@ namespace BehaviorTreePlanner
             TempLine.name = "LinePoint";
             LinePoint linepoint = TempLine.GetComponent<LinePoint>();
             linepoint.InitializeLine(Caller, IsRoot, EditorManager);
+            AddActiveLine(linepoint);//it was in if
             if (SaveReff)
             {
-                AddActiveLine(linepoint);
                 if (StartMoving)
                 {
                     EditorManager.MoveObjectsManager.AddMovableObj(TempLine.GetComponent<LinePoint>());

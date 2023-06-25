@@ -16,7 +16,7 @@ namespace BehaviorTreePlanner.Lines
         [SerializeField] private LineRenderer LineR;
         private LinePoint ParentLine;
         private readonly List<LinePoint> SpawnedPoints = new();
-        private bool IsRoot = false;
+        [field: SerializeField]public bool IsRoot { get; private set; } = false; // WHY THE FUK IS TRUE IF ITS SUPOSED TO BE FALSE
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public int SaveIndex { get; set; }
@@ -28,11 +28,18 @@ namespace BehaviorTreePlanner.Lines
 
         public SavedLinePoint Save()
         {
-            float[] linepos = new float[]{gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z};
-            Vector3 LinerendererPos1V = LineR.GetPosition(0);
-            Vector3 LinerendererPos2V = LineR.GetPosition(1);
-            float[] lineRendererpos1 = new float[]{ LinerendererPos1V.x, LinerendererPos1V.y, LinerendererPos1V.z};
-            float[] lineRendererpos2 = new float[]{ LinerendererPos2V.x, LinerendererPos2V.y, LinerendererPos2V.z};
+            float[] linepos = new float[] { gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z };
+            float[] lineRendererpos1 = new float[0];
+            float[] lineRendererpos2 = new float[0];
+            if (LineR != null) 
+            {
+                Vector3 LinerendererPos1V = LineR.GetPosition(0);
+                lineRendererpos1 = new float[]{ LinerendererPos1V.x, LinerendererPos1V.y, LinerendererPos1V.z};
+
+                Vector3 LinerendererPos2V = LineR.GetPosition(1);
+                lineRendererpos2 = new float[]{ LinerendererPos2V.x, LinerendererPos2V.y, LinerendererPos2V.z};
+            }
+
             List<int> spawnedLinesIndexes = new();
             foreach(LinePoint point in SpawnedPoints)
             {
@@ -55,28 +62,41 @@ namespace BehaviorTreePlanner.Lines
         {
             saveData = savedata;
             SaveIndex = savedata.LineIndex;
+            IsRoot = savedata.IsRoot == (byte)0 ? false : true;
+
             Vector3 savedlinepos = new Vector3
                 (
-                 savedata.Position[0],
-                 savedata.Position[1],
-                 savedata.Position[2]
+                    savedata.Position[0],
+                    savedata.Position[1],
+                    savedata.Position[2]
                 );
-            IsRoot = savedata.IsRoot == (byte)0 ? false : true;
+
             gameObject.transform.position = savedlinepos;
-            Vector3 savedlinerender1 = new Vector3
-                        (
-                         savedata.LineRendererPos1[0],
-                         savedata.LineRendererPos1[1],
-                         savedata.LineRendererPos1[2]
-                        );
-            Vector3 savedlinerender2 = new Vector3
-            (
-             savedata.LineRendererPos2[0],
-             savedata.LineRendererPos2[1],
-             savedata.LineRendererPos2[2]
-            );
-            LineR.SetPosition(0, savedlinerender1);
-            LineR.SetPosition(1, savedlinerender2);
+
+            if (!IsRoot)
+            {
+                Vector3 savedlinerender1 = new Vector3
+                    (
+                        savedata.LineRendererPos1[0],
+                        savedata.LineRendererPos1[1],
+                        savedata.LineRendererPos1[2]
+                    );
+
+                LineR.SetPosition(0, savedlinerender1);
+                Vector3 savedlinerender2 = new Vector3
+                    (
+                        savedata.LineRendererPos2[0],
+                        savedata.LineRendererPos2[1],
+                        savedata.LineRendererPos2[2]
+                    );
+
+                LineR.SetPosition(1, savedlinerender2);
+            }
+            else
+            {
+                Destroy(LineR);
+            }
+
         }
 
         public void Load()
@@ -146,7 +166,7 @@ namespace BehaviorTreePlanner.Lines
 
                 AtachedToObj?.DeAttachLine();
                 AtachedToObj = Itach;
-                EditorManager.SpawnManager.RemoveActiveLine(this);
+                //EditorManager.SpawnManager.RemoveActiveLine(this); //problem, removing reff will make save not save it
                 AtachedToObj.AttachLine(this);
             }
             else
@@ -155,7 +175,7 @@ namespace BehaviorTreePlanner.Lines
                 {
                     AtachedToObj.DeAttachLine();
                     AtachedToObj = null;
-                    EditorManager.SpawnManager.AddActiveLine(this);
+                    //EditorManager.SpawnManager.AddActiveLine(this);
                 }
             }
         }

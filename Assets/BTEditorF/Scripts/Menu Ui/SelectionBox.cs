@@ -77,6 +77,10 @@ namespace BehaviorTreePlanner.Global
             }
             foreach (LinePoint Line in EditorManager.SpawnManager.ActiveLines)
             {
+                if (Line.IsRoot)
+                {
+                    continue;
+                }
                 if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
                 {
                     EditorManager.MoveObjectsManager.AddMovableObj(Line.GetComponent<IMovable>());

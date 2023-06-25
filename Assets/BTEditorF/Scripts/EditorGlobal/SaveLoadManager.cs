@@ -65,61 +65,95 @@ namespace BehaviorTreePlanner
             await Task.Run(() =>
             {
                 //asign an unique index based on list order to each line and node for indentifing purposes
-                for (int index = 0; index < EditorManager.SpawnManager.ActiveNodes.Count; index++)
+                try
                 {
-                    EditorManager.SpawnManager.ActiveNodes[index].InitializeSave(index);
+                    for (int index = 0; index < EditorManager.SpawnManager.ActiveNodes.Count; index++)
+                    {
+                        EditorManager.SpawnManager.ActiveNodes[index].InitializeSave(index);
+                    }
+                    for (int index = 0; index < EditorManager.SpawnManager.ActiveLines.Count; index++)
+                    {
+                        EditorManager.SpawnManager.ActiveLines[index].InitializeSave(index);
+                    }
                 }
-                for (int index = 0; index < EditorManager.SpawnManager.ActiveLines.Count; index++)
+                catch(Exception ex)
                 {
-                    EditorManager.SpawnManager.ActiveLines[index].InitializeSave(index);
+                    Debug.LogException(ex,gameObject);
                 }
             });
-            //call save on each node/line CANT RUN ON NEW THREAD
-            foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+            try
             {
-                SavedNodeBase savedn = node.Save();
-                NewNodes.Add(savedn);
-            }
+                //call save on each node/line CANT RUN ON NEW THREAD
+                foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+                {
+                    SavedNodeBase savedn = node.Save();
+                    NewNodes.Add(savedn);
+                }
 
-            foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+                foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+                {
+                    SavedLinePoint savedp = line.Save();
+                    NewLines.Add(savedp);
+                }
+            }
+            catch (Exception ex)
             {
-                SavedLinePoint savedp = line.Save();
-                NewLines.Add(savedp);
+                Debug.LogException(ex, gameObject);
             }
             return new SavedProjectLayer(NewNodes, NewLines);
         }
         private async Task ConvertSavedLayerToScene()
         {
-            //initialize load (asign the corect index and set position)
-            foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
+            try
             {
-                NodeBase spawnedNode;
-                if(nodedata.GetType() == typeof(SavedNode))
+                //initialize load (asign the corect index and set position)
+                foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
                 {
-                    spawnedNode = EditorManager.SpawnManager.SpawnNode(null,false);
-                    spawnedNode.InitializeLoad(nodedata,EditorManager);
+                    NodeBase spawnedNode;
+                    if(nodedata.GetType() == typeof(SavedNode))
+                    {
+                        spawnedNode = EditorManager.SpawnManager.SpawnNode(null,false);
+                        spawnedNode.InitializeLoad(nodedata,EditorManager);
+                    }
+                    else if(nodedata.GetType() == typeof(SavedLayerNode))
+                    {
+                        spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null,false);
+                        spawnedNode.InitializeLoad(nodedata,EditorManager);
+                    }
                 }
-                else if(nodedata.GetType() == typeof(SavedLayerNode))
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex, gameObject);
+            }
+            try
+            {
+                foreach (SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
                 {
-                    spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null,false);
-                    spawnedNode.InitializeLoad(nodedata,EditorManager);
+                    LinePoint spawnedLine = EditorManager.SpawnManager.SpawnLinePoint(null,true,false,false);
+                    spawnedLine.InitializeLoad(linedata);
                 }
             }
-            foreach (SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
+            catch (Exception ex)
             {
-                LinePoint spawnedLine = EditorManager.SpawnManager.SpawnLinePoint(null,true,false,false);
-                spawnedLine.InitializeLoad(linedata);
+                Debug.LogException(ex, gameObject);
             }
-
-            //call load(set up refferences between objects)
-            foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+            try
             {
-                Debug.Log($"INDEX:{node.SaveIndex}");
-                node.Load();
+                //call load(set up refferences between objects)
+                foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+                {
+                    Debug.Log($"INDEX:{node.SaveIndex}");
+                    node.Load();
+                }
+                foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+                {
+                    line.Load();
+                }
             }
-            foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+            catch (Exception ex)
             {
-                line.Load();
+                Debug.LogException(ex, gameObject);
             }
             await Task.CompletedTask;
         }
