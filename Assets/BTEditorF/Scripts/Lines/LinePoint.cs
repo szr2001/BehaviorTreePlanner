@@ -274,16 +274,22 @@ namespace BehaviorTreePlanner.Lines
         #endregion
         public void DestroyObject()//problem
         {
-            for (int i = 0; i < SpawnedPoints.Count; i++)
+            try 
             {
-                SpawnedPoints[i].DestroyObject();
+                int maxloop = SpawnedPoints.Count;
+                for (int i = 0; i < maxloop; i++)
+                {
+                    SpawnedPoints[0]?.DestroyObject();
+                    Debug.Log($"index: {i} Total Number{SpawnedPoints.Count}");
+                }
+                ParentLine?.RemoveLine(this);
+                EditorManager.SpawnManager.RemoveActiveLine(this);
+                Destroy(gameObject);
             }
-            if (ParentLine != null && ParentLine.IsRoot)
+            catch(Exception ex)
             {
-                ParentLine.RemoveLine(this);
+                Debug.LogException(ex);
             }
-            EditorManager.SpawnManager.RemoveActiveLine(this);
-            Destroy(this.gameObject);//error null reff somethimes
         }
     }
 }

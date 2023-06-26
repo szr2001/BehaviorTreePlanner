@@ -23,9 +23,16 @@ namespace BehaviorTreePlanner
         public void ClearScreen()
         {
             //nodes automaticaly delete any atached lines
-            while (EditorManager.SpawnManager.ActiveNodes.Count > 0)
+            try
             {
-                EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
+                while (EditorManager.SpawnManager.ActiveNodes.Count > 0)
+                {
+                    EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.LogException(ex);
             }
             //no need to clear the lists after because DestroyObject removes itself from lists.
         }
