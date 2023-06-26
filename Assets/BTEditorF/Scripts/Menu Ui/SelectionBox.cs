@@ -77,7 +77,7 @@ namespace BehaviorTreePlanner.Global
             }
             foreach (LinePoint Line in EditorManager.SpawnManager.ActiveLines)
             {
-                if (Line.IsRoot)
+                if (Line.IsRoot || Line.IsAtachedToNode)
                 {
                     continue;
                 }

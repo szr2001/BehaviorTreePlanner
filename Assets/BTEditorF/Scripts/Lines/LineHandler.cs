@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace BehaviorTreePlanner
 {
-    public class LineHandler : IMovable,IAtachLine
+    public class LineHandler : IMovable
     {
         private EditorManager EditorManager;
         public IMovable Parent { get; set; }
@@ -59,6 +59,7 @@ namespace BehaviorTreePlanner
             if (AttachedPointPos != null && AttachedPoint == null)
             {
                 AttachedPoint = Line;
+                AttachedPoint.IsAtachedToNode = true;
             }
         }
         public void DestroyLineHandler()
@@ -74,6 +75,7 @@ namespace BehaviorTreePlanner
         }
         public void DeAttachLine()
         {
+            AttachedPoint.IsAtachedToNode = false;
             AttachedPoint = null;
         }
     }

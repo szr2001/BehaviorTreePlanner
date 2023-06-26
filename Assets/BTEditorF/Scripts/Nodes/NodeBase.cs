@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.Lines;
 using System;
 using UnityEngine;
 
@@ -47,6 +48,15 @@ namespace BehaviorTreePlanner.Nodes
         {
             editorManager = editormanager;
             NodeD = nd ?? DefaultNodeNd;
+        }
+        public void AttachLine(LinePoint Line)
+        {
+            lineHandler.AttachLine(Line);
+        }
+
+        public void DeAttachLine()
+        {
+            lineHandler.DeAttachLine();
         }
     }
 }

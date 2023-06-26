@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class MovingNode : NodeBase,IMovable,IAtachLine
+    public class MovingNode : NodeBase,IMovable
     {
         [field:SerializeField]public GameObject NodeHighLight { get; set; }
         [SerializeField] protected GameObject dragTrigger;
@@ -78,16 +78,6 @@ namespace BehaviorTreePlanner.Nodes
         public virtual void StopMoveObj()
         {
 
-        }
-
-        public virtual void AttachLine(LinePoint Line)
-        {
-            lineHandler.AttachLine(Line);
-        }
-
-        public void DeAttachLine()
-        {
-            lineHandler.DeAttachLine();
         }
     }
 }

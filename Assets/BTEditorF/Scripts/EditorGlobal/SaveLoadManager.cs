@@ -143,7 +143,6 @@ namespace BehaviorTreePlanner
                 //call load(set up refferences between objects)
                 foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
                 {
-                    Debug.Log($"INDEX:{node.SaveIndex}");
                     node.Load();
                 }
                 foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)

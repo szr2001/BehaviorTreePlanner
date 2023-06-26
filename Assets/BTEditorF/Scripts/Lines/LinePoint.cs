@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,13 +11,14 @@ namespace BehaviorTreePlanner.Lines
     public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler,IObjDestroyable
     {
         public EditorManager EditorManager;
-        public IAtachLine AtachedToObj { get; set; }
+        public NodeBase AtachedToNode { get; set; }
 
         [SerializeField] private GameObject Highlight;
         [SerializeField] private LineRenderer LineR;
-        private LinePoint ParentLine;
-        private readonly List<LinePoint> SpawnedPoints = new();
-        [field: SerializeField]public bool IsRoot { get; private set; } = false; // WHY THE FUK IS TRUE IF ITS SUPOSED TO BE FALSE
+        [SerializeField] private LinePoint ParentLine;
+        [SerializeField] private readonly List<LinePoint> SpawnedPoints = new();
+        [field: SerializeField]public bool IsRoot { get; set; } = false;
+        [field: SerializeField]public bool IsAtachedToNode { get; set; } = false;
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
         public int SaveIndex { get; set; }
@@ -54,7 +56,10 @@ namespace BehaviorTreePlanner.Lines
                     lineRendererpos1,
                     lineRendererpos2,
                     ParentLine != null ? ParentLine.SaveIndex : -1,
-                    spawnedLinesIndexes.ToArray()
+                    spawnedLinesIndexes.ToArray(),
+                    AtachedToNode != null ? AtachedToNode.SaveIndex : -1,
+                    IsAtachedToNode ? (byte)1 : (byte)0
+
 
                 );
         }
@@ -63,6 +68,7 @@ namespace BehaviorTreePlanner.Lines
             saveData = savedata;
             SaveIndex = savedata.LineIndex;
             IsRoot = savedata.IsRoot == (byte)0 ? false : true;
+            IsAtachedToNode = savedata.IsAtachedToNode == (byte)0 ? false : true;
 
             Vector3 savedlinepos = new Vector3
                 (
@@ -102,6 +108,7 @@ namespace BehaviorTreePlanner.Lines
         public void Load()
         {
             ParentLine = saveData.ParentLineIndex == -1 ? null : EditorManager.SpawnManager.ActiveLines[saveData.ParentLineIndex];
+            AtachedToNode = saveData.AtachedToNodeIndex == -1 ? null : EditorManager.SpawnManager.ActiveNodes[saveData.AtachedToNodeIndex];
             foreach(int spawnedlineindex in saveData.SpawnedLinesIndex)
             {
                 if(spawnedlineindex == -1)
@@ -116,13 +123,24 @@ namespace BehaviorTreePlanner.Lines
             Vector2 GridSize = SavedSettings.LineGridSize;
             Vector2 CorectionOffset = new(0.08f, 0);
             Vector3 activeLinePos = UseGrid ? EditorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
-            RaycastHit2D hit = Physics2D.Raycast(activeLinePos, -Vector2.zero);
-            if (!hit)
+            
+            if(IsRoot || IsAtachedToNode)
             {
                 gameObject.transform.position = activeLinePos;
                 gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
             }
+            else
+            {
+                RaycastHit2D hit = Physics2D.Raycast(activeLinePos, -Vector2.zero);
+                if (!hit)
+                {
+                    gameObject.transform.position = activeLinePos;
+                    gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
+                }
+            }
+
             UpdateLineRenderer();
+            
             foreach (LinePoint point in SpawnedPoints)
             {
                 point.UpdateLineRenderer();
@@ -152,7 +170,7 @@ namespace BehaviorTreePlanner.Lines
 
             Vector3 activeNodePos = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
-            if (hit && hit.collider.gameObject.TryGetComponent<IAtachLine>(out IAtachLine Itach))
+            if (hit && hit.collider.gameObject.TryGetComponent<NodeBase>(out NodeBase attachtoNode))
             {
                 if (SpawnedPoints.Count > 0)
                 {
@@ -164,18 +182,16 @@ namespace BehaviorTreePlanner.Lines
                     SpawnedPoints.Clear();
                 }
 
-                AtachedToObj?.DeAttachLine();
-                AtachedToObj = Itach;
-                //EditorManager.SpawnManager.RemoveActiveLine(this); //problem, removing reff will make save not save it
-                AtachedToObj.AttachLine(this);
+                AtachedToNode?.DeAttachLine();
+                AtachedToNode = attachtoNode;
+                AtachedToNode.AttachLine(this);
             }
             else
             {
-                if (AtachedToObj != null)
+                if (AtachedToNode != null)
                 {
-                    AtachedToObj.DeAttachLine();
-                    AtachedToObj = null;
-                    //EditorManager.SpawnManager.AddActiveLine(this);
+                    AtachedToNode.DeAttachLine();
+                    AtachedToNode = null;
                 }
             }
         }
@@ -204,7 +220,7 @@ namespace BehaviorTreePlanner.Lines
                     return;
                 }
             }
-            if (AtachedToObj != null)
+            if (AtachedToNode != null)
             {
                 EditorManager.MoveObjectsManager.AddMovableObj(this);
                 EditorManager.MoveObjectsManager.StartMoving();
@@ -256,7 +272,7 @@ namespace BehaviorTreePlanner.Lines
         {
         }
         #endregion
-        public void DestroyObject()
+        public void DestroyObject()//problem
         {
             for (int i = 0; i < SpawnedPoints.Count; i++)
             {
