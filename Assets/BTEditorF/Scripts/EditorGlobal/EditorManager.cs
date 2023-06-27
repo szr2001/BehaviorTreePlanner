@@ -15,6 +15,7 @@ namespace BehaviorTreePlanner
         public SoundManager SoundManager;
         public ActionManager ActionManager;
         public SaveLoadManager SaveLoadManager;
+        public EditorUiManager EditorUiManager;
         public ProjectsManager ProjectsManager;
 
         [HideInInspector]public bool IsOverUi = false;

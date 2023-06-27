@@ -20,6 +20,8 @@ namespace BehaviorTreePlanner
 
         private GameObject loadingScreen;
 
+        public delegate void LayerUpdated(string layername);
+        public event LayerUpdated OnLayerUpdated;
         public void ClearScreen()
         {
             //nodes automaticaly delete any atached lines

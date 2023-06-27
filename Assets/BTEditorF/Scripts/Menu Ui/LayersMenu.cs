@@ -20,7 +20,8 @@ namespace BehaviorTreePlanner
         {
             SpawnLayerButtons();
         }
-        private void SpawnLayerButtons()
+        //----------------------------------------
+        private void SpawnLayerButtons()//Move the initialization of the Load and add an event for the buttons to update
         {
             foreach (SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
             {
@@ -32,6 +33,7 @@ namespace BehaviorTreePlanner
 
             _ = editorManager.SaveLoadManager.LoadLayer(ActiveLayerButton.projectLayer);
         }
+        //----------------------------------------
         private GameObject CreatelayerNodeButton(SavedProjectLayer layer)
         {
             GameObject LayerNodeButton = GameObject.Instantiate(LayerNodeButtonPrefabReff);
