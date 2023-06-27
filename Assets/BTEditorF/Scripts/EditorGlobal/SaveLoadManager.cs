@@ -22,6 +22,11 @@ namespace BehaviorTreePlanner
 
         public delegate void LayerUpdated(string layername);
         public event LayerUpdated OnLayerUpdated;
+
+        private void Start()
+        {
+            _ = LoadLayer(EditorManager.ProjectsManager.OpenedProject.Layers[0]);
+        }
         public void ClearScreen()
         {
             //nodes automaticaly delete any atached lines
@@ -36,18 +41,20 @@ namespace BehaviorTreePlanner
             {
                 Debug.LogException(ex);
             }
-            //no need to clear the lists after because DestroyObject removes itself from lists.
         }
+
         public void RemoveLayerFromProject(SavedProjectLayer layer)
         {
             EditorManager.ProjectsManager.OpenedProject.Layers.Remove(layer);
             _ = SaveProject();
         }
+
         public void AddLayerToProject(SavedProjectLayer layer)
         {
             EditorManager.ProjectsManager.OpenedProject.Layers.Add(layer);
             _ = SaveProject();
         }
+
         public async Task SaveProject()
         {
             ShowLoadingScreen();
@@ -55,17 +62,20 @@ namespace BehaviorTreePlanner
             await EditorManager.ProjectsManager.SaveOpenedProjectFile();
             HideLoadingScreen();
         }
+
         public async Task SaveActiveLayer()
         {
             SavedProjectLayer NewLayerData = await ConvertSceeneToSavedLayer();
             ActiveProjectLayer.SavedNodes = NewLayerData.SavedNodes;
             ActiveProjectLayer.SavedLinePoints = NewLayerData.SavedLinePoints;
         }
+
         public async Task BackToMenu()
         {
             await SaveProject();
             SceneManager.LoadScene("BTMenu");
         }
+
         private async Task<SavedProjectLayer> ConvertSceeneToSavedLayer()
         {
             List<SavedNodeBase> NewNodes = new();
@@ -111,6 +121,7 @@ namespace BehaviorTreePlanner
             }
             return new SavedProjectLayer(NewNodes, NewLines);
         }
+
         private async Task ConvertSavedLayerToScene()
         {
             try
@@ -165,9 +176,14 @@ namespace BehaviorTreePlanner
             }
             await Task.CompletedTask;
         }
+
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
             ShowLoadingScreen();
+
+            //Invoke event for buttons to update
+            OnLayerUpdated?.Invoke(projectlayer.LayerName);
+
             //save the curent active layer before loading another layer
             await SaveActiveLayer();
             //clear the data from the other layer
@@ -178,7 +194,8 @@ namespace BehaviorTreePlanner
             await ConvertSavedLayerToScene();
             
             HideLoadingScreen();
-}
+        }
+
         public void ShowLoadingScreen()
         {
             if(loadingScreen != null)
@@ -187,6 +204,7 @@ namespace BehaviorTreePlanner
             }
             loadingScreen = Instantiate(LoadingScreenPrefabReff, CameraCanvas.transform);
         }
+
         public void HideLoadingScreen()
         {
             if(loadingScreen == null ) 

@@ -27,6 +27,28 @@ namespace BehaviorTreePlanner
             NodeCount.text = projectlayer.SavedNodes.Count.ToString();
             LineCount.text = projectlayer.SavedLinePoints.Count.ToString();
             layerNodeInput.text = projectlayer.LayerName;
+
+        }
+        private void Start()
+        {
+            layersMenu.editorManager.SaveLoadManager.OnLayerUpdated += CheckHighlight;
+        }
+        ~LayerNodeButton()
+        {
+            layersMenu.editorManager.SaveLoadManager.OnLayerUpdated -= CheckHighlight;
+        }
+        private void CheckHighlight(string layername)
+        {
+            Debug.Log("LAYER CHANGED");
+
+            if(layername == projectLayer.LayerName)
+            {
+                HighLight();
+            }
+            else
+            {
+                UnHighlight();
+            }
         }
         public void HighLight()
         {

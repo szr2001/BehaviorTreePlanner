@@ -9,31 +9,26 @@ namespace BehaviorTreePlanner
 {
     public class LayersMenu : MonoBehaviour
     {
-        [SerializeField] private EditorManager editorManager;
+        [field: SerializeField] public EditorManager editorManager { get; set; }
         [SerializeField] private GameObject LayerNodeButtonPrefabReff;
         [SerializeField] private GameObject LayersHolder;
 
         private List<LayerNodeButton> layerButtons = new();
-        private LayerNodeButton ActiveLayerButton;
 
-        void Start()
+        void Awake()
         {
             SpawnLayerButtons();
         }
-        //----------------------------------------
-        private void SpawnLayerButtons()//Move the initialization of the Load and add an event for the buttons to update
+
+        private void SpawnLayerButtons()
         {
             foreach (SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
             {
                 CreatelayerNodeButton(layer);
             }
-
-            ActiveLayerButton = layerButtons[0].GetComponent<LayerNodeButton>();
-            ActiveLayerButton.HighLight();
-
-            _ = editorManager.SaveLoadManager.LoadLayer(ActiveLayerButton.projectLayer);
+            layerButtons[0].HighLight();
         }
-        //----------------------------------------
+
         private GameObject CreatelayerNodeButton(SavedProjectLayer layer)
         {
             GameObject LayerNodeButton = GameObject.Instantiate(LayerNodeButtonPrefabReff);
@@ -75,9 +70,6 @@ namespace BehaviorTreePlanner
         }
         public void OpenLayer(LayerNodeButton layerButton)
         {
-            ActiveLayerButton.UnHighlight();
-            layerButton.HighLight();
-            ActiveLayerButton = layerButton;
             _ = editorManager.SaveLoadManager.LoadLayer(layerButton.projectLayer);
         }
     }

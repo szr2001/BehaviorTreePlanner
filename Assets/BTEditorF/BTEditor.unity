@@ -8127,7 +8127,6 @@ GameObject:
   - component: {fileID: 2092209815}
   - component: {fileID: 2092209817}
   - component: {fileID: 2092209816}
-  - component: {fileID: 2092209818}
   - component: {fileID: 2092209819}
   m_Layer: 5
   m_Name: ProjectLayers
@@ -8196,19 +8195,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092209814}
   m_CullTransparentMesh: 1
---- !u!114 &2092209818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092209814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95725b9d27d44bd458d3a9907c5d58ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
 --- !u!114 &2092209819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8221,7 +8207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d4bd5aa269fa34aa748236826a3e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editorManager: {fileID: 1219174125}
+  <editorManager>k__BackingField: {fileID: 1219174125}
   LayerNodeButtonPrefabReff: {fileID: 2693086320942831343, guid: 09909e3a8500feb429a38ebd5f49a449, type: 3}
   LayersHolder: {fileID: 1830951092}
 --- !u!1 &2104293624
