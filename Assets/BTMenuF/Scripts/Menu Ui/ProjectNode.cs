@@ -52,6 +52,7 @@ namespace BehaviorTreePlanner
             List<SavedNodeBase> nodes = new();
             List<SavedLinePoint> lines = new();
             SavedProjectLayer baseLayer = new(nodes, lines);
+            baseLayer.LayerName = "Base Layer";
             Project = new SavedProject(baseLayer, 1, ProjectName,DateTime.UtcNow);
 
             projectMenu.ConfirmNewProjectNode(Project);

@@ -42,7 +42,7 @@ namespace BehaviorTreePlanner
         {
             GameObject TempNode = Instantiate(LayerNodePrefabReff, Screen.transform);
             TempNode.transform.localScale = new Vector3(1, 1, 1);
-            TempNode.name = "Node";
+            TempNode.name = "LayerNode";
             NodeDesign NodeD = new(null, null, new Color(0.57f, 0.3f, 1), Color.white);
             NodeBase nodebase = TempNode.GetComponent<NodeBase>();
             nodebase.InitializeNode(NodeD, EditorManager, layer);

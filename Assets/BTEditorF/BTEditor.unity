@@ -8485,6 +8485,7 @@ GameObject:
   - component: {fileID: 2092209817}
   - component: {fileID: 2092209816}
   - component: {fileID: 2092209819}
+  - component: {fileID: 2092209820}
   m_Layer: 5
   m_Name: ProjectLayers
   m_TagString: Untagged
@@ -8568,6 +8569,19 @@ MonoBehaviour:
   LayerNodeButtonPrefabReff: {fileID: 2693086320942831343, guid: 09909e3a8500feb429a38ebd5f49a449, type: 3}
   LayersHolder: {fileID: 1830951092}
   LayerNameInput: {fileID: 1141021505}
+--- !u!114 &2092209820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092209814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95725b9d27d44bd458d3a9907c5d58ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EditorManager: {fileID: 1219174125}
 --- !u!1 &2104293624
 GameObject:
   m_ObjectHideFlags: 0

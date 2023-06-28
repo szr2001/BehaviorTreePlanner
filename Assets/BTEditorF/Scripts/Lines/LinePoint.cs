@@ -280,7 +280,6 @@ namespace BehaviorTreePlanner.Lines
                 for (int i = 0; i < maxloop; i++)
                 {
                     SpawnedPoints[0]?.DestroyObject();
-                    Debug.Log($"index: {i} Total Number{SpawnedPoints.Count}");
                 }
                 ParentLine?.RemoveLine(this);
                 EditorManager.SpawnManager.RemoveActiveLine(this);

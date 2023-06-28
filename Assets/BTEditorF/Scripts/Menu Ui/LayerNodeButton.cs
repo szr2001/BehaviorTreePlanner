@@ -39,8 +39,6 @@ namespace BehaviorTreePlanner
         }
         private void CheckHighlight(string layername)
         {
-            Debug.Log("LAYER CHANGED");
-
             if(layername == projectLayer.LayerName)
             {
                 HighLight();
@@ -65,6 +63,10 @@ namespace BehaviorTreePlanner
         }
         public void ToggleEdit()
         {
+            if (projectLayer.LayerName == "Base Layer")
+            {
+                return;
+            }
             if (isEditing)
             {
                 isEditing = false;

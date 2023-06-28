@@ -137,7 +137,7 @@ namespace BehaviorTreePlanner
                     }
                     else if(nodedata.GetType() == typeof(SavedLayerNode))
                     {
-                        spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null,false);
+                        spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null,false);//problem passing null
                         spawnedNode.InitializeLoad(nodedata,EditorManager);
                     }
                 }

@@ -14,10 +14,12 @@ namespace BehaviorTreePlanner
         [SerializeField] private GameObject projectContainer;
         [SerializeField] private GameObject ProjectNodePrefabReff;
         private List<SavedProject> projectNodes;
+
         void Start()
         {
             CreateProjectNodes(); 
         }
+
         private void CreateProjectNodes()
         {
             projectNodes = ProjectManager.DetectSavedProjectFiles();
@@ -30,6 +32,7 @@ namespace BehaviorTreePlanner
                 TempProjectNode.transform.localPosition = new Vector3(TempProjectNode.transform.position.x, TempProjectNode.transform.position.y, 0);
             }
         }
+
         public void CreateNewProjectNode()
         {
             if (EditProjectNode == null)
@@ -42,25 +45,28 @@ namespace BehaviorTreePlanner
             }
         }
 
-
         public void ConfirmNewProjectNode(SavedProject project)
         {
             projectNodes.Add(project);
             _ = ProjectManager.CreateProjectFile(project);
             EditProjectNode = null;
         }
+
         public void CancelNewProjectNode()
         {
             Destroy(EditProjectNode);
         }
+
         public void CallEditProjectFile(SavedProject Project, string oldname)
         {
             _ = ProjectManager.EditProjectFile(Project, oldname);
         }
+
         public void SetOpenedProject(SavedProject project)
         {
             ProjectManager.OpenedProject = project;
         }
+
         public void CallDeleteProjectFile(ProjectNode project)
         {
             ProjectManager.DeleteProjectFile(project);

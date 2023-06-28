@@ -32,6 +32,14 @@ namespace BehaviorTreePlanner
         }
         private bool CheckValidName()
         {
+            if(LayerNameInput.text == null)
+            {
+                return true;
+            }
+            if(LayerNameInput.text == "")
+            {
+                return true;
+            }
             foreach(SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
             {
                 if(layer.LayerName == LayerNameInput.text)
@@ -81,9 +89,14 @@ namespace BehaviorTreePlanner
         }
         public void SpawnLayerNode(SavedProjectLayer layer)
         {
+            if(layer.LayerName == "Base Layer")
+            {
+                return;
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
-                editorManager.MoveObjectsManager.ClearMovableObj();
+                //editorManager.MoveObjectsManager.ClearMovableObj();
                 editorManager.SpawnManager.SpawnLayerNode(layer);
             }
         }
