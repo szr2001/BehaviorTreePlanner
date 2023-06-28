@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
+using UnityEngine.UI;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace BehaviorTreePlanner
@@ -12,6 +13,7 @@ namespace BehaviorTreePlanner
         [field: SerializeField] public EditorManager editorManager { get; set; }
         [SerializeField] private GameObject LayerNodeButtonPrefabReff;
         [SerializeField] private GameObject LayersHolder;
+        [SerializeField] private InputField LayerNameInput;
 
         private List<LayerNodeButton> layerButtons = new();
 
@@ -28,7 +30,17 @@ namespace BehaviorTreePlanner
             }
             layerButtons[0].HighLight();
         }
-
+        private bool CheckValidName()
+        {
+            foreach(SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
+            {
+                if(layer.LayerName == LayerNameInput.text)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         private GameObject CreatelayerNodeButton(SavedProjectLayer layer)
         {
             GameObject LayerNodeButton = GameObject.Instantiate(LayerNodeButtonPrefabReff);
@@ -56,9 +68,16 @@ namespace BehaviorTreePlanner
         }
         public void CreateLayer()
         {
+            if (CheckValidName())
+            {
+                LayerNameInput.text = null;
+                return;
+            }
             SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>());
+            NewLayer.LayerName = LayerNameInput.text;
             CreatelayerNodeButton(NewLayer);
             editorManager.SaveLoadManager.AddLayerToProject(NewLayer);
+            LayerNameInput.text = null;
         }
         public void SpawnLayerNode(SavedProjectLayer layer)
         {
