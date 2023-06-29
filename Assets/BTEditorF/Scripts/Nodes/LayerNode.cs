@@ -37,7 +37,6 @@ namespace BehaviorTreePlanner.Nodes
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer projectlayer)
         {
             base.InitializeNode(nd, editormanager);
-            Debug.Log("SaveLoadManager Line 140, Layer Node Layer is null?" + projectlayer is null,gameObject);//test
             projectLayer = projectlayer;
             layerNameT.text = projectLayer.LayerName;
         }

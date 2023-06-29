@@ -137,8 +137,15 @@ namespace BehaviorTreePlanner
                     }
                     else if(nodedata.GetType() == typeof(SavedLayerNode))
                     {
-                        spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(null,false);//problem passing null
-                        spawnedNode.InitializeLoad(nodedata,EditorManager);
+                        SavedLayerNode savedn = (SavedLayerNode)nodedata;
+                        foreach(SavedProjectLayer layer in EditorManager.ProjectsManager.OpenedProject.Layers)
+                        {
+                            if (layer.LayerName == savedn.LayerName)
+                            {
+                                spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(layer, false);//problem passing null
+                                spawnedNode.InitializeLoad(nodedata,EditorManager);
+                            }
+                        }
                     }
                 }
             }
