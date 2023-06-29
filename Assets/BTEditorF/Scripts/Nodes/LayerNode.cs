@@ -47,7 +47,6 @@ namespace BehaviorTreePlanner.Nodes
         public override void StartMoveObj()
         {
             NodeHighLight.SetActive(true);
-            Debug.Log(projectLayer is null,gameObject);//dell
         }
 
         public override void StopMoveObj()

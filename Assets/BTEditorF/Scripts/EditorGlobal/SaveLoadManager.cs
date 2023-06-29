@@ -72,7 +72,12 @@ namespace BehaviorTreePlanner
 
         public async Task BackToMenu()
         {
+            //save before quit
             await SaveProject();
+            //destroy the project manager and all its data because it is
+            //generated again in the menu
+            Destroy(EditorManager.ProjectsManager.gameObject);
+            //load menu
             SceneManager.LoadScene("BTMenu");
         }
 
