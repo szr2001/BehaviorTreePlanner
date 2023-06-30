@@ -31,7 +31,8 @@ namespace BehaviorTreePlanner.MenuUi
             if (Input.GetMouseButtonDown(0))
             {
                 EditorManager.MoveObjectsManager.ClearMovableObj();
-                EditorManager.SpawnManager.SpawnNode(NodeD);
+                NodeDesign newDesign = new(NodeD.type,NodeD.name,NodeD.PrimaryCollor,NodeD.SecondaryCollor);
+                EditorManager.SpawnManager.SpawnNode(newDesign);
             }
         }
         public void DeleteNode()
