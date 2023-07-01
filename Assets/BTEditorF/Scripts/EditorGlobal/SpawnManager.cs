@@ -15,12 +15,15 @@ namespace BehaviorTreePlanner
         public GameObject Screen;
         public GameObject NodePrefabReff;
         public GameObject LayerNodePrefabReff;
+        public GameObject BlackBoardNodePrefabReff;
         public GameObject LinePointPrefabReff;
         public GameObject NodeButtonPrefabReff;
         public GameObject LayerNodeButtonPrefabReff;
 
+        private readonly Vector3 BlackboardLocation = new Vector3(-12.09677f, 908.0645f,0);
         [field:SerializeField] public List<NodeBase> ActiveNodes { get; set; } = new();
         [field: SerializeField] public List<LinePoint> ActiveLines { get; set; } = new();
+        [field: SerializeField] public NodeBase ActiveBlackBoard { get; set; }
         //add a bool for start moving and for highlighting the node
         public NodeBase SpawnNode(NodeDesign Nd, bool StartMoving = true)
         {
@@ -54,7 +57,22 @@ namespace BehaviorTreePlanner
             }
             return nodebase;
         }
-
+        public NodeBase SpawnBlackBoardNode()
+        {
+            if(ActiveBlackBoard != null)
+            {
+                ActiveBlackBoard.GetComponent<IObjDestroyable>().DestroyObject();
+            }
+            GameObject TempNode = Instantiate(BlackBoardNodePrefabReff, Screen.transform);
+            TempNode.transform.localPosition = BlackboardLocation;
+            TempNode.transform.localScale = new Vector3(1, 1, 1);
+            TempNode.name = "BlackBoard";
+            NodeDesign NodeD = new(null, null, new Color(0.57f, 0.3f, 1), Color.white);
+            NodeBase nodebase = TempNode.GetComponent<NodeBase>();
+            nodebase.InitializeNode(NodeD, EditorManager);
+            ActiveBlackBoard = nodebase;
+            return ActiveBlackBoard;
+        }
         public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot, bool StartMoving = true)
         {
             GameObject TempLine = Instantiate(EditorManager.SpawnManager.LinePointPrefabReff, EditorManager.SpawnManager.Screen.transform);

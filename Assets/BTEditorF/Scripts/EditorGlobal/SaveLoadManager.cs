@@ -36,6 +36,7 @@ namespace BehaviorTreePlanner
                 {
                     EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
                 }
+                EditorManager.SpawnManager.ActiveBlackBoard?.GetComponent<IObjDestroyable>().DestroyObject();
             }
             catch(Exception ex)
             {
@@ -68,6 +69,7 @@ namespace BehaviorTreePlanner
             SavedProjectLayer NewLayerData = await ConvertSceeneToSavedLayer();
             ActiveProjectLayer.SavedNodes = NewLayerData.SavedNodes;
             ActiveProjectLayer.SavedLinePoints = NewLayerData.SavedLinePoints;
+            ActiveProjectLayer.BlackBoard = NewLayerData.BlackBoard;
         }
 
         public async Task BackToMenu()
@@ -81,15 +83,17 @@ namespace BehaviorTreePlanner
             SceneManager.LoadScene("BTMenu");
         }
 
-        private async Task<SavedProjectLayer> ConvertSceeneToSavedLayer()
+        private async Task<SavedProjectLayer> ConvertSceeneToSavedLayer()//rework async stuff
         {
             List<SavedNodeBase> NewNodes = new();
             List<SavedLinePoint> NewLines = new();
+            SavedNodeBase blackboard = new SavedNodeBase(-1,-1,-1);
 
-            await Task.Run(() =>
+            Debug.Log("0");
+            //asign an unique index based on list order to each line and node for indentifing purposes
+            try
             {
-                //asign an unique index based on list order to each line and node for indentifing purposes
-                try
+                await Task.Run(() => 
                 {
                     for (int index = 0; index < EditorManager.SpawnManager.ActiveNodes.Count; index++)
                     {
@@ -99,12 +103,15 @@ namespace BehaviorTreePlanner
                     {
                         EditorManager.SpawnManager.ActiveLines[index].InitializeSave(index);
                     }
-                }
-                catch(Exception ex)
-                {
-                    Debug.LogException(ex,gameObject);
-                }
-            });
+
+                    EditorManager.SpawnManager.ActiveBlackBoard?.InitializeSave(-1);
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex, gameObject);
+            }
+            Debug.Log("1");
             try
             {
                 //call save on each node/line CANT RUN ON NEW THREAD
@@ -119,12 +126,16 @@ namespace BehaviorTreePlanner
                     SavedLinePoint savedp = line.Save();
                     NewLines.Add(savedp);
                 }
+
+                blackboard =  EditorManager.SpawnManager.ActiveBlackBoard?.Save();
+
             }
             catch (Exception ex)
             {
                 Debug.LogException(ex, gameObject);
             }
-            return new SavedProjectLayer(NewNodes, NewLines);
+            Debug.Log("2");
+            return new SavedProjectLayer(NewNodes, NewLines, blackboard);
         }
 
         private async Task ConvertSavedLayerToScene()//try add multithreading
@@ -153,6 +164,8 @@ namespace BehaviorTreePlanner
                         }
                     }
                 }
+                NodeBase blackboard = EditorManager.SpawnManager.SpawnBlackBoardNode();
+                blackboard.InitializeLoad(ActiveProjectLayer.BlackBoard,EditorManager);
             }
             catch (Exception ex)
             {
@@ -191,20 +204,27 @@ namespace BehaviorTreePlanner
 
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
+            Debug.Log("0");
             ShowLoadingScreen();
-
+            Debug.Log("1");
             //Invoke event for buttons to update
             OnLayerUpdated?.Invoke(projectlayer.LayerName);
 
+            Debug.Log("2");
             //save the curent active layer before loading another layer
             await SaveActiveLayer();
+            Debug.Log("3");
             //clear the data from the other layer
+            Debug.Log("4");
             ClearScreen();
             //await loading of data and spawning stuff
+            Debug.Log("5");
             ActiveProjectLayer = projectlayer;
 
+            Debug.Log("6");
             await ConvertSavedLayerToScene();
-            
+
+            Debug.Log("7");
             HideLoadingScreen();
         }
 

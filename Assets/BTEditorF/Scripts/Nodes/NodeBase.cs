@@ -49,6 +49,13 @@ namespace BehaviorTreePlanner.Nodes
             editorManager = editormanager;
             NodeD = nd ?? DefaultNodeNd;
         }
+        public void CallSpawnLine()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                lineHandler.SpawnLine();
+            }
+        }
         public void AttachLine(LinePoint Line)
         {
             lineHandler.AttachLine(Line);

@@ -62,14 +62,6 @@ namespace BehaviorTreePlanner.Nodes
                 editorManager.MoveObjectsManager.StartMoving();
             }
         }
-        public void CallSpawnLine()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                lineHandler.SpawnLine();
-            }
-        }
-
         public virtual void StartMoveObj()
         {
 

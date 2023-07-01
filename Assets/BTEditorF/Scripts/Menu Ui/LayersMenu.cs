@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.MenuUi;
+using BehaviorTreePlanner.Nodes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,7 +82,7 @@ namespace BehaviorTreePlanner
                 LayerNameInput.text = null;
                 return;
             }
-            SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>());
+            SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>(),new SavedNodeBase(-1,-1,-1));
             NewLayer.LayerName = LayerNameInput.text;
             CreatelayerNodeButton(NewLayer);
             editorManager.SaveLoadManager.AddLayerToProject(NewLayer);

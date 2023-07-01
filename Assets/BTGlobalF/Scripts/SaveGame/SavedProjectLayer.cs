@@ -10,13 +10,15 @@ namespace BehaviorTreePlanner
     [Serializable]
     public class SavedProjectLayer 
     {
+        public SavedNodeBase BlackBoard;
         public List<SavedNodeBase> SavedNodes;
         public List<SavedLinePoint> SavedLinePoints;
         public string LayerName;
-        public SavedProjectLayer(List<SavedNodeBase> savedNodes, List<SavedLinePoint> savedLinePoints)
+        public SavedProjectLayer(List<SavedNodeBase> savedNodes, List<SavedLinePoint> savedLinePoints, SavedNodeBase blackBoard)
         {
             SavedNodes = savedNodes;
-            SavedLinePoints = savedLinePoints; 
+            SavedLinePoints = savedLinePoints;
+            BlackBoard = blackBoard;
         }
 
 
