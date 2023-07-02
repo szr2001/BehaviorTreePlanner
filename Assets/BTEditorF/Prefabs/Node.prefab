@@ -860,9 +860,9 @@ MonoBehaviour:
     type: 
     name: 
   LineTrigger: {fileID: 8293544676904850590}
-  <NodeHighLight>k__BackingField: {fileID: 2214209184994266405}
   dragTrigger: {fileID: 3906086072139463384}
   attachTrigger: {fileID: 1222826555044903075}
+  <NodeHighLight>k__BackingField: {fileID: 2214209184994266405}
   TopImageReff: {fileID: 7076376119103257751}
   BotImageReff: {fileID: 7076376119089046383}
   TypeText: {fileID: 7076376120442092781}
@@ -880,7 +880,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000015258789, y: 0.14639282}
+  m_Offset: {x: -0.000015258789, y: -2.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -891,7 +891,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 119.99808, y: 76.83795}
+  m_Size: {x: 119.99808, y: 81.7}
   m_EdgeRadius: 0
 --- !u!1 &7076376120798954271
 GameObject:

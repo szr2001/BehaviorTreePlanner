@@ -229,7 +229,9 @@ namespace BehaviorTreePlanner.Lines
             }
             else
             {
-                SpawnedPoints.Add(editorManager.SpawnManager.SpawnLinePoint(this,true, false));
+                LinePoint spawnedpoint = editorManager.SpawnManager.SpawnLinePoint(this, true, false);
+                spawnedpoint.transform.localPosition = transform.localPosition - new Vector3(0, 10, 0);
+                SpawnedPoints.Add(spawnedpoint);
             }
         }
         public void StartMoveObj()
