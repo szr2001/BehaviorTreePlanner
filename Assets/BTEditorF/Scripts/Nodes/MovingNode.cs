@@ -51,7 +51,11 @@ namespace BehaviorTreePlanner.Nodes
             }
             lineHandler.MoveObj(newPos, Offset, UseGrid);
         }
-
+        public override void AttachLine(LinePoint Line)
+        {
+            base.AttachLine(Line);
+            lineHandler.MoveObj(gameObject.transform.position,Vector3.zero,false);
+        }
         public void SetMoveNode()
         {
             if (Input.GetMouseButtonDown(0))
