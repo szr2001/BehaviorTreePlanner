@@ -39,12 +39,19 @@ namespace BehaviorTreePlanner
         {
             CheckProjectFolderExists();
             SavedProject project = ProjectNode.Project;
-            foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
+            try
             {
-                if (FileUrl.Contains(project.ProjectName))
+                foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
                 {
-                    File.Delete(FileUrl);
+                    if (FileUrl.Contains(project.ProjectName))
+                    {
+                        File.Delete(FileUrl);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
             }
         }
         public async Task CreateProjectFile(SavedProject Project)
@@ -53,9 +60,17 @@ namespace BehaviorTreePlanner
             BinaryFormatter bf = new();
             await Task.Run(() => 
             {
-                using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
+                try
                 {
-                    bf.Serialize(fs, Project);
+
+                    using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
+                    {
+                        bf.Serialize(fs, Project);
+                    }
+                }
+                catch(Exception ex) 
+                {
+                    Debug.LogException(ex);
                 }
             });
         }
@@ -66,13 +81,20 @@ namespace BehaviorTreePlanner
 
             BinaryFormatter bf = new();
             List<SavedProject> projects = new();
-            foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
+            try
             {
-                using (FileStream fs = new(FileUrl, FileMode.Open))
+                foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
                 {
-                    SavedProject LoadedProject = (SavedProject)bf.Deserialize(fs);
-                    projects.Add(LoadedProject);
+                    using (FileStream fs = new(FileUrl, FileMode.Open))
+                    {
+                        SavedProject LoadedProject = (SavedProject)bf.Deserialize(fs);
+                        projects.Add(LoadedProject);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                Debug.LogException(ex);
             }
             return projects;
         }
@@ -85,12 +107,19 @@ namespace BehaviorTreePlanner
         public async Task EditProjectFile(SavedProject Project,string oldname)
         {
             CheckProjectFolderExists();
-            foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
+            try
             {
-                if (FileUrl.Contains(oldname))
+                foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
                 {
-                    File.Delete(FileUrl);
+                    if (FileUrl.Contains(oldname))
+                    {
+                        File.Delete(FileUrl);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
             }
             await CreateProjectFile(Project);
         }

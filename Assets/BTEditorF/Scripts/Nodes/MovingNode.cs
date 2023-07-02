@@ -8,8 +8,6 @@ namespace BehaviorTreePlanner.Nodes
     public class MovingNode : NodeBase,IMovable
     {
         [field:SerializeField]public GameObject NodeHighLight { get; set; }
-        [SerializeField] protected GameObject dragTrigger;
-        [SerializeField] protected GameObject attachTrigger;
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
 

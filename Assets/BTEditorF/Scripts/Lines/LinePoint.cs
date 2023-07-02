@@ -19,9 +19,9 @@ namespace BehaviorTreePlanner.Lines
         [SerializeField] private readonly List<LinePoint> SpawnedPoints = new();
         [field: SerializeField]public bool IsRoot { get; set; } = false;
         [field: SerializeField]public bool IsAtachedToNode { get; set; } = false;
+        [field: SerializeField] public int SaveIndex { get; set; }
         public GameObject GetGameObj { get { return gameObject; } }
         public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
-        public int SaveIndex { get; set; }
         private SavedLinePoint saveData;
         public void InitializeSave(int index)
         {
@@ -70,7 +70,7 @@ namespace BehaviorTreePlanner.Lines
             IsRoot = savedata.IsRoot == (byte)0 ? false : true;
             IsAtachedToNode = savedata.IsAtachedToNode == (byte)0 ? false : true;
 
-            Vector3 savedlinepos = new Vector3
+            Vector3 savedlinepos = new
                 (
                     savedata.Position[0],
                     savedata.Position[1],
@@ -81,7 +81,7 @@ namespace BehaviorTreePlanner.Lines
 
             if (!IsRoot)
             {
-                Vector3 savedlinerender1 = new Vector3
+                Vector3 savedlinerender1 = new
                     (
                         savedata.LineRendererPos1[0],
                         savedata.LineRendererPos1[1],
@@ -89,7 +89,7 @@ namespace BehaviorTreePlanner.Lines
                     );
 
                 LineR.SetPosition(0, savedlinerender1);
-                Vector3 savedlinerender2 = new Vector3
+                Vector3 savedlinerender2 = new
                     (
                         savedata.LineRendererPos2[0],
                         savedata.LineRendererPos2[1],
@@ -181,8 +181,10 @@ namespace BehaviorTreePlanner.Lines
                     }
                     SpawnedPoints.Clear();
                 }
-
-                AtachedToNode?.DeAttachLine();
+                if(AtachedToNode != null)
+                {
+                    AtachedToNode.DeAttachLine();
+                }
                 AtachedToNode = attachtoNode;
                 AtachedToNode.AttachLine(this);
             }
@@ -272,14 +274,20 @@ namespace BehaviorTreePlanner.Lines
         {
         }
         #endregion
-        public void DestroyObject()//problem
+        public void DestroyObject()
         {
+            Debug.Log("Destroyed line");
             try 
             {
                 int maxloop = SpawnedPoints.Count;
                 for (int i = 0; i < maxloop; i++)
                 {
-                    SpawnedPoints[0]?.DestroyObject();
+                    if(SpawnedPoints[0] == null)
+                    {
+                        continue;
+                    }
+
+                    SpawnedPoints[0].DestroyObject();
                 }
                 if(ParentLine != null)
                 {

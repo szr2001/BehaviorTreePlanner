@@ -20,7 +20,7 @@ namespace BehaviorTreePlanner
         public GameObject NodeButtonPrefabReff;
         public GameObject LayerNodeButtonPrefabReff;
 
-        private readonly Vector3 BlackboardLocation = new Vector3(-12.09677f, 908.0645f,0);
+        private readonly Vector3 BlackboardLocation = new(-12.09677f, 908.0645f,0);
         [field:SerializeField] public List<NodeBase> ActiveNodes { get; set; } = new();
         [field: SerializeField] public List<LinePoint> ActiveLines { get; set; } = new();
         [field: SerializeField] public NodeBase ActiveBlackBoard { get; set; }

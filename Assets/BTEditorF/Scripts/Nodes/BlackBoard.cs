@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class BlackBoard : NodeBase
+    public class BlackBoard : StaticNode
     {
         public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
         {
@@ -21,7 +21,7 @@ namespace BehaviorTreePlanner.Nodes
 
         public override SavedNodeBase Save()
         {
-            return new SavedNodeBase
+            return new SavedStaticNode
                 (
                     -1,
                     lineHandler.AttachedPoint != null ? lineHandler.AttachedPoint.SaveIndex : -1,

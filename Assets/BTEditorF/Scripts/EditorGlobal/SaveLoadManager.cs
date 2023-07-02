@@ -3,6 +3,7 @@ using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,7 +37,10 @@ namespace BehaviorTreePlanner
                 {
                     EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
                 }
-                EditorManager.SpawnManager.ActiveBlackBoard?.GetComponent<IObjDestroyable>().DestroyObject();
+                if(EditorManager.SpawnManager.ActiveBlackBoard != null)
+                {
+                    EditorManager.SpawnManager.ActiveBlackBoard.GetComponent<IObjDestroyable>().DestroyObject();
+                }
             }
             catch(Exception ex)
             {
@@ -87,9 +91,8 @@ namespace BehaviorTreePlanner
         {
             List<SavedNodeBase> NewNodes = new();
             List<SavedLinePoint> NewLines = new();
-            SavedNodeBase blackboard = new SavedNodeBase(-1,-1,-1);
+            SavedNodeBase blackboard = new(-1,-1,-1);
 
-            Debug.Log("0");
             //asign an unique index based on list order to each line and node for indentifing purposes
             try
             {
@@ -103,15 +106,16 @@ namespace BehaviorTreePlanner
                     {
                         EditorManager.SpawnManager.ActiveLines[index].InitializeSave(index);
                     }
-
-                    EditorManager.SpawnManager.ActiveBlackBoard?.InitializeSave(-1);
+                    if(EditorManager.SpawnManager.ActiveBlackBoard != null)
+                    {
+                        EditorManager.SpawnManager.ActiveBlackBoard.InitializeSave(-1);
+                    }
                 });
             }
             catch (Exception ex)
             {
                 Debug.LogException(ex, gameObject);
             }
-            Debug.Log("1");
             try
             {
                 //call save on each node/line CANT RUN ON NEW THREAD
@@ -126,23 +130,24 @@ namespace BehaviorTreePlanner
                     SavedLinePoint savedp = line.Save();
                     NewLines.Add(savedp);
                 }
-
-                blackboard =  EditorManager.SpawnManager.ActiveBlackBoard?.Save();
+                if(EditorManager.SpawnManager.ActiveBlackBoard != null)
+                {
+                    blackboard =  EditorManager.SpawnManager.ActiveBlackBoard.Save();
+                }
 
             }
             catch (Exception ex)
             {
                 Debug.LogException(ex, gameObject);
             }
-            Debug.Log("2");
             return new SavedProjectLayer(NewNodes, NewLines, blackboard);
         }
 
         private async Task ConvertSavedLayerToScene()//try add multithreading
         {
+            //initialize load (asign the corect index and set position)
             try
             {
-                //initialize load (asign the corect index and set position)
                 foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
                 {
                     NodeBase spawnedNode;
@@ -158,7 +163,7 @@ namespace BehaviorTreePlanner
                         {
                             if (layer.LayerName == savedn.LayerName)
                             {
-                                spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(layer, false);//problem passing null
+                                spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(layer, false);
                                 spawnedNode.InitializeLoad(nodedata,EditorManager);
                             }
                         }
@@ -183,9 +188,10 @@ namespace BehaviorTreePlanner
             {
                 Debug.LogException(ex, gameObject);
             }
+            
+            //call load(set up refferences between objects)
             try
             {
-                //call load(set up refferences between objects)
                 foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
                 {
                     node.Load();
@@ -194,6 +200,7 @@ namespace BehaviorTreePlanner
                 {
                     line.Load();
                 }
+                EditorManager.SpawnManager.ActiveBlackBoard.Load();
             }
             catch (Exception ex)
             {
@@ -204,27 +211,19 @@ namespace BehaviorTreePlanner
 
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
-            Debug.Log("0");
             ShowLoadingScreen();
-            Debug.Log("1");
             //Invoke event for buttons to update
             OnLayerUpdated?.Invoke(projectlayer.LayerName);
 
-            Debug.Log("2");
             //save the curent active layer before loading another layer
             await SaveActiveLayer();
-            Debug.Log("3");
             //clear the data from the other layer
-            Debug.Log("4");
             ClearScreen();
             //await loading of data and spawning stuff
-            Debug.Log("5");
             ActiveProjectLayer = projectlayer;
 
-            Debug.Log("6");
             await ConvertSavedLayerToScene();
 
-            Debug.Log("7");
             HideLoadingScreen();
         }
 

@@ -11,6 +11,8 @@ namespace BehaviorTreePlanner.Nodes
         [HideInInspector] public NodeDesign NodeD;
         [SerializeField] protected GameObject LineTrigger;
         protected LineHandler lineHandler = new();
+        [SerializeField] protected GameObject dragTrigger;
+        [SerializeField] protected GameObject attachTrigger;
         public int SaveIndex { get; set; }
         protected SavedNodeBase saveData;
         private static NodeDesign DefaultNodeNd = new("Default","",Color.black,Color.black);
@@ -33,6 +35,7 @@ namespace BehaviorTreePlanner.Nodes
 
         public virtual void DestroyObject()
         {
+            Debug.Log("Destroyed node");
             lineHandler.DestroyLineHandler();
             editorManager.SpawnManager.RemoveActiveNode(this);
             Destroy(this.gameObject);
@@ -56,12 +59,12 @@ namespace BehaviorTreePlanner.Nodes
                 lineHandler.SpawnLine();
             }
         }
-        public void AttachLine(LinePoint Line)
+        public virtual void AttachLine(LinePoint Line)
         {
             lineHandler.AttachLine(Line);
         }
 
-        public void DeAttachLine()
+        public virtual void DeAttachLine()
         {
             lineHandler.DeAttachLine();
         }
