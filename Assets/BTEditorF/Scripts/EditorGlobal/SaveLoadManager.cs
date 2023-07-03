@@ -231,11 +231,13 @@ namespace BehaviorTreePlanner
 
             //save the curent active layer before loading another layer
             await SaveActiveLayer();
-            //clear the data from the other layer
-            ClearScreen();
-            //await loading of data and spawning stuff
+
             ActiveProjectLayer = projectlayer;
 
+            //clear the data from the other layer
+            ClearScreen();
+            
+            //await loading of saved data and spawning it
             await ConvertSavedLayerToScene();
 
             HideLoadingScreen();
