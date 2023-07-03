@@ -35,9 +35,9 @@ namespace BehaviorTreePlanner.Nodes
 
         public virtual void DestroyObject()
         {
-            Debug.Log("Destroyed node");
             lineHandler.DestroyLineHandler();
             editorManager.SpawnManager.RemoveActiveNode(this);
+            editorManager.SpawnManager.TriggerObjectsUpdated();
             Destroy(this.gameObject);
         }
 

@@ -25,6 +25,14 @@ namespace BehaviorTreePlanner
         [field: SerializeField] public List<LinePoint> ActiveLines { get; set; } = new();
         [field: SerializeField] public NodeBase ActiveBlackBoard { get; set; }
         //add a bool for start moving and for highlighting the node
+
+        public delegate void SpawnedLine(string LayerName);
+        public event SpawnedLine OnObjectsUpdated;
+
+        public void TriggerObjectsUpdated()
+        {
+            OnObjectsUpdated?.Invoke(EditorManager.SaveLoadManager.ActiveProjectLayer.LayerName);
+        }
         public NodeBase SpawnNode(NodeDesign Nd, bool StartMoving = true)
         {
             GameObject TempNode = Instantiate(NodePrefabReff, Screen.transform);
@@ -38,6 +46,7 @@ namespace BehaviorTreePlanner
                 EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
                 EditorManager.MoveObjectsManager.StartMoving();
             }
+            TriggerObjectsUpdated();
             return nodebase;
         }
 
@@ -55,8 +64,10 @@ namespace BehaviorTreePlanner
                 EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
                 EditorManager.MoveObjectsManager.StartMoving();
             }
+            TriggerObjectsUpdated();
             return nodebase;
         }
+
         public NodeBase SpawnBlackBoardNode()
         {
             if(ActiveBlackBoard != null)
@@ -73,6 +84,7 @@ namespace BehaviorTreePlanner
             ActiveBlackBoard = nodebase;
             return ActiveBlackBoard;
         }
+
         public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot, bool StartMoving = true)
         {
             GameObject TempLine = Instantiate(EditorManager.SpawnManager.LinePointPrefabReff, EditorManager.SpawnManager.Screen.transform);
@@ -80,7 +92,7 @@ namespace BehaviorTreePlanner
             TempLine.name = "LinePoint";
             LinePoint linepoint = TempLine.GetComponent<LinePoint>();
             linepoint.InitializeLine(Caller, IsRoot, EditorManager);
-            AddActiveLine(linepoint);//it was in if
+            AddActiveLine(linepoint);
             if (SaveReff)
             {
                 if (StartMoving)
@@ -89,6 +101,7 @@ namespace BehaviorTreePlanner
                     EditorManager.MoveObjectsManager.StartMoving();
                 }
             }
+            TriggerObjectsUpdated();
             return linepoint;
         }
 

@@ -19,6 +19,11 @@ namespace BehaviorTreePlanner
         [SerializeField] private Text NodeCount;
         [SerializeField] private Text LineCount;
         private bool isEditing = false;
+        private void Start()
+        {
+            layersMenu.editorManager.SaveLoadManager.OnLayerUpdated += CheckHighlight;
+            layersMenu.editorManager.SpawnManager.OnObjectsUpdated += UpdateVisibleData;
+        }
         
         public void InitializeNodeButton(LayersMenu layersmenu, SavedProjectLayer projectlayer)
         {
@@ -27,16 +32,23 @@ namespace BehaviorTreePlanner
             NodeCount.text = projectlayer.SavedNodes.Count.ToString();
             LineCount.text = projectlayer.SavedLinePoints.Count.ToString();
             layerNodeInput.text = projectlayer.LayerName;
+        }
 
-        }
-        private void Start()
+        private void UpdateVisibleData(string activelayer)
         {
-            layersMenu.editorManager.SaveLoadManager.OnLayerUpdated += CheckHighlight;
+            if(projectLayer.LayerName == activelayer)
+            {
+                NodeCount.text = layersMenu.editorManager.SpawnManager.ActiveNodes.Count.ToString();
+                LineCount.text = layersMenu.editorManager.SpawnManager.ActiveLines.Count.ToString();
+            }
         }
+
         ~LayerNodeButton()
         {
             layersMenu.editorManager.SaveLoadManager.OnLayerUpdated -= CheckHighlight;
+            layersMenu.editorManager.SpawnManager.OnObjectsUpdated -= UpdateVisibleData;
         }
+
         private void CheckHighlight(string layername)
         {
             if(layername == projectLayer.LayerName)
@@ -48,6 +60,7 @@ namespace BehaviorTreePlanner
                 UnHighlight();
             }
         }
+
         public void HighLight()
         {
             nodeColor.color = new Color(0.6981132f, 0.3984514f, 0.6386044f);
@@ -56,11 +69,13 @@ namespace BehaviorTreePlanner
         {
             nodeColor.color = new Color(0.3466221f, 0.1603774f, 0.6415094f);
         }
+
         public void ConfirmEdit()
         {
             projectLayer.LayerName = layerNodeInput.text;
             ToggleEdit();
         }
+
         public void ToggleEdit()
         {
             if (projectLayer.LayerName == "Base Layer")
@@ -84,10 +99,12 @@ namespace BehaviorTreePlanner
                 layerNodeInput.interactable = true;
             }
         }
+
         public void CallDeleteLayerButton()
         {
             layersMenu.DeleteLayer(this);
         }
+
         public void CallOpenLayer()
         {
             layersMenu.OpenLayer(this);

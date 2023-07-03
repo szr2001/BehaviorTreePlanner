@@ -278,7 +278,6 @@ namespace BehaviorTreePlanner.Lines
         #endregion
         public void DestroyObject()
         {
-            Debug.Log("Destroyed line");
             try 
             {
                 int maxloop = SpawnedPoints.Count;
@@ -301,6 +300,7 @@ namespace BehaviorTreePlanner.Lines
                     }
                 }
                 editorManager.SpawnManager.RemoveActiveLine(this);
+                editorManager.SpawnManager.TriggerObjectsUpdated();
                 Destroy(gameObject);
             }
             catch(Exception ex)
