@@ -11,14 +11,24 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private EditorManager EditorManager;
         [SerializeField] private GameObject NodeHolder;
 
-        private List<NodeDesign> NodeDesigns = new();
+        [SerializeField] private List<NodeDesign> NodeDesigns = new();
         private List<GameObject> MenuSpawnedNodes = new ();
-        void Start()
+
+        public List<NodeDesign> Save()
         {
-            NodeDesigns.Add(new NodeDesign("Selector", "", new Color(0.33f, 1f, 0f), new Color(0.99f, 0.45f, 0.09f)));
-            NodeDesigns.Add(new NodeDesign("Sequence", "", new Color(1f, 0.92f, 0f), new Color(0.99f, 0.45f, 0.09f)));
-            NodeDesigns.Add(new NodeDesign("Parallel", "", new Color(0.80f, 0.35f, 1f), new Color(0.99f, 0.45f, 0.09f)));
-            NodeDesigns.Add(new NodeDesign("Task", "", new Color(0f, 0.93f, 1f), new Color(0.99f, 0.45f, 0.09f)));
+            return NodeDesigns;
+        }
+        public void Load(List<NodeDesign> nodedesigns)
+        {
+            NodeDesigns.Clear();
+            NodeDesigns = nodedesigns;
+            if(NodeDesigns.Count == 0)
+            {
+                NodeDesigns.Add(new NodeDesign("Selector", "", new Color(0.33f, 1f, 0f), new Color(0.99f, 0.45f, 0.09f)));
+                NodeDesigns.Add(new NodeDesign("Sequence", "", new Color(1f, 0.92f, 0f), new Color(0.99f, 0.45f, 0.09f)));
+                NodeDesigns.Add(new NodeDesign("Parallel", "", new Color(0.80f, 0.35f, 1f), new Color(0.99f, 0.45f, 0.09f)));
+                NodeDesigns.Add(new NodeDesign("Task", "", new Color(0f, 0.93f, 1f), new Color(0.99f, 0.45f, 0.09f)));
+            }
             RefreshVisibleNodes();
         }
         public bool ContainsType(string type)
@@ -54,15 +64,10 @@ namespace BehaviorTreePlanner.MenuUi
                 }
             }
         }
-        public void RefreshVisibleNodes()
+        private void RefreshVisibleNodes()
         {
-            if (MenuSpawnedNodes.Count > 0)
-            {
-                foreach (GameObject g in MenuSpawnedNodes)
-                {
-                    Destroy(g);
-                }
-            }
+            ClearButtons();
+
             if (NodeDesigns.Count > 0)
             {
                 foreach (NodeDesign D in NodeDesigns)
@@ -73,6 +78,16 @@ namespace BehaviorTreePlanner.MenuUi
                     SpawnedNode.transform.localPosition = new Vector3(SpawnedNode.transform.position.x, SpawnedNode.transform.position.y, 0);
                     SpawnedNode.transform.localScale = Vector3.one;
                     MenuSpawnedNodes.Add(SpawnedNode);
+                }
+            }
+        }
+        private void ClearButtons()
+        {
+            if (MenuSpawnedNodes.Count > 0)
+            {
+                foreach (GameObject g in MenuSpawnedNodes)
+                {
+                    Destroy(g);
                 }
             }
         }

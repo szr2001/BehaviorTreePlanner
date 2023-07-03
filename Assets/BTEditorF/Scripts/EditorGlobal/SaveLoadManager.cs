@@ -26,8 +26,9 @@ namespace BehaviorTreePlanner
 
         private void Start()
         {
-            _ = LoadLayer(EditorManager.ProjectsManager.OpenedProject.Layers[0]);
+            LoadProject();
         }
+
         public void ClearScreen()
         {
             //nodes automaticaly delete any atached lines
@@ -59,11 +60,24 @@ namespace BehaviorTreePlanner
             EditorManager.ProjectsManager.OpenedProject.Layers.Add(layer);
             _ = SaveProject();
         }
-
+        private void LoadProject()
+        {
+            _ = LoadLayer(EditorManager.ProjectsManager.OpenedProject.Layers[0]);
+            loadNodeTypes();
+        }
+        private void loadNodeTypes()
+        {
+            EditorManager.EditorUiManager.NodeMenu.Load(EditorManager.ProjectsManager.OpenedProject.NodeTypes);
+        }
+        private void SaveNodeTypes()
+        {
+            EditorManager.ProjectsManager.OpenedProject.NodeTypes = EditorManager.EditorUiManager.NodeMenu.Save();
+        }
         public async Task SaveProject()
         {
             ShowLoadingScreen();
             await SaveActiveLayer();
+            SaveNodeTypes();
             await EditorManager.ProjectsManager.SaveOpenedProjectFile();
             HideLoadingScreen();
         }
