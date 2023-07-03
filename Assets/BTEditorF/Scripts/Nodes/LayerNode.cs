@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,49 @@ namespace BehaviorTreePlanner.Nodes
                     lineHandler.SpawnedPoint != null ? lineHandler.SpawnedPoint.SaveIndex : -1
                 );
         }
+
+        int doubleClick = 0;
+        bool isdoubleclicking = false;
+        public void CallOpenLayer()
+        {
+            doubleClick++;
+            
+            if (!isdoubleclicking)
+            {
+                StartCoroutine(DoubleClickDelay());
+                isdoubleclicking = true;
+            }
+
+            if(doubleClick >= 2)
+            {
+                SavedProjectLayer layertoopen = null;
+                foreach (SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
+                {
+                    if (layer.LayerName == projectLayer.LayerName)
+                    {
+                        layertoopen = layer;
+                    }
+                }
+                if (layertoopen != null)
+                {
+                    _ = editorManager.SaveLoadManager.LoadLayer(layertoopen);
+                }
+                else
+                {
+                    DestroyObject();
+                }
+                doubleClick = 0;
+                isdoubleclicking = false;
+            }
+        }
+
+        private IEnumerator DoubleClickDelay()
+        {
+            yield return new WaitForSeconds(.2f);
+            doubleClick = 0;
+            isdoubleclicking = false;
+        }
+
         public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
         {
             base.InitializeLoad(savedata, editormanager);
@@ -40,10 +84,7 @@ namespace BehaviorTreePlanner.Nodes
             projectLayer = projectlayer;
             layerNameT.text = projectLayer.LayerName;
         }
-        public void OpenProjectNode()
-        {
-             
-        }
+
         public override void StartMoveObj()
         {
             NodeHighLight.SetActive(true);
