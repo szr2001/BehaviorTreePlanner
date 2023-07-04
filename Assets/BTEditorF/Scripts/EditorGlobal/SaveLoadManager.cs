@@ -225,6 +225,11 @@ namespace BehaviorTreePlanner
 
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
+            if(ActiveProjectLayer.LayerName == projectlayer.LayerName)
+            {
+                return;
+            }
+
             ShowLoadingScreen();
             //Invoke event for buttons to update
             OnLayerUpdated?.Invoke(projectlayer.LayerName);

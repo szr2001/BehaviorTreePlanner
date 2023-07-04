@@ -112,6 +112,11 @@ namespace BehaviorTreePlanner
 
         public void CallSpawnlayerNode()
         {
+            if(layersMenu.editorManager.SaveLoadManager.ActiveProjectLayer.LayerName == projectLayer.LayerName)
+            {
+                return;
+            }
+
             layersMenu.SpawnLayerNode(projectLayer);
         }
     }
