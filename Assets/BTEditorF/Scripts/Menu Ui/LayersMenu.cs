@@ -1,11 +1,6 @@
-using BehaviorTreePlanner.MenuUi;
-using BehaviorTreePlanner.Nodes;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.AI;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace BehaviorTreePlanner
 {

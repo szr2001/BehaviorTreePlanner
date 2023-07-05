@@ -9,7 +9,7 @@ namespace BehaviorTreePlanner
         [SerializeField] private Animator RotatingImage;
 
 
-        public void ClearLoadingSCreen()
+        public void ClearLoadingScreen()
         {
             Destroy(this.gameObject);
         }

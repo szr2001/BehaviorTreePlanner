@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Global
@@ -10,5 +8,6 @@ namespace BehaviorTreePlanner.Global
     {
         public static Vector2 LineGridSize = new (0.5f, 0.5f);
         public static Vector2 NodeGridSize = new (1.5f, 1);
+        public static int SoundVolume = 100;
     }
 }

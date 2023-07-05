@@ -3,7 +3,6 @@ using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -94,9 +93,10 @@ namespace BehaviorTreePlanner
         {
             //save before quit
             await SaveProject();
-            //destroy the project manager and all its data because it is
+            //destroy the project manager,settings manager and all their data because it is
             //generated again in the menu
             Destroy(EditorManager.ProjectsManager.gameObject);
+            Destroy(EditorManager.SettingsManager.gameObject);
             //load menu
             SceneManager.LoadScene("BTMenu");
         }
@@ -263,7 +263,7 @@ namespace BehaviorTreePlanner
             {
                 return;
             }
-            loadingScreen.GetComponent<LoadingScreen>().ClearLoadingSCreen();
+            loadingScreen.GetComponent<LoadingScreen>().ClearLoadingScreen();
             loadingScreen = null;
         }
     }

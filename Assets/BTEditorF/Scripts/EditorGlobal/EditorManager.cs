@@ -1,15 +1,13 @@
-using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Player;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorTreePlanner
 {
     public class EditorManager : MonoBehaviour
     {
+        public GameObject MainUiCanvas;
+
         public CameraControl PlayerControll;
-        public SettingsManager SettingsManager;
         public MoveObjectsManager MoveObjectsManager;
         public SpawnManager SpawnManager;
         public SoundManager SoundManager;
@@ -17,11 +15,14 @@ namespace BehaviorTreePlanner
         public SaveLoadManager SaveLoadManager;
         public EditorUiManager EditorUiManager;
         public ProjectsManager ProjectsManager;
+        public SettingsManager SettingsManager;
 
         [HideInInspector]public bool IsOverUi = false;
         private void Awake()
         {
             ProjectsManager = GameObject.FindObjectOfType<ProjectsManager>();
+            SettingsManager = GameObject.FindObjectOfType<SettingsManager>();
+            SettingsManager.MainUiCanvas = MainUiCanvas;
         }
     }
 }
