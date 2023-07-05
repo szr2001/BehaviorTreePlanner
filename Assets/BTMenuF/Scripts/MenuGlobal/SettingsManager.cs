@@ -1,4 +1,10 @@
+using BehaviorTreePlanner.Global;
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 namespace BehaviorTreePlanner
@@ -10,10 +16,13 @@ namespace BehaviorTreePlanner
 
         private GameObject loadingScreen;
 
-        private static string settingsfilepath = @"";
+        [HideInInspector] public static string settingsfilepath { get;set; } = "";
+
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
+            settingsfilepath = @$"{Application.dataPath}/BTSettings.st";
+            LoadSettingsFromFile();
         }
 
         public void ShowSettingsScreen()
@@ -35,13 +44,57 @@ namespace BehaviorTreePlanner
             loadingScreen.GetComponent<SettingsScreen>().ClearLoadingScreen();
             loadingScreen = null;
         }
+
         public void SaveSettingsToFile()
         {
+            try
+            {
+                BinaryFormatter bf = new();
+                SavedSettings settings = new();
+                if (Directory.Exists(settingsfilepath))
+                {
+                    Directory.Delete(settingsfilepath);
+                }
+                using (FileStream fs = new(settingsfilepath, FileMode.Create))
+                {
+                    bf.Serialize(fs, settings);
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.LogException(ex);
+            }
 
         }
+
         public void LoadSettingsFromFile()
         {
+            BinaryFormatter bf = new();
+            SavedSettings settings = new();
+            try
+            {
+                if (File.Exists(settingsfilepath))
+                {
 
+                    using (FileStream fs = new(settingsfilepath, FileMode.Open))
+                    {
+                        settings = (SavedSettings)bf.Deserialize(fs);
+                        BTSettings.NodeGridSize.x = settings.NodeGridSize[0];
+                        BTSettings.NodeGridSize.y = settings.NodeGridSize[1];
+                        BTSettings.LineGridSize.x = settings.LineGridSize[0];
+                        BTSettings.LineGridSize.y = settings.LineGridSize[1];
+                        BTSettings.SoundVolume = settings.SoundVolume;
+                    }
+                }
+                else
+                {
+                   SaveSettingsToFile();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
         }
     }
 }

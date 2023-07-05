@@ -120,7 +120,7 @@ namespace BehaviorTreePlanner.Lines
         }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
-            Vector2 GridSize = SavedSettings.LineGridSize;
+            Vector2 GridSize = BTSettings.LineGridSize;
             Vector2 CorectionOffset = new(0.08f, 0);
             Vector3 activeLinePos = UseGrid ? editorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
             

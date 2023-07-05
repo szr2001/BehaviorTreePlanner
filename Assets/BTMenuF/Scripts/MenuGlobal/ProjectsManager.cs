@@ -17,7 +17,7 @@ namespace BehaviorTreePlanner
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
-            ProjectsFolder = Application.dataPath + "/Projects";
+            ProjectsFolder = $@"{Application.dataPath}/Projects";
         }
         public void CheckProjectFolderExists()
         {

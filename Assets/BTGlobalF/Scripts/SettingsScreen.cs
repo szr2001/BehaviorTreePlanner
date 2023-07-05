@@ -6,29 +6,30 @@ namespace BehaviorTreePlanner
 {
     public class SettingsScreen : MonoBehaviour
     {
-        public SettingsManager SettingsManager;
+        public SettingsManager settingsManager;
         public Slider SoundSlider;
         public Text SoundValue;
 
         public void InitializeSettingsScreen(SettingsManager settingsmanager)
         {
-            SettingsManager = settingsmanager;
-            SoundSlider.value = (float)SavedSettings.SoundVolume;
+            settingsManager = settingsmanager;
+            SoundSlider.value = (float)BTSettings.SoundVolume;
             SoundValue.text = SoundSlider.value.ToString();
             SoundSlider.onValueChanged.AddListener(ChangedSoundVolume);
         }
         public void ClearLoadingScreen()
         {
+            settingsManager.SaveSettingsToFile();
             Destroy(this.gameObject);
         }
         public void ChangedSoundVolume(float newvalue)
         {
-            SavedSettings.SoundVolume = (int)newvalue;
+            BTSettings.SoundVolume = (int)newvalue;
             SoundValue.text = SoundSlider.value.ToString();
         }
         public void CloseSelf()
         {
-            SettingsManager.HideSettingsScreen();
+            settingsManager.HideSettingsScreen();
         }
     }
 }
