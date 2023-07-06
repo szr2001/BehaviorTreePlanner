@@ -23,10 +23,10 @@ namespace BehaviorTreePlanner.Nodes
                     lineHandler.SpawnedPoint != null ? lineHandler.SpawnedPoint.SaveIndex : -1
                 );
         }
-        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
+        public override void InitializeLoad(SavedNodeBase savedata)
         {
-            base.InitializeLoad(savedata, editormanager);
-            InitializeNode(NodeD,editormanager);
+            base.InitializeLoad(savedata);
+            InitializeNode(NodeD);
         }
 
         public override void Load()
@@ -38,9 +38,9 @@ namespace BehaviorTreePlanner.Nodes
             NameText.text = n;
             NodeD.name = n;
         }
-        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
+        public override void InitializeNode(NodeDesign nd)
         {
-            base.InitializeNode(nd, editormanager);
+            base.InitializeNode(nd);
             TopImageReff.color = NodeD.PrimaryCollor;
             BotImageReff.color = NodeD.SecondaryCollor;
             TypeText.text = NodeD.type;

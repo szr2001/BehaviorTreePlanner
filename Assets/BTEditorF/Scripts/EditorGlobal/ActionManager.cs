@@ -10,7 +10,7 @@ namespace BehaviorTreePlanner
 {
     public class ActionManager : MonoBehaviour
     {
-        public EditorManager EditorManager;
+        public static ActionManager Instance;
         private List<IMovable> mMovableCopyList = new();
         private bool IsPressingLeftCtrl = false;
         private void Update()
@@ -19,6 +19,17 @@ namespace BehaviorTreePlanner
             CheckDelete();
             CheckCopy();
             CheckPaste();
+        }
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         private void CheckPressingLeftControl()
         {
@@ -35,21 +46,21 @@ namespace BehaviorTreePlanner
         {
             if (IsPressingLeftCtrl && Input.GetKeyDown(KeyCode.C))
             {
-                mMovableCopyList = EditorManager.MoveObjectsManager.MovableIList;
-                EditorManager.MoveObjectsManager.StopMoving();
+                mMovableCopyList = MoveObjectsManager.Instance.MovableIList;
+                MoveObjectsManager.Instance.StopMoving();
             }
         }
         private void CheckDelete()
         {
             if (Input.GetKeyDown(KeyCode.Delete))
             {
-                if(EditorManager.MoveObjectsManager.MovableIList.Count > 0)
+                if(MoveObjectsManager.Instance.MovableIList.Count > 0)
                 {
-                    foreach (IMovable m in EditorManager.MoveObjectsManager.MovableIList)
+                    foreach (IMovable m in MoveObjectsManager.Instance.MovableIList)
                     {
                         m.GetGameObj.GetComponent<IObjDestroyable>().DestroyObject();
                     }
-                    EditorManager.MoveObjectsManager.ClearMovableObj();
+                    MoveObjectsManager.Instance.ClearMovableObj();
                 }
             }
         }

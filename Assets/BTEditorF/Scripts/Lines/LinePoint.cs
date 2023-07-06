@@ -10,7 +10,6 @@ namespace BehaviorTreePlanner.Lines
 {
     public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler,IObjDestroyable
     {
-        public EditorManager editorManager;
         public NodeBase AtachedToNode { get; set; }
 
         [SerializeField] private GameObject Highlight;
@@ -107,22 +106,22 @@ namespace BehaviorTreePlanner.Lines
 
         public void Load()
         {
-            ParentLine = saveData.ParentLineIndex == -1 ? null : editorManager.SpawnManager.ActiveLines[saveData.ParentLineIndex];
-            AtachedToNode = saveData.AtachedToNodeIndex == -1 ? null : editorManager.SpawnManager.ActiveNodes[saveData.AtachedToNodeIndex];
+            ParentLine = saveData.ParentLineIndex == -1 ? null : SpawnManager.Instance.ActiveLines[saveData.ParentLineIndex];
+            AtachedToNode = saveData.AtachedToNodeIndex == -1 ? null : SpawnManager.Instance.ActiveNodes[saveData.AtachedToNodeIndex];
             foreach(int spawnedlineindex in saveData.SpawnedLinesIndex)
             {
                 if(spawnedlineindex == -1)
                 {
                     return;
                 }
-                SpawnedPoints.Add(editorManager.SpawnManager.ActiveLines[spawnedlineindex]);
+                SpawnedPoints.Add(SpawnManager.Instance.ActiveLines[spawnedlineindex]);
             }
         }
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = BTSettings.LineGridSize;
             Vector2 CorectionOffset = new(0.08f, 0);
-            Vector3 activeLinePos = UseGrid ? editorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
+            Vector3 activeLinePos = UseGrid ? MoveObjectsManager.Instance.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
             
             if(IsRoot || IsAtachedToNode)
             {
@@ -150,9 +149,8 @@ namespace BehaviorTreePlanner.Lines
                 ParentLine.UpdateLineRenderer();
             }
         }
-        public void InitializeLine(LinePoint caller,bool root,EditorManager editorManager)
+        public void InitializeLine(LinePoint caller,bool root)
         {
-            this.editorManager = editorManager;
             ParentLine = caller;
             IsRoot = root;
             if (IsRoot)
@@ -163,12 +161,12 @@ namespace BehaviorTreePlanner.Lines
         }
         private void CheckAttach()
         {
-            if(editorManager.MoveObjectsManager.MoveObjCount > 1)
+            if(MoveObjectsManager.Instance.MoveObjCount > 1)
             {
                 return;
             }
 
-            Vector3 activeNodePos = editorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+            Vector3 activeNodePos = SpawnManager.Instance.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (hit && hit.collider.gameObject.TryGetComponent<NodeBase>(out NodeBase attachtoNode))
             {
@@ -224,12 +222,12 @@ namespace BehaviorTreePlanner.Lines
             }
             if (AtachedToNode != null)
             {
-                editorManager.MoveObjectsManager.AddMovableObj(this);
-                editorManager.MoveObjectsManager.StartMoving();
+                MoveObjectsManager.Instance.AddMovableObj(this);
+                MoveObjectsManager.Instance.StartMoving();
             }
             else
             {
-                LinePoint spawnedpoint = editorManager.SpawnManager.SpawnLinePoint(this, true, false);
+                LinePoint spawnedpoint = SpawnManager.Instance.SpawnLinePoint(this, true, false);
                 spawnedpoint.transform.localPosition = transform.localPosition - new Vector3(0, 10, 0);
                 SpawnedPoints.Add(spawnedpoint);
             }
@@ -247,13 +245,13 @@ namespace BehaviorTreePlanner.Lines
         {
             if (!IsRoot)
             {
-                editorManager.MoveObjectsManager.AddMovableObj(this);
-                editorManager.MoveObjectsManager.StartMoving();
+                MoveObjectsManager.Instance.AddMovableObj(this);
+                MoveObjectsManager.Instance.StartMoving();
             }
         }
         private void StopMove()
         {
-            editorManager.MoveObjectsManager.StopMoving();
+            MoveObjectsManager.Instance.StopMoving();
         }
 
         #region DragHandlers
@@ -295,12 +293,12 @@ namespace BehaviorTreePlanner.Lines
                     ParentLine.RemoveLine(this);
                     if (ParentLine.IsRoot)
                     {
-                        editorManager.SpawnManager.RemoveActiveLine(ParentLine);
+                        SpawnManager.Instance.RemoveActiveLine(ParentLine);
                         Destroy(ParentLine.gameObject);
                     }
                 }
-                editorManager.SpawnManager.RemoveActiveLine(this);
-                editorManager.SpawnManager.TriggerObjectsUpdated();
+                SpawnManager.Instance.RemoveActiveLine(this);
+                SpawnManager.Instance.TriggerObjectsUpdated();
                 Destroy(gameObject);
             }
             catch(Exception ex)

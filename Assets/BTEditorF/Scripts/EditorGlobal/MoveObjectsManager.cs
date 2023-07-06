@@ -8,20 +8,32 @@ namespace BehaviorTreePlanner
 {
     public class MoveObjectsManager : MonoBehaviour
     {
-        public EditorManager EditorManager;
+        public static MoveObjectsManager Instance;
         private Dictionary<IMovable, Vector3> MovableObj = new();
         public int MoveObjCount { get { return MovableObj.Count; } }
 
         private bool IsMoving = false;
 
         public List<IMovable> MovableIList { get {return MovableObj.Keys.ToList(); } }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
         private void Update()
         {
             if(IsMoving && MovableObj.Count > 0)
             {
                 foreach (KeyValuePair<IMovable, Vector3> movableObj in MovableObj)
                 {
-                    Vector2 mospos = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                    Vector2 mospos = SpawnManager.Instance.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                     movableObj.Key.MoveObj(mospos, movableObj.Value,true);
                     if(Input.GetMouseButtonUp(0))
                     {
@@ -35,7 +47,7 @@ namespace BehaviorTreePlanner
         {
             if(MovableObj.Count > 1)
             {
-                Vector3 MosPoss = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
+                Vector3 MosPoss = SpawnManager.Instance.PlayerControll.PlayerCamera.ScreenToWorldPoint((Vector2)Input.mousePosition);
                 Dictionary<IMovable, Vector3> MovableObjTemp = new();
                 foreach (KeyValuePair<IMovable, Vector3> Obj in MovableObj) 
                 {

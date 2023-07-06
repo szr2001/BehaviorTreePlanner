@@ -13,7 +13,7 @@ namespace BehaviorTreePlanner
         //while the app is loaded in the editor, load the OppenedSavedProject.
         //Save every change back to the same oppenedsavedproject variable
         //then save it to a file. Load ands save the same file but with modified values.
-        [field: SerializeField] public EditorManager EditorManager { get; set; }
+        public static SaveLoadManager Instance;
         [field: SerializeField] public SavedProjectLayer ActiveProjectLayer { get; set; } //why its not saving reff to OpenedProject?  
         [field: SerializeField] public GameObject CameraCanvas { get; set; }
         [field: SerializeField] public GameObject LoadingScreenPrefabReff { get; set; }
@@ -22,6 +22,17 @@ namespace BehaviorTreePlanner
 
         public delegate void LayerUpdated(string layername);
         public event LayerUpdated OnLayerUpdated;
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         private void Start()
         {
@@ -33,13 +44,13 @@ namespace BehaviorTreePlanner
             //nodes automaticaly delete any atached lines
             try
             {
-                while (EditorManager.SpawnManager.ActiveNodes.Count > 0)
+                while (SpawnManager.Instance.ActiveNodes.Count > 0)
                 {
-                    EditorManager.SpawnManager.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
+                    SpawnManager.Instance.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
                 }
-                if(EditorManager.SpawnManager.ActiveBlackBoard != null)
+                if(SpawnManager.Instance.ActiveBlackBoard != null)
                 {
-                    EditorManager.SpawnManager.ActiveBlackBoard.GetComponent<IObjDestroyable>().DestroyObject();
+                    SpawnManager.Instance.ActiveBlackBoard.GetComponent<IObjDestroyable>().DestroyObject();
                 }
             }
             catch(Exception ex)
@@ -50,34 +61,34 @@ namespace BehaviorTreePlanner
 
         public void RemoveLayerFromProject(SavedProjectLayer layer)
         {
-            EditorManager.ProjectsManager.OpenedProject.Layers.Remove(layer);
+            ProjectsManager.Instance.OpenedProject.Layers.Remove(layer);
             _ = SaveProject();
         }
 
         public void AddLayerToProject(SavedProjectLayer layer)
         {
-            EditorManager.ProjectsManager.OpenedProject.Layers.Add(layer);
+            ProjectsManager.Instance.OpenedProject.Layers.Add(layer);
             _ = SaveProject();
         }
         private void LoadProject()
         {
-            _ = LoadLayer(EditorManager.ProjectsManager.OpenedProject.Layers[0]);
+            _ = LoadLayer(ProjectsManager.Instance.OpenedProject.Layers[0]);
             loadNodeTypes();
         }
         private void loadNodeTypes()
         {
-            EditorManager.EditorUiManager.NodeMenu.Load(EditorManager.ProjectsManager.OpenedProject.NodeTypes);
+            EditorUiManager.Instance.NodeMenu.Load(ProjectsManager.Instance.OpenedProject.NodeTypes);
         }
         private void SaveNodeTypes()
         {
-            EditorManager.ProjectsManager.OpenedProject.NodeTypes = EditorManager.EditorUiManager.NodeMenu.Save();
+            ProjectsManager.Instance.OpenedProject.NodeTypes = EditorUiManager.Instance.NodeMenu.Save();
         }
         public async Task SaveProject()
         {
             ShowLoadingScreen();
             await SaveActiveLayer();
             SaveNodeTypes();
-            await EditorManager.ProjectsManager.SaveOpenedProjectFile();
+            await ProjectsManager.Instance.SaveOpenedProjectFile();
             HideLoadingScreen();
         }
 
@@ -95,8 +106,8 @@ namespace BehaviorTreePlanner
             await SaveProject();
             //destroy the project manager,settings manager and all their data because it is
             //generated again in the menu
-            Destroy(EditorManager.ProjectsManager.gameObject);
-            Destroy(EditorManager.SettingsManager.gameObject);
+            Destroy(ProjectsManager.Instance.gameObject);
+            Destroy(SettingsManager.Instance.gameObject);
             //load menu
             SceneManager.LoadScene("BTMenu");
         }
@@ -112,17 +123,17 @@ namespace BehaviorTreePlanner
             {
                 await Task.Run(() => 
                 {
-                    for (int index = 0; index < EditorManager.SpawnManager.ActiveNodes.Count; index++)
+                    for (int index = 0; index < SpawnManager.Instance.ActiveNodes.Count; index++)
                     {
-                        EditorManager.SpawnManager.ActiveNodes[index].InitializeSave(index);
+                        SpawnManager.Instance.ActiveNodes[index].InitializeSave(index);
                     }
-                    for (int index = 0; index < EditorManager.SpawnManager.ActiveLines.Count; index++)
+                    for (int index = 0; index < SpawnManager.Instance.ActiveLines.Count; index++)
                     {
-                        EditorManager.SpawnManager.ActiveLines[index].InitializeSave(index);
+                        SpawnManager.Instance.ActiveLines[index].InitializeSave(index);
                     }
-                    if(EditorManager.SpawnManager.ActiveBlackBoard != null)
+                    if(SpawnManager.Instance.ActiveBlackBoard != null)
                     {
-                        EditorManager.SpawnManager.ActiveBlackBoard.InitializeSave(-1);
+                        SpawnManager.Instance.ActiveBlackBoard.InitializeSave(-1);
                     }
                 });
             }
@@ -133,20 +144,20 @@ namespace BehaviorTreePlanner
             try
             {
                 //call save on each node/line CANT RUN ON NEW THREAD
-                foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+                foreach (NodeBase node in SpawnManager.Instance.ActiveNodes)
                 {
                     SavedNodeBase savedn = node.Save();
                     NewNodes.Add(savedn);
                 }
 
-                foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+                foreach (LinePoint line in SpawnManager.Instance.ActiveLines)
                 {
                     SavedLinePoint savedp = line.Save();
                     NewLines.Add(savedp);
                 }
-                if(EditorManager.SpawnManager.ActiveBlackBoard != null)
+                if(SpawnManager.Instance.ActiveBlackBoard != null)
                 {
-                    blackboard =  EditorManager.SpawnManager.ActiveBlackBoard.Save();
+                    blackboard =  SpawnManager.Instance.ActiveBlackBoard.Save();
                 }
 
             }
@@ -167,24 +178,24 @@ namespace BehaviorTreePlanner
                     NodeBase spawnedNode;
                     if(nodedata.GetType() == typeof(SavedNode))
                     {
-                        spawnedNode = EditorManager.SpawnManager.SpawnNode(null,false);
-                        spawnedNode.InitializeLoad(nodedata,EditorManager);
+                        spawnedNode = SpawnManager.Instance.SpawnNode(null,false);
+                        spawnedNode.InitializeLoad(nodedata);
                     }
                     else if(nodedata.GetType() == typeof(SavedLayerNode))
                     {
                         SavedLayerNode savedn = (SavedLayerNode)nodedata;
-                        foreach(SavedProjectLayer layer in EditorManager.ProjectsManager.OpenedProject.Layers)
+                        foreach(SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
                         {
                             if (layer.LayerName == savedn.LayerName)
                             {
-                                spawnedNode = EditorManager.SpawnManager.SpawnLayerNode(layer, false);
-                                spawnedNode.InitializeLoad(nodedata,EditorManager);
+                                spawnedNode = SpawnManager.Instance.SpawnLayerNode(layer, false);
+                                spawnedNode.InitializeLoad(nodedata);
                             }
                         }
                     }
                 }
-                NodeBase blackboard = EditorManager.SpawnManager.SpawnBlackBoardNode();
-                blackboard.InitializeLoad(ActiveProjectLayer.BlackBoard,EditorManager);
+                NodeBase blackboard = SpawnManager.Instance.SpawnBlackBoardNode();
+                blackboard.InitializeLoad(ActiveProjectLayer.BlackBoard);
             }
             catch (Exception ex)
             {
@@ -194,7 +205,7 @@ namespace BehaviorTreePlanner
             {
                 foreach (SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
                 {
-                    LinePoint spawnedLine = EditorManager.SpawnManager.SpawnLinePoint(null,true,false,false);
+                    LinePoint spawnedLine = SpawnManager.Instance.SpawnLinePoint(null,true,false,false);
                     spawnedLine.InitializeLoad(linedata);
                 }
             }
@@ -206,15 +217,15 @@ namespace BehaviorTreePlanner
             //call load(set up refferences between objects)
             try
             {
-                foreach (NodeBase node in EditorManager.SpawnManager.ActiveNodes)
+                foreach (NodeBase node in SpawnManager.Instance.ActiveNodes)
                 {
                     node.Load();
                 }
-                foreach (LinePoint line in EditorManager.SpawnManager.ActiveLines)
+                foreach (LinePoint line in SpawnManager.Instance.ActiveLines)
                 {
                     line.Load();
                 }
-                EditorManager.SpawnManager.ActiveBlackBoard.Load();
+                SpawnManager.Instance.ActiveBlackBoard.Load();
             }
             catch (Exception ex)
             {

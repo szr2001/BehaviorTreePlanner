@@ -10,12 +10,22 @@ namespace BehaviorTreePlanner
 {
     public class ProjectsManager : MonoBehaviour
     {
+        public static ProjectsManager Instance;
         public SavedProject OpenedProject { get; set; }
 
         [HideInInspector] public string ProjectsFolder { get; set; } = "";
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
             DontDestroyOnLoad(this.gameObject);
             ProjectsFolder = $@"{Application.dataPath}/Projects";
         }

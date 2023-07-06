@@ -21,8 +21,8 @@ namespace BehaviorTreePlanner
         private bool isEditing = false;
         private void Start()
         {
-            layersMenu.editorManager.SaveLoadManager.OnLayerUpdated += CheckHighlight;
-            layersMenu.editorManager.SpawnManager.OnObjectsUpdated += UpdateVisibleData;
+            SaveLoadManager.Instance.OnLayerUpdated += CheckHighlight;
+            SpawnManager.Instance.OnObjectsUpdated += UpdateVisibleData;
         }
         
         public void InitializeNodeButton(LayersMenu layersmenu, SavedProjectLayer projectlayer)
@@ -38,15 +38,15 @@ namespace BehaviorTreePlanner
         {
             if(projectLayer.LayerName == activelayer)
             {
-                NodeCount.text = layersMenu.editorManager.SpawnManager.ActiveNodes.Count.ToString();
-                LineCount.text = layersMenu.editorManager.SpawnManager.ActiveLines.Count.ToString();
+                NodeCount.text = SpawnManager.Instance.ActiveNodes.Count.ToString();
+                LineCount.text = SpawnManager.Instance.ActiveLines.Count.ToString();
             }
         }
 
         ~LayerNodeButton()
         {
-            layersMenu.editorManager.SaveLoadManager.OnLayerUpdated -= CheckHighlight;
-            layersMenu.editorManager.SpawnManager.OnObjectsUpdated -= UpdateVisibleData;
+            SaveLoadManager.Instance.OnLayerUpdated -= CheckHighlight;
+            SpawnManager.Instance.OnObjectsUpdated -= UpdateVisibleData;
         }
 
         private void CheckHighlight(string layername)
@@ -112,7 +112,7 @@ namespace BehaviorTreePlanner
 
         public void CallSpawnlayerNode()
         {
-            if(layersMenu.editorManager.SaveLoadManager.ActiveProjectLayer.LayerName == projectLayer.LayerName)
+            if(SaveLoadManager.Instance.ActiveProjectLayer.LayerName == projectLayer.LayerName)
             {
                 return;
             }

@@ -4,14 +4,14 @@ namespace BehaviorTreePlanner.Nodes
 {
     public class BlackBoard : StaticNode
     {
-        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
+        public override void InitializeNode(NodeDesign nd)
         {
-            base.InitializeNode(nd, editormanager);
+            base.InitializeNode(nd);
         }
 
-        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
+        public override void InitializeLoad(SavedNodeBase savedata)
         {
-            base.InitializeLoad(savedata, editormanager);
+            base.InitializeLoad(savedata);
         }
 
         public override void Load()

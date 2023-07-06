@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95725b9d27d44bd458d3a9907c5d58ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
 --- !u!1 &92222872
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,8 +914,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &260974007
 MonoBehaviour:
@@ -929,7 +929,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5d82f75a63b1240aa74499f264922b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
+  PlayerControll: {fileID: 519420033}
   Screen: {fileID: 1512923892}
   NodePrefabReff: {fileID: 7076376120747382241, guid: c7a5bd876dfc4c348b731498fbda72ec, type: 3}
   LayerNodePrefabReff: {fileID: 2693086320942831343, guid: 61baac881ce0e844186b5e6168ba0fdd, type: 3}
@@ -2438,7 +2439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696cf5d92aa2d0847b59d3faefea320d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
   nodesMenu: {fileID: 2035499607}
   topNode: {fileID: 243404664}
   botNode: {fileID: 558224238}
@@ -2458,7 +2459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95725b9d27d44bd458d3a9907c5d58ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
 --- !u!1 &656583410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,8 +2830,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 5
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &715139895
 MonoBehaviour:
@@ -2844,7 +2845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c8e73e137de554cb7ddf5efe79a523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EditorManager>k__BackingField: {fileID: 1219174125}
+  <EditorManager>k__BackingField: {fileID: 0}
   <ActiveProjectLayer>k__BackingField:
     BlackBoard:
       NodeIndex: 0
@@ -3161,8 +3162,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &745281219
 MonoBehaviour:
@@ -3176,7 +3177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adc472ddbcb27c4f994d5dfaea4bf78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
 --- !u!1 &774744700
 GameObject:
   m_ObjectHideFlags: 0
@@ -3687,8 +3688,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 3
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &913927950
 MonoBehaviour:
@@ -3702,7 +3703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15ff069d59ca2c48ae91df39a4dc82b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
 --- !u!1 &923374971
 GameObject:
   m_ObjectHideFlags: 0
@@ -3768,8 +3768,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &926838175
 GameObject:
@@ -4822,75 +4822,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59f97fcc916561745a3501540e4fad27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
   reffSprite: {fileID: 2800000, guid: e193a32ed572c1e4dbfe6212a802d831, type: 3}
   LeftBotCornReff: {fileID: 584681799}
   colorCursorBorder: {fileID: 1139519395}
   colorCursor: {fileID: 1803354799}
   topColor: {fileID: 243404662}
   botColor: {fileID: 558224236}
---- !u!1 &1219174123
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1219174124}
-  - component: {fileID: 1219174125}
-  m_Layer: 0
-  m_Name: EditorManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &1219174124
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219174123}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 745281218}
-  - {fileID: 923374974}
-  - {fileID: 1731164973}
-  - {fileID: 913927949}
-  - {fileID: 260974006}
-  - {fileID: 715139894}
-  - {fileID: 1696017507}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1219174125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219174123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07dcc3fe80f9d2e448251ce9222360ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainUiCanvas: {fileID: 693197740}
-  PlayerControll: {fileID: 519420033}
-  MoveObjectsManager: {fileID: 1731164974}
-  SpawnManager: {fileID: 260974007}
-  SoundManager: {fileID: 913927950}
-  ActionManager: {fileID: 745281219}
-  SaveLoadManager: {fileID: 715139895}
-  EditorUiManager: {fileID: 1696017508}
-  ProjectsManager: {fileID: 0}
-  SettingsManager: {fileID: 0}
-  IsOverUi: 0
 --- !u!1 &1280424094
 GameObject:
   m_ObjectHideFlags: 0
@@ -6094,7 +6032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4cfb1ab1070ab499e788336d737efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editorManager: {fileID: 1219174125}
+  editorManager: {fileID: 0}
 --- !u!1 &1696017506
 GameObject:
   m_ObjectHideFlags: 0
@@ -6124,8 +6062,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 6
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1696017508
 MonoBehaviour:
@@ -6139,6 +6077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4af105e654fae54eb683a71f2f27c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainUiCanvas: {fileID: 693197740}
+  IsOverUi: 0
   NodeMenu: {fileID: 2035499607}
   LayerMenu: {fileID: 2092209819}
 --- !u!1 &1709606370
@@ -6369,8 +6309,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1219174124}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1731164974
 MonoBehaviour:
@@ -6384,7 +6324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d50953d0f30170409d796322b00e9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
 --- !u!1 &1736684513
 GameObject:
   m_ObjectHideFlags: 0
@@ -6875,7 +6815,7 @@ PrefabInstance:
     - target: {fileID: 9015517128248673941, guid: e4c2ddb910bed1a43a768437fef31bd2, type: 3}
       propertyPath: EditorManager
       value: 
-      objectReference: {fileID: 1219174125}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4c2ddb910bed1a43a768437fef31bd2, type: 3}
 --- !u!1 &1785245714
@@ -8350,7 +8290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b068200d70dc4b43a310f8fe5b63871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
   NodeHolder: {fileID: 1436979416}
   NodeDesigns: []
 --- !u!1 &2066152983
@@ -8521,7 +8461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d4bd5aa269fa34aa748236826a3e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <editorManager>k__BackingField: {fileID: 1219174125}
+  <editorManager>k__BackingField: {fileID: 0}
   LayerNodeButtonPrefabReff: {fileID: 2693086320942831343, guid: 09909e3a8500feb429a38ebd5f49a449, type: 3}
   LayersHolder: {fileID: 1830951092}
   LayerNameInput: {fileID: 1141021505}
@@ -8537,7 +8477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95725b9d27d44bd458d3a9907c5d58ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 1219174125}
+  EditorManager: {fileID: 0}
 --- !u!1 &2104293624
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,9 +15,9 @@ namespace BehaviorTreePlanner.Nodes
         {
             throw new System.NotImplementedException();
         }
-        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
+        public override void InitializeLoad(SavedNodeBase savedata)
         {
-            base.InitializeLoad(savedata, editormanager);
+            base.InitializeLoad(savedata);
             SavedMovingNode savedMovingNode = savedata as SavedMovingNode;
             Vector3 SavedPosition = new
                 (
@@ -33,16 +33,16 @@ namespace BehaviorTreePlanner.Nodes
             base.Load();
         }
 
-        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
+        public override void InitializeNode(NodeDesign nd)
         {
-            base.InitializeNode(nd, editormanager);
-            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform,editorManager);
+            base.InitializeNode(nd);
+            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform);
         }
 
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = BTSettings.NodeGridSize;
-            Vector3 activeNodePos = UseGrid ? editorManager.MoveObjectsManager.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
+            Vector3 activeNodePos = UseGrid ? MoveObjectsManager.Instance.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (!hit)
             {
@@ -60,8 +60,8 @@ namespace BehaviorTreePlanner.Nodes
         {
             if (Input.GetMouseButtonDown(0))
             {
-                editorManager.MoveObjectsManager.AddMovableObj(this);
-                editorManager.MoveObjectsManager.StartMoving();
+                MoveObjectsManager.Instance.AddMovableObj(this);
+                MoveObjectsManager.Instance.StartMoving();
             }
         }
         public virtual void StartMoveObj()

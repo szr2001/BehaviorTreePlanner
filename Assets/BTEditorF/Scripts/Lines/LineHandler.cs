@@ -10,7 +10,6 @@ namespace BehaviorTreePlanner
 {
     public class LineHandler : IMovable
     {
-        private EditorManager EditorManager;
         public IMovable Parent { get; set; }
         public Transform SpawnedPointPos { get; set; }
         public Transform AttachedPointPos { get; set; }
@@ -18,9 +17,8 @@ namespace BehaviorTreePlanner
         public LinePoint SpawnedPoint { get; set; } 
         public LinePoint AttachedPoint { get; set; }
 
-        public void InitializeLineHandler(IMovable parent, Transform attachpointpos,Transform spawnpointpos,EditorManager editormanager)
+        public void InitializeLineHandler(IMovable parent, Transform attachpointpos,Transform spawnpointpos)
         {
-            EditorManager = editormanager;
             AttachedPointPos = attachpointpos;
             SpawnedPointPos = spawnpointpos;
             Parent = parent;
@@ -29,7 +27,7 @@ namespace BehaviorTreePlanner
         {
             if (SpawnedPointPos != null && SpawnedPoint == null)
             {
-                SpawnedPoint = EditorManager.SpawnManager.SpawnLinePoint(null,false,true);
+                SpawnedPoint = SpawnManager.Instance.SpawnLinePoint(null,false,true);
                 SpawnedPoint.transform.position = SpawnedPointPos.position;
                 SpawnedPoint.SpawnPoint();
             }

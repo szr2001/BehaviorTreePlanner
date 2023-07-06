@@ -6,7 +6,6 @@ namespace BehaviorTreePlanner
 {
     public class LayersMenu : MonoBehaviour
     {
-        [field: SerializeField] public EditorManager editorManager { get; set; }
         [SerializeField] private GameObject LayerNodeButtonPrefabReff;
         [SerializeField] private GameObject LayersHolder;
         [SerializeField] private InputField LayerNameInput;
@@ -20,7 +19,7 @@ namespace BehaviorTreePlanner
 
         private void SpawnLayerButtons()
         {
-            foreach (SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
+            foreach (SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
             {
                 CreatelayerNodeButton(layer);
             }
@@ -36,7 +35,7 @@ namespace BehaviorTreePlanner
             {
                 return true;
             }
-            foreach(SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
+            foreach(SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
             {
                 if(layer.LayerName == LayerNameInput.text)
                 {
@@ -58,7 +57,7 @@ namespace BehaviorTreePlanner
         }
         public void DeleteLayer(LayerNodeButton layerButton)
         {
-            if (editorManager.SaveLoadManager.ActiveProjectLayer == layerButton.projectLayer)
+            if (SaveLoadManager.Instance.ActiveProjectLayer == layerButton.projectLayer)
             {
                 return;
             }
@@ -66,7 +65,7 @@ namespace BehaviorTreePlanner
             {
                 return;
             }
-            editorManager.SaveLoadManager.RemoveLayerFromProject(layerButton.projectLayer);
+            SaveLoadManager.Instance.RemoveLayerFromProject(layerButton.projectLayer);
             layerButtons.Remove(layerButton);
             Destroy(layerButton.gameObject);
         }
@@ -80,7 +79,7 @@ namespace BehaviorTreePlanner
             SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>(),new SavedNodeBase(-1,-1,-1));
             NewLayer.LayerName = LayerNameInput.text;
             CreatelayerNodeButton(NewLayer);
-            editorManager.SaveLoadManager.AddLayerToProject(NewLayer);
+            SaveLoadManager.Instance.AddLayerToProject(NewLayer);
             LayerNameInput.text = null;
         }
         public void SpawnLayerNode(SavedProjectLayer layer)
@@ -93,12 +92,12 @@ namespace BehaviorTreePlanner
             if (Input.GetMouseButtonDown(0))
             {
                 //editorManager.MoveObjectsManager.ClearMovableObj();
-                editorManager.SpawnManager.SpawnLayerNode(layer);
+               SpawnManager.Instance.SpawnLayerNode(layer);
             }
         }
         public void OpenLayer(LayerNodeButton layerButton)
         {
-            _ = editorManager.SaveLoadManager.LoadLayer(layerButton.projectLayer);
+            _ = SaveLoadManager.Instance.LoadLayer(layerButton.projectLayer);
         }
     }
 }

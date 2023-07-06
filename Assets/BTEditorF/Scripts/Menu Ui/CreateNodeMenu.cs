@@ -7,7 +7,6 @@ namespace BehaviorTreePlanner.MenuUi
 {
     public class CreateNodeMenu : MonoBehaviour
     {
-        [SerializeField] private EditorManager EditorManager;
         [SerializeField] private NodesMenu nodesMenu;
         [SerializeField] private Image topNode;
         [SerializeField] private Image botNode;

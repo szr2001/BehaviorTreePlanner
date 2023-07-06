@@ -7,7 +7,6 @@ namespace BehaviorTreePlanner.Nodes
 {
     public abstract class NodeBase : MonoBehaviour, IObjDestroyable
     {
-        protected EditorManager editorManager;
         [HideInInspector] public NodeDesign NodeD;
         [SerializeField] protected GameObject LineTrigger;
         protected LineHandler lineHandler = new();
@@ -21,35 +20,32 @@ namespace BehaviorTreePlanner.Nodes
             SaveIndex = index;
         }
         public abstract SavedNodeBase Save();
-        public virtual void InitializeLoad(SavedNodeBase savedata,EditorManager editormanager)  //save data and asign location,index
+        public virtual void InitializeLoad(SavedNodeBase savedata)  //save data and asign location,index
         {
-            editorManager = editormanager;
             saveData = savedata;
             SaveIndex = savedata.NodeIndex;
         }
         public virtual void Load() 
         {
-            lineHandler.SpawnedPoint = saveData.SpawnedPointIndex == -1 ? null : editorManager.SpawnManager.ActiveLines[saveData.SpawnedPointIndex];
-            lineHandler.AttachedPoint = saveData.AtachedPointIndex == -1 ? null : editorManager.SpawnManager.ActiveLines[saveData.AtachedPointIndex];
+            lineHandler.SpawnedPoint = saveData.SpawnedPointIndex == -1 ? null : SpawnManager.Instance.ActiveLines[saveData.SpawnedPointIndex];
+            lineHandler.AttachedPoint = saveData.AtachedPointIndex == -1 ? null : SpawnManager.Instance.ActiveLines[saveData.AtachedPointIndex];
         }
 
         public virtual void DestroyObject()
         {
             lineHandler.DestroyLineHandler();
-            editorManager.SpawnManager.RemoveActiveNode(this);
-            editorManager.SpawnManager.TriggerObjectsUpdated();
+            SpawnManager.Instance.RemoveActiveNode(this);
+            SpawnManager.Instance.TriggerObjectsUpdated();
             Destroy(this.gameObject);
         }
 
-        public virtual void InitializeNode(NodeDesign nd,EditorManager editormanager)
+        public virtual void InitializeNode(NodeDesign nd)
         {
-            editorManager = editormanager;
             NodeD = nd ?? DefaultNodeNd;
 
         }
-        public virtual void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer Projectlayer)
+        public virtual void InitializeNode(NodeDesign nd,SavedProjectLayer Projectlayer)
         {
-            editorManager = editormanager;
             NodeD = nd ?? DefaultNodeNd;
         }
         public void CallSpawnLine()

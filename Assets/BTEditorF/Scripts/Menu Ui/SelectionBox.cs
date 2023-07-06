@@ -9,7 +9,6 @@ namespace BehaviorTreePlanner.Global
 {
     public class SelectionBox : MonoBehaviour
     {
-        [SerializeField] private EditorManager EditorManager;
         [SerializeField] private Image MainWindow;
         [SerializeField] private Image MainWindowArrow;
         [SerializeField] private RectTransform RectTrans;
@@ -23,7 +22,7 @@ namespace BehaviorTreePlanner.Global
         private void SelectObjects()
         {
             //check if is spawning lines/nodes or is mouse over ui, if yes, return
-            if (EditorManager.IsOverUi)
+            if (EditorUiManager.Instance.IsOverUi)
             {
                 // Handle selection box reset if mouse goes over ui and code stops at return
                 if (IsResizingArea)
@@ -41,10 +40,10 @@ namespace BehaviorTreePlanner.Global
             {
                 ResetSelectionBox(); //reset previous info
                 //check if it clicked on an empty space to begin selecting area
-                RaycastHit2D hit = Physics2D.Raycast(EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
+                RaycastHit2D hit = Physics2D.Raycast(SpawnManager.Instance.PlayerControll.PlayerCamera.ScreenToWorldPoint(Input.mousePosition), -Vector2.zero, 0.1f);
                 if (!hit)
                 {
-                    EditorManager.MoveObjectsManager.ClearMovableObj();
+                    MoveObjectsManager.Instance.ClearMovableObj();
                     IsResizingArea = true; //set is resizing to true to handle when the mouse goes over ui and to be able to reset
                                            //set mouse pozition to the pozition where selection begine to be used in resizing the area math
                     MosPoss = Input.mousePosition;
@@ -68,22 +67,22 @@ namespace BehaviorTreePlanner.Global
         private void GetOverlapedObjects(Bounds Area)
         {
             RectTrans.sizeDelta = Vector2.zero;
-            foreach(NodeBase Node in EditorManager.SpawnManager.ActiveNodes)
+            foreach(NodeBase Node in SpawnManager.Instance.ActiveNodes)
             {
-                if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
+                if (IsPointInsideArea(SpawnManager.Instance.PlayerControll.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
                 {
-                    EditorManager.MoveObjectsManager.AddMovableObj(Node.GetComponent<IMovable>());
+                    MoveObjectsManager.Instance.AddMovableObj(Node.GetComponent<IMovable>());
                 }
             }
-            foreach (LinePoint Line in EditorManager.SpawnManager.ActiveLines)
+            foreach (LinePoint Line in SpawnManager.Instance.ActiveLines)
             {
                 if (Line.IsRoot || Line.IsAtachedToNode)
                 {
                     continue;
                 }
-                if (IsPointInsideArea(EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
+                if (IsPointInsideArea(SpawnManager.Instance.PlayerControll.PlayerCamera.WorldToScreenPoint(Line.transform.position), Area))
                 {
-                    EditorManager.MoveObjectsManager.AddMovableObj(Line.GetComponent<IMovable>());
+                    MoveObjectsManager.Instance.AddMovableObj(Line.GetComponent<IMovable>());
                 }
             }
         }

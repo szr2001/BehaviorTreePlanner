@@ -39,7 +39,7 @@ namespace BehaviorTreePlanner.Nodes
             if(doubleClick >= 2)
             {
                 SavedProjectLayer layertoopen = null;
-                foreach (SavedProjectLayer layer in editorManager.ProjectsManager.OpenedProject.Layers)
+                foreach (SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
                 {
                     if (layer.LayerName == projectLayer.LayerName)
                     {
@@ -48,7 +48,7 @@ namespace BehaviorTreePlanner.Nodes
                 }
                 if (layertoopen != null)
                 {
-                    _ = editorManager.SaveLoadManager.LoadLayer(layertoopen);
+                    _ = SaveLoadManager.Instance.LoadLayer(layertoopen);
                 }
                 else
                 {
@@ -66,9 +66,9 @@ namespace BehaviorTreePlanner.Nodes
             isdoubleclicking = false;
         }
 
-        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
+        public override void InitializeLoad(SavedNodeBase savedata)
         {
-            base.InitializeLoad(savedata, editormanager);
+            base.InitializeLoad(savedata);
             SavedLayerNode savedlayerdata = savedata as SavedLayerNode;
             layerNameT.text = savedlayerdata.LayerName;
         }
@@ -78,9 +78,9 @@ namespace BehaviorTreePlanner.Nodes
             base.Load();
         }
 
-        public override void InitializeNode(NodeDesign nd, EditorManager editormanager,SavedProjectLayer projectlayer)
+        public override void InitializeNode(NodeDesign nd,SavedProjectLayer projectlayer)
         {
-            base.InitializeNode(nd, editormanager);
+            base.InitializeNode(nd);
             projectLayer = projectlayer;
             layerNameT.text = projectLayer.LayerName;
         }

@@ -8,7 +8,6 @@ namespace BehaviorTreePlanner.MenuUi
 {
     public class CreateNodeColorPicker : MonoBehaviour
     {
-        [SerializeField] private EditorManager EditorManager;
         [SerializeField] private Texture2D reffSprite;
         [SerializeField] private RectTransform LeftBotCornReff;
         [SerializeField] private GameObject colorCursorBorder;
@@ -44,10 +43,10 @@ namespace BehaviorTreePlanner.MenuUi
 
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.z = 0;
-                Vector3 mouseToWorldPos = EditorManager.PlayerControll.PlayerCamera.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 mouseToWorldPos = SpawnManager.Instance.PlayerControll.PlayerCamera.ScreenToWorldPoint(Input.mousePosition);
                 mouseToWorldPos.z = 0;
                 colorCursorBorder.transform.position = mouseToWorldPos;
-                Vector3 LeftBotCorn = EditorManager.PlayerControll.PlayerCamera.WorldToScreenPoint(LeftBotCornReff.position);
+                Vector3 LeftBotCorn = SpawnManager.Instance.PlayerControll.PlayerCamera.WorldToScreenPoint(LeftBotCornReff.position);
                 LeftBotCorn.z = 0;
                 float colorPickerCoordsCorrector = 1.5f;
                 int xPix = (int)((mousePos.x - LeftBotCorn.x) * colorPickerCoordsCorrector);

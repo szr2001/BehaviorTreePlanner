@@ -8,7 +8,6 @@ namespace BehaviorTreePlanner.MenuUi
 {
     public class NodeButton : MonoBehaviour
     {//edit this to spawn with a reff to the NodesUiMenu and move methods inside it and call them from the node
-        private EditorManager EditorManager;
         private NodesMenu nodesMenu;
         [SerializeField] private Image TopImageReff;
         [SerializeField] private Image BotImageReff;
@@ -17,9 +16,8 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private GameObject deleteCustomTypeTrigger;
         [HideInInspector] public NodeDesign NodeD { get; set; }
 
-        public void InitializeButton(NodeDesign nd,EditorManager editormanager,NodesMenu nodesmenu)
+        public void InitializeButton(NodeDesign nd,NodesMenu nodesmenu)
         {
-            EditorManager = editormanager;
             NodeD = nd;
             nodesMenu = nodesmenu;
             TopImageReff.color = NodeD.PrimaryCollor;
@@ -30,9 +28,9 @@ namespace BehaviorTreePlanner.MenuUi
         {
             if (Input.GetMouseButtonDown(0))
             {
-                EditorManager.MoveObjectsManager.ClearMovableObj();
+                MoveObjectsManager.Instance.ClearMovableObj();
                 NodeDesign newDesign = new(NodeD.type,NodeD.name,NodeD.PrimaryCollor,NodeD.SecondaryCollor);
-                EditorManager.SpawnManager.SpawnNode(newDesign);
+                SpawnManager.Instance.SpawnNode(newDesign);
             }
         }
         public void DeleteNode()

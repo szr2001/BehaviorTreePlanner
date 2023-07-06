@@ -6,15 +6,14 @@ namespace BehaviorTreePlanner.MenuUi
 {
     public class UiHoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        public EditorManager EditorManager;
         public void OnPointerEnter(PointerEventData eventData)
         {
-            EditorManager.IsOverUi = true;
+            EditorUiManager.Instance.IsOverUi = true;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            EditorManager.IsOverUi = false;
+            EditorUiManager.Instance.IsOverUi = false;
         }
     }
 }

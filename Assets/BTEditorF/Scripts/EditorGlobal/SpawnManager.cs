@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
+using BehaviorTreePlanner.Player;
 using UnityEngine;
 
 namespace BehaviorTreePlanner
 {
     public class SpawnManager : MonoBehaviour
     {
-        public EditorManager EditorManager;
-
+        public static SpawnManager Instance;
+        public CameraControl PlayerControll;
         //move some stufff in the menus like buttons reff
         public GameObject Screen;
         public GameObject NodePrefabReff;
@@ -28,10 +29,20 @@ namespace BehaviorTreePlanner
 
         public delegate void SpawnedLine(string LayerName);
         public event SpawnedLine OnObjectsUpdated;
-
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
         public void TriggerObjectsUpdated()
         {
-            OnObjectsUpdated?.Invoke(EditorManager.SaveLoadManager.ActiveProjectLayer.LayerName);
+            OnObjectsUpdated?.Invoke(SaveLoadManager.Instance.ActiveProjectLayer.LayerName);
         }
         public NodeBase SpawnNode(NodeDesign Nd, bool StartMoving = true)
         {
@@ -39,12 +50,12 @@ namespace BehaviorTreePlanner
             TempNode.transform.localScale = new Vector3(1, 1, 1);
             TempNode.name = "Node";
             NodeBase nodebase = TempNode.GetComponent<NodeBase>();
-            nodebase.InitializeNode(Nd, EditorManager);
+            nodebase.InitializeNode(Nd);
             AddActiveNode(nodebase);
             if (StartMoving)
             {
-                EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
-                EditorManager.MoveObjectsManager.StartMoving();
+                MoveObjectsManager.Instance.AddMovableObj(TempNode.GetComponent<MovingNode>());
+                MoveObjectsManager.Instance.StartMoving();
             }
             TriggerObjectsUpdated();
             return nodebase;
@@ -57,12 +68,12 @@ namespace BehaviorTreePlanner
             TempNode.name = "LayerNode";
             NodeDesign NodeD = new(null, null, new Color(0.57f, 0.3f, 1), Color.white);
             NodeBase nodebase = TempNode.GetComponent<NodeBase>();
-            nodebase.InitializeNode(NodeD, EditorManager, layer);
+            nodebase.InitializeNode(NodeD, layer);
             AddActiveNode(nodebase);
             if (StartMoving)
             {
-                EditorManager.MoveObjectsManager.AddMovableObj(TempNode.GetComponent<MovingNode>());
-                EditorManager.MoveObjectsManager.StartMoving();
+                MoveObjectsManager.Instance.AddMovableObj(TempNode.GetComponent<MovingNode>());
+                MoveObjectsManager.Instance.StartMoving();
             }
             TriggerObjectsUpdated();
             return nodebase;
@@ -80,25 +91,25 @@ namespace BehaviorTreePlanner
             TempNode.name = "BlackBoard";
             NodeDesign NodeD = new(null, null, new Color(0.57f, 0.3f, 1), Color.white);
             NodeBase nodebase = TempNode.GetComponent<NodeBase>();
-            nodebase.InitializeNode(NodeD, EditorManager);
+            nodebase.InitializeNode(NodeD);
             ActiveBlackBoard = nodebase;
             return ActiveBlackBoard;
         }
 
         public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot, bool StartMoving = true)
         {
-            GameObject TempLine = Instantiate(EditorManager.SpawnManager.LinePointPrefabReff, EditorManager.SpawnManager.Screen.transform);
+            GameObject TempLine = Instantiate(SpawnManager.Instance.LinePointPrefabReff, SpawnManager.Instance.Screen.transform);
             TempLine.transform.localScale = new Vector3(1, 1, 1);
             TempLine.name = "LinePoint";
             LinePoint linepoint = TempLine.GetComponent<LinePoint>();
-            linepoint.InitializeLine(Caller, IsRoot, EditorManager);
+            linepoint.InitializeLine(Caller, IsRoot);
             AddActiveLine(linepoint);
             if (SaveReff)
             {
                 if (StartMoving)
                 {
-                    EditorManager.MoveObjectsManager.AddMovableObj(TempLine.GetComponent<LinePoint>());
-                    EditorManager.MoveObjectsManager.StartMoving();
+                    MoveObjectsManager.Instance.AddMovableObj(TempLine.GetComponent<LinePoint>());
+                    MoveObjectsManager.Instance.StartMoving();
                 }
             }
             TriggerObjectsUpdated();

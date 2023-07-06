@@ -2,15 +2,13 @@ using BehaviorTreePlanner.Global;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 namespace BehaviorTreePlanner
 {
     public class SettingsManager : MonoBehaviour
     {
+        public static SettingsManager Instance;
         public GameObject SettingsScreen;
         public GameObject MainUiCanvas;
 
@@ -20,7 +18,18 @@ namespace BehaviorTreePlanner
 
         private void Awake()
         {
-            DontDestroyOnLoad(this.gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+            Screen.SetResolution(1280, 720, false);
+
+            DontDestroyOnLoad(gameObject);
             settingsfilepath = @$"{Application.dataPath}/BTSettings.st";
             LoadSettingsFromFile();
         }

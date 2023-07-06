@@ -7,15 +7,14 @@ namespace BehaviorTreePlanner
 {
     public class MenuButtons : MonoBehaviour
     {
-        [SerializeField] private EditorManager editorManager;
 
         public void CallSaveProject()
         {
-            _ = editorManager.SaveLoadManager.SaveProject();
+            _ = SaveLoadManager.Instance.SaveProject();
         }
         public void CallReturnToMenu()
         {
-            _ = editorManager.SaveLoadManager.BackToMenu();
+            _ = SaveLoadManager.Instance.BackToMenu();
 
         }
     }

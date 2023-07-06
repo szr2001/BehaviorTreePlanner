@@ -12,15 +12,15 @@ namespace BehaviorTreePlanner
         {
             throw new System.NotImplementedException();
         }
-        public override void InitializeNode(NodeDesign nd, EditorManager editormanager)
+        public override void InitializeNode(NodeDesign nd)
         {
-            base.InitializeNode(nd, editormanager);
-            lineHandler.InitializeLineHandler(null, null, LineTrigger.transform, editorManager);
+            base.InitializeNode(nd);
+            lineHandler.InitializeLineHandler(null, null, LineTrigger.transform);
         }
 
-        public override void InitializeLoad(SavedNodeBase savedata, EditorManager editormanager)
+        public override void InitializeLoad(SavedNodeBase savedata)
         {
-            base.InitializeLoad(savedata, editormanager);
+            base.InitializeLoad(savedata);
         }
         public override void AttachLine(LinePoint Line)
         {
