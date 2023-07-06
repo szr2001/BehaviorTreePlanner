@@ -26,6 +26,11 @@ namespace BehaviorTreePlanner
             {
                 Destroy(gameObject);
             }
+            SaveLoadManager.Instance.OnLayerUpdated += ClearMovableObj;
+        }
+        private void ClearMovableObj(string layername)
+        {
+            MovableObj.Clear();
         }
         private void Update()
         {
