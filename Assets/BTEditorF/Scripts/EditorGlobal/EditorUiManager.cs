@@ -28,6 +28,7 @@ namespace BehaviorTreePlanner
             SettingsManager.Instance.MainUiCanvas = MainUiCanvas;
             SoundManager.Instance.AudioAtmosphere = AudioAtmosphere;
             SoundManager.Instance.AudioEffects = AudioEffects;
+            SoundManager.Instance.SetAudioVolumes();
         }
     }
 }

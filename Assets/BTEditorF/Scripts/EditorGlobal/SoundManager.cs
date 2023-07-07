@@ -40,7 +40,7 @@ namespace BehaviorTreePlanner
             SetAudioVolumes();
         }
         
-        private void SetAudioVolumes()
+        public void SetAudioVolumes()
         {
             AtmosphericSounds = MaxAtmosphereSound * BTSettings.AtmosphericSound * BTSettings.OverallSoundVolume;
             EffectsSound = MaxEffectsSound * BTSettings.EffectsSound * BTSettings.OverallSoundVolume;
