@@ -14,6 +14,9 @@ namespace BehaviorTreePlanner
 
         private GameObject loadingScreen;
 
+        public delegate void BtSettingsChanged();
+        public event BtSettingsChanged OnSettingsChanged;
+
         [HideInInspector] public static string settingsfilepath { get;set; } = "";
 
         private void Awake()
@@ -52,6 +55,7 @@ namespace BehaviorTreePlanner
             }
             loadingScreen.GetComponent<SettingsScreen>().ClearLoadingScreen();
             loadingScreen = null;
+            OnSettingsChanged?.Invoke();
         }
 
         public void SaveSettingsToFile()
@@ -92,7 +96,9 @@ namespace BehaviorTreePlanner
                         BTSettings.NodeGridSize.y = settings.NodeGridSize[1];
                         BTSettings.LineGridSize.x = settings.LineGridSize[0];
                         BTSettings.LineGridSize.y = settings.LineGridSize[1];
-                        BTSettings.SoundVolume = settings.SoundVolume;
+                        BTSettings.OverallSoundVolume = settings.OverallSoundVolume;
+                        BTSettings.AtmosphericSound = settings.AtmosphericSound;
+                        BTSettings.EffectsSound = settings.EffectsSound;
                     }
                 }
                 else

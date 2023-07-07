@@ -108,6 +108,7 @@ namespace BehaviorTreePlanner
             //generated again in the menu
             Destroy(ProjectsManager.Instance.gameObject);
             Destroy(SettingsManager.Instance.gameObject);
+            Destroy(SoundManager.Instance.gameObject);
             //load menu
             SceneManager.LoadScene("BTMenu");
         }
