@@ -62,6 +62,7 @@ namespace BehaviorTreePlanner.Lines
 
                 );
         }
+
         public void InitializeLoad(SavedLinePoint savedata)
         {
             saveData = savedata;
@@ -194,11 +195,15 @@ namespace BehaviorTreePlanner.Lines
                     AtachedToNode = null;
                 }
             }
+
+            SoundManager.Instance.PlayHardPop();
         }
+
         public void RemoveLine(LinePoint point)
         {
             SpawnedPoints.Remove(point);
         }
+
         private void UpdateLineRenderer()
         {
             if(LineR == null)
@@ -211,6 +216,7 @@ namespace BehaviorTreePlanner.Lines
             }
             LineR.SetPosition(1, new Vector3(GetObjPosition.x, GetObjPosition.y, 0));
         }
+
         public void SpawnPoint()
         {
             if (IsRoot)
@@ -232,15 +238,18 @@ namespace BehaviorTreePlanner.Lines
                 SpawnedPoints.Add(spawnedpoint);
             }
         }
+
         public void StartMoveObj()
         {
             Highlight.SetActive(true);
         }
+
         public void StopMoveObj()
         {
             Highlight.SetActive(false);
             CheckAttach();
         }
+
         private void StartMove()
         {
             if (!IsRoot)
@@ -249,6 +258,7 @@ namespace BehaviorTreePlanner.Lines
                 MoveObjectsManager.Instance.StartMoving();
             }
         }
+
         private void StopMove()
         {
             MoveObjectsManager.Instance.StopMoving();
@@ -274,6 +284,7 @@ namespace BehaviorTreePlanner.Lines
         {
         }
         #endregion
+
         public void DestroyObject()
         {
             try 

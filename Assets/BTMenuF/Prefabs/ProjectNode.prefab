@@ -240,6 +240,8 @@ GameObject:
   - component: {fileID: 3930524119369819956}
   - component: {fileID: 2457967783089058413}
   - component: {fileID: 5912363037002100393}
+  - component: {fileID: 2241497561599797478}
+  - component: {fileID: 399236022374999383}
   m_Layer: 5
   m_Name: EditProjectBtn
   m_TagString: Untagged
@@ -362,6 +364,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2241497561599797478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967695241133577484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 3
+  SoundTrigger: 1
+--- !u!114 &399236022374999383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967695241133577484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 1
+  SoundTrigger: 0
 --- !u!1 &5043189276500052610
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,6 +774,8 @@ GameObject:
   - component: {fileID: 6399032357871828736}
   - component: {fileID: 6399032357871828739}
   - component: {fileID: 6399032357871828738}
+  - component: {fileID: 719232572712268474}
+  - component: {fileID: 1856847472222710793}
   m_Layer: 5
   m_Name: CancelProjectBtn
   m_TagString: Untagged
@@ -854,6 +886,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &719232572712268474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6399032357871828740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 3
+  SoundTrigger: 1
+--- !u!114 &1856847472222710793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6399032357871828740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 0
+  SoundTrigger: 0
 --- !u!1 &6399032357962590302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,6 +1407,8 @@ GameObject:
   - component: {fileID: 6399032358582750873}
   - component: {fileID: 6399032358582750872}
   - component: {fileID: 6399032358582750875}
+  - component: {fileID: 5683782991434377919}
+  - component: {fileID: 5956321063267619235}
   m_Layer: 5
   m_Name: ConfirmProjectBtn
   m_TagString: Untagged
@@ -1457,6 +1519,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5683782991434377919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6399032358582750877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 3
+  SoundTrigger: 1
+--- !u!114 &5956321063267619235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6399032358582750877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 1
+  SoundTrigger: 0
 --- !u!1 &6399032358704299895
 GameObject:
   m_ObjectHideFlags: 0

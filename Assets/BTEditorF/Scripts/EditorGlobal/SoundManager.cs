@@ -15,7 +15,6 @@ namespace BehaviorTreePlanner
         [Header("Sound Types")]
         public AudioClip BaloonPop;
         public AudioClip ButtonPop;
-        public AudioClip Clouds;
         public AudioClip HardPop;
         public AudioClip WetPop;
 
@@ -39,8 +38,6 @@ namespace BehaviorTreePlanner
             SettingsManager.Instance.OnSettingsChanged += SetAudioVolumes;
 
             SetAudioVolumes();
-
-            PlayClouds();
         }
         
         private void SetAudioVolumes()
@@ -55,34 +52,45 @@ namespace BehaviorTreePlanner
         {
             AudioAtmosphere.volume = volume;
         }
-        public void PlayRandomPop()
-        {
-
-        }
 
         public void PlayBaloonPop()
         {
-
+            if (AudioEffects.isPlaying)
+            {
+                return;
+            }
+            AudioEffects.clip = BaloonPop;
+            AudioEffects.Play();
         }
 
         public void PlayButtonPop()
         {
-
-        }
-
-        public void PlayClouds()
-        {
-
+            if (AudioEffects.isPlaying)
+            {
+                return;
+            }
+            AudioEffects.clip = ButtonPop;
+            AudioEffects.Play();
         }
 
         public void PlayHardPop()
         {
-
+            if (AudioEffects.isPlaying)
+            {
+                return;
+            }
+            AudioEffects.clip = HardPop;
+            AudioEffects.Play();
         }
 
         public void PlayWetPop()
         {
-
+            if (AudioEffects.isPlaying)
+            {
+                return;
+            }
+            AudioEffects.clip = WetPop;
+            AudioEffects.Play();
         }
     }
 }

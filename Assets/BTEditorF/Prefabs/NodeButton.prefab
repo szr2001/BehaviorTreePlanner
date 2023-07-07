@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 4612413752804962403}
   - component: {fileID: 2882053030108613841}
   - component: {fileID: 4036530253872893878}
+  - component: {fileID: 493408788505454978}
   m_Layer: 0
   m_Name: SpawnNode
   m_TagString: Untagged
@@ -220,6 +221,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &493408788505454978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584632476789181135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 2
+  SoundTrigger: 2
 --- !u!1 &6389303550877155867
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +247,7 @@ GameObject:
   - component: {fileID: 2009202214110243769}
   - component: {fileID: 8158361290248004288}
   - component: {fileID: 4909558395587365662}
+  - component: {fileID: 1751596963267704462}
   m_Layer: 0
   m_Name: DeleteNode
   m_TagString: Untagged
@@ -326,6 +342,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1751596963267704462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389303550877155867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 0
+  SoundTrigger: 0
 --- !u!1 &7076376119089046381
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2497552372657208363}
   - component: {fileID: 2056323108257700022}
   - component: {fileID: 3591261515119104167}
+  - component: {fileID: 937283249228873648}
   m_Layer: 0
   m_Name: LineTrigger
   m_TagString: Untagged
@@ -106,6 +107,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &937283249228873648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706091705817905979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 2
+  SoundTrigger: 2
 --- !u!1 &2693086320942831343
 GameObject:
   m_ObjectHideFlags: 0

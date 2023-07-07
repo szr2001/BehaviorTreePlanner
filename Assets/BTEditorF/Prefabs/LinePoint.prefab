@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6240534012767762231}
   - component: {fileID: -3800024683735823641}
   - component: {fileID: 1383214016423263910}
+  - component: {fileID: 19867578055046719}
   m_Layer: 5
   m_Name: LinePoint
   m_TagString: Untagged
@@ -169,12 +170,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeecfc7d7315c7349ad87720ec3a139c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditorManager: {fileID: 0}
   Highlight: {fileID: 7949373341641040238}
   LineR: {fileID: -3800024683735823641}
   ParentLine: {fileID: 0}
   <IsRoot>k__BackingField: 0
   <IsAtachedToNode>k__BackingField: 0
+  <SaveIndex>k__BackingField: 0
+--- !u!114 &19867578055046719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158441732787755458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e1875983340c944ab207496bc4e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedSound: 2
+  SoundTrigger: 2
 --- !u!1 &6422989574836838940
 GameObject:
   m_ObjectHideFlags: 0
