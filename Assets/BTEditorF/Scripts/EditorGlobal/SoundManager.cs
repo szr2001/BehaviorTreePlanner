@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Global;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,9 +19,11 @@ namespace BehaviorTreePlanner
         public AudioClip HardPop;
         public AudioClip WetPop;
 
-        private float MaxAtmosphereSound = 0.2f;
+        private float MaxAtmosphereSound = 0.05f;
         private float MaxEffectsSound = 1f;
 
+        private float AtmosphericSounds;
+        private float EffectsSound;
         private void Awake()
         {
             if (Instance == null)
@@ -33,13 +36,19 @@ namespace BehaviorTreePlanner
             }
 
             DontDestroyOnLoad(gameObject);
-            SettingsManager.Instance.OnSettingsChanged += ChangeAudioSettings;
+            SettingsManager.Instance.OnSettingsChanged += SetAudioVolumes;
+
+            SetAudioVolumes();
+
             PlayClouds();
         }
         
-        private void ChangeAudioSettings()
+        private void SetAudioVolumes()
         {
-            //recalculate 
+            AtmosphericSounds = MaxAtmosphereSound * BTSettings.AtmosphericSound * BTSettings.OverallSoundVolume;
+            EffectsSound = MaxEffectsSound * BTSettings.EffectsSound * BTSettings.OverallSoundVolume;
+            AudioAtmosphere.volume = AtmosphericSounds;
+            AudioEffects.volume = EffectsSound;
         }
 
         public void ChangeAtmosphericSoundAplitude(float volume)

@@ -20,14 +20,14 @@ namespace BehaviorTreePlanner
         {
             settingsManager = settingsmanager;
 
-            OverallSoundSlider.value = (float)BTSettings.OverallSoundVolume;
-            OverallSoundValue.text = OverallSoundSlider.value.ToString();
+            OverallSoundSlider.value = BTSettings.OverallSoundVolume;
+            OverallSoundValue.text = (OverallSoundSlider.value * 100).ToString();
 
-            AtmosphericSoundSlider.value = (float)BTSettings.AtmosphericSound;
-            AtmoshpericSoundValue.text = AtmosphericSoundSlider.value.ToString();
+            AtmosphericSoundSlider.value = BTSettings.AtmosphericSound;
+            AtmoshpericSoundValue.text = (AtmosphericSoundSlider.value * 100).ToString();
 
-            EffectsSoundSlider.value = (float)BTSettings.EffectsSound;
-            EffectsSoundValue.text = EffectsSoundSlider.value.ToString();
+            EffectsSoundSlider.value = BTSettings.EffectsSound;
+            EffectsSoundValue.text = (EffectsSoundSlider.value * 100).ToString();
 
             OverallSoundSlider.onValueChanged.AddListener(ChangedOverallSoundVolume);
             AtmosphericSoundSlider.onValueChanged.AddListener(ChangedAtmosphericVolume);
@@ -40,18 +40,18 @@ namespace BehaviorTreePlanner
         }
         public void ChangedOverallSoundVolume(float newvalue)
         {
-            BTSettings.OverallSoundVolume = (int)newvalue;
-            OverallSoundValue.text = OverallSoundSlider.value.ToString();
+            BTSettings.OverallSoundVolume = newvalue;
+            OverallSoundValue.text = ((int)(OverallSoundSlider.value * 100)).ToString();
         }
         public void ChangedAtmosphericVolume(float newvalue)
         {
-            BTSettings.AtmosphericSound = (int)newvalue;
-            AtmoshpericSoundValue.text = OverallSoundSlider.value.ToString();
+            BTSettings.AtmosphericSound = newvalue;
+            AtmoshpericSoundValue.text = ((int)(AtmosphericSoundSlider.value * 100)).ToString();
         }
         public void ChangedEffectsVolume(float newvalue)
         {
-            BTSettings.EffectsSound = (int)newvalue;
-            EffectsSoundValue.text = OverallSoundSlider.value.ToString();
+            BTSettings.EffectsSound = newvalue;
+            EffectsSoundValue.text = ((int)(EffectsSoundSlider.value * 100)).ToString();
         }
         public void CloseSelf()
         {
