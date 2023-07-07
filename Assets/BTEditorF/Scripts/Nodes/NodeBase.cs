@@ -36,6 +36,7 @@ namespace BehaviorTreePlanner.Nodes
             lineHandler.DestroyLineHandler();
             SpawnManager.Instance.RemoveActiveNode(this);
             SpawnManager.Instance.TriggerObjectsUpdated();
+            SoundManager.Instance.PlayBaloonPop();
             Destroy(this.gameObject);
         }
 

@@ -66,7 +66,7 @@ namespace BehaviorTreePlanner.Nodes
         }
         public virtual void StartMoveObj()
         {
-
+            SoundManager.Instance.PlayWetPop();
         }
 
         public virtual void StopMoveObj()

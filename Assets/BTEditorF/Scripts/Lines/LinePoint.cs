@@ -242,6 +242,7 @@ namespace BehaviorTreePlanner.Lines
         public void StartMoveObj()
         {
             Highlight.SetActive(true);
+            SoundManager.Instance.PlayWetPop();
         }
 
         public void StopMoveObj()
@@ -310,6 +311,7 @@ namespace BehaviorTreePlanner.Lines
                 }
                 SpawnManager.Instance.RemoveActiveLine(this);
                 SpawnManager.Instance.TriggerObjectsUpdated();
+                SoundManager.Instance.PlayBaloonPop();
                 Destroy(gameObject);
             }
             catch(Exception ex)

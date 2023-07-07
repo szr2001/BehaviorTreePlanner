@@ -61,7 +61,6 @@ namespace BehaviorTreePlanner
                         m.GetGameObj.GetComponent<IObjDestroyable>().DestroyObject();
                     }
                     MoveObjectsManager.Instance.ClearMovableObj();
-                    SoundManager.Instance.PlayBaloonPop();
                 }
             }
         }
