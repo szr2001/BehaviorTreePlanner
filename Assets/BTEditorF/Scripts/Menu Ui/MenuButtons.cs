@@ -17,5 +17,9 @@ namespace BehaviorTreePlanner
             _ = SaveLoadManager.Instance.BackToMenu();
 
         }
+        public void CallShowSettings()
+        {
+            SettingsManager.Instance.ShowSettingsScreen();
+        }
     }
 }
