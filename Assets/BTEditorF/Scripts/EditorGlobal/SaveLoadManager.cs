@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace BehaviorTreePlanner
 {
@@ -176,7 +177,7 @@ namespace BehaviorTreePlanner
             {
                 foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
                 {
-                    NodeBase spawnedNode;
+                    NodeBase spawnedNode = null;
                     if(nodedata.GetType() == typeof(SavedNode))
                     {
                         spawnedNode = SpawnManager.Instance.SpawnNode(null,false);
@@ -192,6 +193,17 @@ namespace BehaviorTreePlanner
                                 spawnedNode = SpawnManager.Instance.SpawnLayerNode(layer, false);
                                 spawnedNode.InitializeLoad(nodedata);
                             }
+                        }
+                        if(spawnedNode == null)
+                        {
+                            SavedLayerNode castednode = (SavedLayerNode)nodedata;
+                            SavedProjectLayer layer2 = new(new List<SavedNodeBase>(),new List<SavedLinePoint>(),new SavedNodeBase(-1,-1,-1));
+                            layer2.LayerName = castednode.LayerName;
+
+                            spawnedNode = SpawnManager.Instance.SpawnLayerNode(layer2, false);
+                            spawnedNode.InitializeLoad(nodedata);
+                            NodeDesign ErrorNodeD = new(null, null, new Color(0.79f, 0.07f, 0.07f), Color.white);
+                            spawnedNode.InitializeNode(ErrorNodeD, layer2);
                         }
                     }
                 }

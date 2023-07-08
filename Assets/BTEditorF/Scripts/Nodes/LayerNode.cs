@@ -7,6 +7,7 @@ namespace BehaviorTreePlanner.Nodes
     public class LayerNode : MovingNode
     {
         private SavedProjectLayer projectLayer;
+        [SerializeField] private Image BotImageReff;
         [SerializeField] private Text layerNameT;
 
         public override SavedNodeBase Save()
@@ -82,6 +83,7 @@ namespace BehaviorTreePlanner.Nodes
         {
             base.InitializeNode(nd);
             projectLayer = projectlayer;
+            BotImageReff.color = nd.PrimaryCollor;
             layerNameT.text = projectLayer.LayerName;
         }
 

@@ -258,6 +258,7 @@ MonoBehaviour:
   dragTrigger: {fileID: 8514072784890358632}
   attachTrigger: {fileID: 1364990840232021878}
   <NodeHighLight>k__BackingField: {fileID: 8040966128021363100}
+  BotImageReff: {fileID: 2693086321424396429}
   layerNameT: {fileID: 2602276169876616753}
 --- !u!61 &1456447487504982806
 BoxCollider2D:
