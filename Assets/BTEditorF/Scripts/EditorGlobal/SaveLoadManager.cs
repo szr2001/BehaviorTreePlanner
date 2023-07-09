@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace BehaviorTreePlanner
 {
@@ -15,7 +14,7 @@ namespace BehaviorTreePlanner
         //Save every change back to the same oppenedsavedproject variable
         //then save it to a file. Load ands save the same file but with modified values.
         public static SaveLoadManager Instance;
-        [field: SerializeField] public SavedProjectLayer ActiveProjectLayer { get; set; } //why its not saving reff to OpenedProject?  
+        [field: SerializeField] public SavedProjectLayer ActiveProjectLayer { get; set; }
         [field: SerializeField] public GameObject CameraCanvas { get; set; }
         [field: SerializeField] public GameObject LoadingScreenPrefabReff { get; set; }
 
