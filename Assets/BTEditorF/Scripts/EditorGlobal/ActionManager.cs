@@ -18,6 +18,7 @@ namespace BehaviorTreePlanner
         {
             CheckPressingLeftControl();
             CheckDelete();
+            CheckSave();
             //CheckCopy();
             //CheckPaste();
         }
@@ -42,6 +43,16 @@ namespace BehaviorTreePlanner
             else
             {
                 IsPressingLeftCtrl = false;
+            }
+        }
+        private void CheckSave()
+        {
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                if(Input.GetKeyDown(KeyCode.S))
+                {
+                    _ = SaveLoadManager.Instance.SaveProject();
+                }
             }
         }
         private void CheckCopy()

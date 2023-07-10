@@ -61,7 +61,7 @@ namespace BehaviorTreePlanner
                 {
                     MovableObjTemp.Add(Obj.Key, MosPoss - Obj.Key.GetObjPosition);
                 }
-                mLogger.Log("StartMoving", $"Added {MovableObjTemp} elements to be mooved");
+                mLogger.Log("StartMoving", $"Added {MovableObjTemp.Count} elements to be mooved");
                 MovableObj = MovableObjTemp;
             }
             IsMoving = true;
