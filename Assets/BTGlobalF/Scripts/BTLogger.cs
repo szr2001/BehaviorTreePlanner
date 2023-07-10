@@ -12,16 +12,23 @@ namespace BehaviorTreePlanner
 {
     public class BTLogger
     {
+        public static bool GloballActive { get; private set; } = true;
         public static string LogFilePath { get; private set; } = null;
         public static string LogFileDirectory { get; private set; } = null;
-        public bool IsActive { get; set; } = true;
-        public bool SaveToFile { get; set; } = true;
-        public bool ShowInConsole { get; set; } = true;
+        public bool IsActive { get; set; }
+        public bool SaveToFile { get; set; }
+        public bool ShowInConsole { get; set; }
 
         private static Queue<string> _logs = new();
         private static bool isWriting = false;
-        public BTLogger() 
+        private string parentScript;
+        public BTLogger(string parent, bool showinconsole = true, bool isactive = true,bool savetofile = true) 
         {
+            parentScript = parent;
+            IsActive = isactive;
+            ShowInConsole = showinconsole;
+            SaveToFile = savetofile;
+
             if(LogFilePath == null)
             {
                 LogFileDirectory = $@"{Application.dataPath}/Logs";
@@ -37,13 +44,19 @@ namespace BehaviorTreePlanner
             }
         }
 
-        public void Log(string Script,string Method, string message)
+        public void Log(string Method, string message = "")
         {
-            string logmessage = $"{Script}:{Method}:{message}";
+            if (!GloballActive)
+            {
+                return;
+            }
             if (!IsActive)
             {
                 return;
             }
+
+            string timenow = $"[{DateTime.Now}]";
+            string logmessage = $"{timenow}:{parentScript}:{Method}:{message}";
 
             if (ShowInConsole)
             {

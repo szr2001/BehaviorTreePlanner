@@ -11,14 +11,15 @@ namespace BehaviorTreePlanner
     public class ActionManager : MonoBehaviour
     {
         public static ActionManager Instance;
+        private BTLogger mLogger;
         private List<IMovable> mMovableCopyList = new();
         private bool IsPressingLeftCtrl = false;
         private void Update()
         {
             CheckPressingLeftControl();
             CheckDelete();
-            CheckCopy();
-            CheckPaste();
+            //CheckCopy();
+            //CheckPaste();
         }
         private void Awake()
         {
@@ -30,6 +31,7 @@ namespace BehaviorTreePlanner
             {
                 Destroy(gameObject);
             }
+            mLogger = new(this.name,false);
         }
         private void CheckPressingLeftControl()
         {
@@ -56,6 +58,8 @@ namespace BehaviorTreePlanner
             {
                 if(MoveObjectsManager.Instance.MovableIList.Count > 0)
                 {
+                    mLogger.Log("CheckDelete",$"Deleted {MoveObjectsManager.Instance.MovableIList.Count} elements");
+
                     foreach (IMovable m in MoveObjectsManager.Instance.MovableIList)
                     {
                         m.GetGameObj.GetComponent<IObjDestroyable>().DestroyObject();

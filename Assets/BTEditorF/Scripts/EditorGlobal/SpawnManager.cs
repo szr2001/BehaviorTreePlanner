@@ -11,6 +11,7 @@ namespace BehaviorTreePlanner
     public class SpawnManager : MonoBehaviour
     {
         public static SpawnManager Instance;
+        private BTLogger mLogger;
         public CameraControl PlayerControll;
         //move some stufff in the menus like buttons reff
         public GameObject Screen;
@@ -39,6 +40,7 @@ namespace BehaviorTreePlanner
             {
                 Destroy(gameObject);
             }
+            mLogger = new(this.name, false);
         }
         public void TriggerObjectsUpdated()
         {

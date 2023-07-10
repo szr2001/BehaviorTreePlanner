@@ -11,6 +11,7 @@ namespace BehaviorTreePlanner
     public class ProjectsManager : MonoBehaviour
     {
         public static ProjectsManager Instance;
+        private BTLogger mLogger;
         public SavedProject OpenedProject { get; set; }
 
         [HideInInspector] public string ProjectsFolder { get; set; } = "";
@@ -28,12 +29,14 @@ namespace BehaviorTreePlanner
 
             DontDestroyOnLoad(this.gameObject);
             ProjectsFolder = $@"{Application.dataPath}/Projects";
+            mLogger = new(this.name, false);
         }
         public void CheckProjectFolderExists()
         {
             if (!Directory.Exists(ProjectsFolder))
             {
                 Directory.CreateDirectory(ProjectsFolder);
+                mLogger.Log("CheckProjectFolderExists", $"Does folder exists: {Directory.Exists(ProjectsFolder)}");
             }
         }
 
@@ -47,12 +50,14 @@ namespace BehaviorTreePlanner
                 {
                     if (FileUrl.Contains(project.ProjectName))
                     {
+                        mLogger.Log("DeleteProjectFile",$"Deleted file {FileUrl}");
                         File.Delete(FileUrl);
                     }
                 }
             }
             catch (Exception ex)
             {
+                mLogger.Log("DeleteProjectFile",$"EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
         }
@@ -64,14 +69,15 @@ namespace BehaviorTreePlanner
             {
                 try
                 {
-
                     using (FileStream fs = new($"{ProjectsFolder}/{Project.ProjectName}.btsp", FileMode.Create))
                     {
+                        mLogger.Log("CreateProjectFile", $"Writing Saved Project to File");
                         bf.Serialize(fs, Project);
                     }
                 }
                 catch(Exception ex) 
                 {
+                    mLogger.Log("CreateProjectFile", $"EXCEPTION TRHOWN:  {ex.Message}");
                     Debug.LogException(ex);
                 }
             });
@@ -91,11 +97,13 @@ namespace BehaviorTreePlanner
                     {
                         SavedProject LoadedProject = (SavedProject)bf.Deserialize(fs);
                         projects.Add(LoadedProject);
+                        mLogger.Log("DetectSavedProjectFiles", $"Detect all project Files, Detected: {projects.Count} projects");
                     }
                 }
             }
             catch(Exception ex)
             {
+                mLogger.Log("DetectSavedProjectFiles", $"EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
             return projects;
@@ -111,16 +119,18 @@ namespace BehaviorTreePlanner
             CheckProjectFolderExists();
             try
             {
-                foreach (var FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
+                foreach (string FileUrl in Directory.GetFiles(ProjectsFolder, "*.btsp"))
                 {
                     if (FileUrl.Contains(oldname))
                     {
+                        mLogger.Log("EditProjectFile", $"Deleted file {FileUrl} for recreation");
                         File.Delete(FileUrl);
                     }
                 }
             }
             catch (Exception ex)
             {
+                mLogger.Log("EditProjectFile", $"EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
             await CreateProjectFile(Project);

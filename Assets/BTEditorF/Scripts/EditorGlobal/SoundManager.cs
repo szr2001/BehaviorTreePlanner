@@ -9,6 +9,7 @@ namespace BehaviorTreePlanner
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance;
+        private BTLogger mLogger;
         public AudioSource AudioAtmosphere;
         public AudioSource AudioEffects;
 
@@ -38,8 +39,9 @@ namespace BehaviorTreePlanner
             SettingsManager.Instance.OnSettingsChanged += SetAudioVolumes;
 
             SetAudioVolumes();
+            mLogger = new(this.name, false);
         }
-        
+
         public void SetAudioVolumes()
         {
             AtmosphericSounds = MaxAtmosphereSound * BTSettings.AtmosphericSound * BTSettings.OverallSoundVolume;

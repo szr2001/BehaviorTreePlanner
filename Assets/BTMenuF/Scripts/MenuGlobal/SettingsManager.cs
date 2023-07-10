@@ -9,6 +9,7 @@ namespace BehaviorTreePlanner
     public class SettingsManager : MonoBehaviour
     {
         public static SettingsManager Instance;
+        private BTLogger mLogger;
         public GameObject SettingsScreen;
         public GameObject MainUiCanvas;
 
@@ -31,6 +32,7 @@ namespace BehaviorTreePlanner
             }
 
             Screen.SetResolution(1280, 720, false);
+            mLogger = new(this.name, false);
 
             DontDestroyOnLoad(gameObject);
             settingsfilepath = @$"{Application.dataPath}/BTSettings.st";
@@ -60,8 +62,10 @@ namespace BehaviorTreePlanner
 
         public void SaveSettingsToFile()
         {
+            mLogger.Log("SaveSettingsToFile", $"Start Saving settings");
             try
             {
+                mLogger.Log("SaveSettingsToFile", $"Saving settings to file");
                 BinaryFormatter bf = new();
                 SavedSettings settings = new();
                 if (Directory.Exists(settingsfilepath))
@@ -75,20 +79,21 @@ namespace BehaviorTreePlanner
             }
             catch(Exception ex)
             {
+                mLogger.Log("SaveSettingsToFile", $" Saving settings EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
-
         }
 
         public void LoadSettingsFromFile()
         {
             BinaryFormatter bf = new();
             SavedSettings settings = new();
+            mLogger.Log("LoadSettingsFromFile", "Start loading settings");
             try
             {
                 if (File.Exists(settingsfilepath))
                 {
-
+                    mLogger.Log("LoadSettingsFromFile", $"Loading settings from file");
                     using (FileStream fs = new(settingsfilepath, FileMode.Open))
                     {
                         settings = (SavedSettings)bf.Deserialize(fs);
@@ -103,11 +108,13 @@ namespace BehaviorTreePlanner
                 }
                 else
                 {
-                   SaveSettingsToFile();
+                    mLogger.Log("LoadSettingsFromFile", $"Settings file missing");
+                    SaveSettingsToFile();
                 }
             }
             catch (Exception ex)
             {
+                mLogger.Log("LoadSettingsFromFile", $"Loading settings EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
         }

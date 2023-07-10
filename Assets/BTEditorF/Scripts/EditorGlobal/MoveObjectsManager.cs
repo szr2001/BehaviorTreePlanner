@@ -9,6 +9,7 @@ namespace BehaviorTreePlanner
     public class MoveObjectsManager : MonoBehaviour
     {
         public static MoveObjectsManager Instance;
+        private BTLogger mLogger;
         private Dictionary<IMovable, Vector3> MovableObj = new();
         public int MoveObjCount { get { return MovableObj.Count; } }
 
@@ -27,7 +28,9 @@ namespace BehaviorTreePlanner
                 Destroy(gameObject);
             }
             SaveLoadManager.Instance.OnLayerUpdated += ClearMovableObj;
+            mLogger = new (this.name,false);
         }
+
         private void ClearMovableObj(string layername)
         {
             MovableObj.Clear();
@@ -58,6 +61,7 @@ namespace BehaviorTreePlanner
                 {
                     MovableObjTemp.Add(Obj.Key, MosPoss - Obj.Key.GetObjPosition);
                 }
+                mLogger.Log("StartMoving", $"Added {MovableObjTemp} elements to be mooved");
                 MovableObj = MovableObjTemp;
             }
             IsMoving = true;
