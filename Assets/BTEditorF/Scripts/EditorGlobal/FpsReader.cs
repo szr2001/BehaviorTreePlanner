@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +8,21 @@ namespace BehaviorTreePlanner
     {
         private float deltaTime;
         private Text FpsText;
-        private void Start()
+        private void Awake()
         {
             FpsText = gameObject.GetComponent<Text>();
+            StartCoroutine(UpdateFps());
         }
-        private void Update()
+
+        private IEnumerator UpdateFps()
         {
-            deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
-            float fps = 1.0f / deltaTime;
-            FpsText.text = Mathf.Ceil(fps).ToString();
+            while (true)
+            {
+                yield return new WaitForSeconds(0.5f);
+                deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+                float fps = 1.0f / deltaTime;
+                FpsText.text = $"Fps: {Mathf.Ceil(fps)}";
+            }
         }
     }
 }

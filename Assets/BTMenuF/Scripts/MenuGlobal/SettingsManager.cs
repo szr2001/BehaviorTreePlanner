@@ -32,6 +32,7 @@ namespace BehaviorTreePlanner.Global
             }
 
             Screen.SetResolution(1280, 720, false);
+            Application.targetFrameRate = 90;
             mLogger = new(this.name, false);
 
             DontDestroyOnLoad(gameObject);
