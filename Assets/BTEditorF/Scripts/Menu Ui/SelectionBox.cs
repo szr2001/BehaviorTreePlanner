@@ -1,9 +1,7 @@
-using UnityEngine;
 using BehaviorTreePlanner.Lines;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using System;
 using BehaviorTreePlanner.Nodes;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace BehaviorTreePlanner.Global
 {
@@ -67,7 +65,7 @@ namespace BehaviorTreePlanner.Global
         private void GetOverlapedObjects(Bounds Area)
         {
             RectTrans.sizeDelta = Vector2.zero;
-            foreach(NodeBase Node in SpawnManager.Instance.ActiveNodes)
+            foreach (NodeBase Node in SpawnManager.Instance.ActiveNodes)
             {
                 if (IsPointInsideArea(SpawnManager.Instance.PlayerControll.PlayerCamera.WorldToScreenPoint(Node.transform.position), Area))
                 {

@@ -1,10 +1,6 @@
-using BehaviorTreePlanner.Global;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class SoundManager : MonoBehaviour
     {

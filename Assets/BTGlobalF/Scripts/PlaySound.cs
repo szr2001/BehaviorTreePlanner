@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
-    public class PlaySound : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerDownHandler,IPointerUpHandler
+    public class PlaySound : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerDownHandler, IPointerUpHandler
     {
         public Sound SelectedSound = Sound.WetPop;
         public Action SoundTrigger = Action.Hover;
         public void OnPointerClick(PointerEventData eventData)
         {
-           if(SoundTrigger == Action.Click) 
-           {
+            if (SoundTrigger == Action.Click)
+            {
                 CallPlaySound();
-           }
+            }
         }
 
         public void OnPointerDown(PointerEventData eventData)

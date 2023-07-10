@@ -11,7 +11,7 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private GameObject NodeHolder;
 
         [SerializeField] private List<NodeDesign> NodeDesigns = new();
-        private List<GameObject> MenuSpawnedNodes = new ();
+        private List<GameObject> MenuSpawnedNodes = new();
 
         public List<NodeDesign> Save()
         {
@@ -21,7 +21,7 @@ namespace BehaviorTreePlanner.MenuUi
         {
             NodeDesigns.Clear();
             NodeDesigns = nodedesigns;
-            if(NodeDesigns.Count == 0)
+            if (NodeDesigns.Count == 0)
             {
                 NodeDesigns.Add(new NodeDesign("Selector", "", new Color(0.33f, 1f, 0f), new Color(0.99f, 0.45f, 0.09f)));
                 NodeDesigns.Add(new NodeDesign("Sequence", "", new Color(1f, 0.92f, 0f), new Color(0.99f, 0.45f, 0.09f)));
@@ -32,7 +32,7 @@ namespace BehaviorTreePlanner.MenuUi
         }
         public bool ContainsType(string type)
         {
-            foreach(NodeDesign nt in NodeDesigns)
+            foreach (NodeDesign nt in NodeDesigns)
             {
                 if (type == nt.type)
                 {
@@ -53,9 +53,9 @@ namespace BehaviorTreePlanner.MenuUi
         }
         public void DeleteNode(NodeDesign NodeD)
         {
-            foreach(NodeDesign nd in NodeDesigns)
+            foreach (NodeDesign nd in NodeDesigns)
             {
-                if(nd.type == NodeD.type)
+                if (nd.type == NodeD.type)
                 {
                     NodeDesigns.Remove(nd);
                     RefreshVisibleNodes();
@@ -72,7 +72,7 @@ namespace BehaviorTreePlanner.MenuUi
                 foreach (NodeDesign D in NodeDesigns)
                 {
                     GameObject SpawnedNode = GameObject.Instantiate(SpawnManager.Instance.NodeButtonPrefabReff);
-                    SpawnedNode.GetComponent<NodeButton>().InitializeButton(D,this);
+                    SpawnedNode.GetComponent<NodeButton>().InitializeButton(D, this);
                     SpawnedNode.transform.SetParent(NodeHolder.transform);
                     SpawnedNode.transform.localPosition = new Vector3(SpawnedNode.transform.position.x, SpawnedNode.transform.position.y, 0);
                     SpawnedNode.transform.localScale = Vector3.one;

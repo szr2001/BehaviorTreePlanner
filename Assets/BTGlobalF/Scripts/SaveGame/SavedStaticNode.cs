@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     [Serializable]
     public class SavedStaticNode : SavedNodeBase

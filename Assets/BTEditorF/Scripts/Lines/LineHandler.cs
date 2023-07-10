@@ -1,12 +1,7 @@
-using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
-using BehaviorTreePlanner.Nodes;
-using System;
-using System.Drawing;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class LineHandler : IMovable
     {
@@ -14,10 +9,10 @@ namespace BehaviorTreePlanner
         public Transform SpawnedPointPos { get; set; }
         public Transform AttachedPointPos { get; set; }
 
-        public LinePoint SpawnedPoint { get; set; } 
+        public LinePoint SpawnedPoint { get; set; }
         public LinePoint AttachedPoint { get; set; }
 
-        public void InitializeLineHandler(IMovable parent, Transform attachpointpos,Transform spawnpointpos)
+        public void InitializeLineHandler(IMovable parent, Transform attachpointpos, Transform spawnpointpos)
         {
             AttachedPointPos = attachpointpos;
             SpawnedPointPos = spawnpointpos;
@@ -27,7 +22,7 @@ namespace BehaviorTreePlanner
         {
             if (SpawnedPointPos != null && SpawnedPoint == null)
             {
-                SpawnedPoint = SpawnManager.Instance.SpawnLinePoint(null,false,true);
+                SpawnedPoint = SpawnManager.Instance.SpawnLinePoint(null, false, true);
                 SpawnedPoint.transform.position = SpawnedPointPos.position;
                 SpawnedPoint.SpawnPoint();
             }
@@ -36,7 +31,7 @@ namespace BehaviorTreePlanner
         public Vector3 GetObjPosition { get { return Parent.GetObjPosition; } }
         public void MoveObj(Vector3 NewPos, Vector3 Offset, bool UseGrid)
         {
-            if(SpawnedPoint != null)
+            if (SpawnedPoint != null)
             {
                 SpawnedPoint.MoveObj(SpawnedPointPos.position, Offset, false);
             }
@@ -62,11 +57,11 @@ namespace BehaviorTreePlanner
         }
         public void DestroyLineHandler()
         {
-            if(AttachedPoint != null)
+            if (AttachedPoint != null)
             {
                 AttachedPoint.DestroyObject();
             }
-            if(SpawnedPoint != null)
+            if (SpawnedPoint != null)
             {
                 SpawnedPoint.DestroyObject();
             }

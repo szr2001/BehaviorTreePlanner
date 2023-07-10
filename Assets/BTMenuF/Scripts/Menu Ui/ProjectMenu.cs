@@ -1,11 +1,8 @@
-using System.Collections;
+using BehaviorTreePlanner.Global;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.MenuUi
 {
     public class ProjectMenu : MonoBehaviour
     {
@@ -17,7 +14,7 @@ namespace BehaviorTreePlanner
 
         void Start()
         {
-            CreateProjectNodes(); 
+            CreateProjectNodes();
         }
 
         private void CreateProjectNodes()
@@ -26,7 +23,7 @@ namespace BehaviorTreePlanner
             foreach (SavedProject projectNode in projectNodes)
             {
                 GameObject TempProjectNode = GameObject.Instantiate(ProjectNodePrefabReff);
-                TempProjectNode.GetComponent<ProjectNode>().OverrideProjectNode(this,projectNode);
+                TempProjectNode.GetComponent<ProjectNode>().OverrideProjectNode(this, projectNode);
                 TempProjectNode.transform.SetParent(projectContainer.transform);
                 TempProjectNode.transform.localScale = Vector3.one;
                 TempProjectNode.transform.localPosition = new Vector3(TempProjectNode.transform.position.x, TempProjectNode.transform.position.y, 0);

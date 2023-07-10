@@ -1,15 +1,14 @@
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BehaviorTreePlanner.Nodes
 {
-    public class MovingNode : NodeBase,IMovable
+    public class MovingNode : NodeBase, IMovable
     {
-        [field:SerializeField]public GameObject NodeHighLight { get; set; }
+        [field: SerializeField] public GameObject NodeHighLight { get; set; }
         public GameObject GetGameObj { get { return gameObject; } }
-        public Vector3 GetObjPosition { get { return gameObject.transform.position;}}
+        public Vector3 GetObjPosition { get { return gameObject.transform.position; } }
 
         public override SavedNodeBase Save()
         {
@@ -36,13 +35,13 @@ namespace BehaviorTreePlanner.Nodes
         public override void InitializeNode(NodeDesign nd)
         {
             base.InitializeNode(nd);
-            lineHandler.InitializeLineHandler(this,attachTrigger.transform, LineTrigger.transform);
+            lineHandler.InitializeLineHandler(this, attachTrigger.transform, LineTrigger.transform);
         }
 
         public void MoveObj(Vector3 newPos, Vector3 Offset, bool UseGrid)
         {
             Vector2 GridSize = BTSettings.NodeGridSize;
-            Vector3 activeNodePos = UseGrid ? MoveObjectsManager.Instance.MousePositionToGrid(newPos, GridSize, Offset,Vector2.zero) : newPos;
+            Vector3 activeNodePos = UseGrid ? MoveObjectsManager.Instance.MousePositionToGrid(newPos, GridSize, Offset, Vector2.zero) : newPos;
             RaycastHit2D hit = Physics2D.Raycast(activeNodePos, -Vector2.zero);
             if (!hit)
             {
@@ -54,7 +53,7 @@ namespace BehaviorTreePlanner.Nodes
         public override void AttachLine(LinePoint Line)
         {
             base.AttachLine(Line);
-            lineHandler.MoveObj(gameObject.transform.position,Vector3.zero,false);
+            lineHandler.MoveObj(gameObject.transform.position, Vector3.zero, false);
         }
         public void SetMoveNode()
         {

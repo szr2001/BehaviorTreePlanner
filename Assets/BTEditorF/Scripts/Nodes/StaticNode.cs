@@ -1,10 +1,7 @@
+using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
-using BehaviorTreePlanner.Nodes;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Nodes
 {
     public class StaticNode : NodeBase
     {

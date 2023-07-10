@@ -1,8 +1,7 @@
-using UnityEngine;
-using BehaviorTreePlanner.Nodes;
-using UnityEngine.UI;
 using BehaviorTreePlanner.Global;
-using BehaviorTreePlanner.Lines;
+using BehaviorTreePlanner.Nodes;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace BehaviorTreePlanner.MenuUi
 {
@@ -16,7 +15,7 @@ namespace BehaviorTreePlanner.MenuUi
         [SerializeField] private GameObject deleteCustomTypeTrigger;
         [HideInInspector] public NodeDesign NodeD { get; set; }
 
-        public void InitializeButton(NodeDesign nd,NodesMenu nodesmenu)
+        public void InitializeButton(NodeDesign nd, NodesMenu nodesmenu)
         {
             NodeD = nd;
             nodesMenu = nodesmenu;
@@ -29,7 +28,7 @@ namespace BehaviorTreePlanner.MenuUi
             if (Input.GetMouseButtonDown(0))
             {
                 MoveObjectsManager.Instance.ClearMovableObj();
-                NodeDesign newDesign = new(NodeD.type,NodeD.name,NodeD.PrimaryCollor,NodeD.SecondaryCollor);
+                NodeDesign newDesign = new(NodeD.type, NodeD.name, NodeD.PrimaryCollor, NodeD.SecondaryCollor);
                 SpawnManager.Instance.SpawnNode(newDesign);
             }
         }

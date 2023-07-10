@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class BTLogger
     {
@@ -22,14 +18,14 @@ namespace BehaviorTreePlanner
         private static Queue<string> _logs = new();
         private static bool isWriting = false;
         private string parentScript;
-        public BTLogger(string parent, bool showinconsole = true, bool isactive = true,bool savetofile = true) 
+        public BTLogger(string parent, bool showinconsole = true, bool isactive = true, bool savetofile = true)
         {
             parentScript = parent;
             IsActive = isactive;
             ShowInConsole = showinconsole;
             SaveToFile = savetofile;
 
-            if(LogFilePath == null)
+            if (LogFilePath == null)
             {
                 LogFileDirectory = $@"{Application.dataPath}/Logs";
                 DateTime now = DateTime.Now;
@@ -37,7 +33,7 @@ namespace BehaviorTreePlanner
                 LogFilePath = $@"{LogFileDirectory}/{LogsName}";
             }
 
-            if(!Directory.Exists(LogFileDirectory))
+            if (!Directory.Exists(LogFileDirectory))
             {
                 Directory.CreateDirectory(LogFileDirectory);
             }
@@ -83,15 +79,15 @@ namespace BehaviorTreePlanner
             }
             try
             {
-                using(StreamWriter str = new StreamWriter(LogFilePath,true))
+                using (StreamWriter str = new StreamWriter(LogFilePath, true))
                 {
-                    while(_logs.Count > 0)
+                    while (_logs.Count > 0)
                     {
                         await str.WriteLineAsync(_logs.Dequeue());
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogException(ex);
             }

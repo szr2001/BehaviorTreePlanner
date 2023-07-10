@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.MenuUi
 {
     public class LoadingScreen : MonoBehaviour
     {

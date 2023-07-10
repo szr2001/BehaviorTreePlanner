@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
 using BehaviorTreePlanner.Nodes;
 using BehaviorTreePlanner.Player;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class SpawnManager : MonoBehaviour
     {
@@ -22,8 +20,8 @@ namespace BehaviorTreePlanner
         public GameObject NodeButtonPrefabReff;
         public GameObject LayerNodeButtonPrefabReff;
 
-        private readonly Vector3 BlackboardLocation = new(-12.09677f, 908.0645f,0);
-        [field:SerializeField] public List<NodeBase> ActiveNodes { get; set; } = new();
+        private readonly Vector3 BlackboardLocation = new(-12.09677f, 908.0645f, 0);
+        [field: SerializeField] public List<NodeBase> ActiveNodes { get; set; } = new();
         [field: SerializeField] public List<LinePoint> ActiveLines { get; set; } = new();
         [field: SerializeField] public NodeBase ActiveBlackBoard { get; set; }
         //add a bool for start moving and for highlighting the node
@@ -83,7 +81,7 @@ namespace BehaviorTreePlanner
 
         public NodeBase SpawnBlackBoardNode()
         {
-            if(ActiveBlackBoard != null)
+            if (ActiveBlackBoard != null)
             {
                 ActiveBlackBoard.GetComponent<IObjDestroyable>().DestroyObject();
             }
@@ -98,7 +96,7 @@ namespace BehaviorTreePlanner
             return ActiveBlackBoard;
         }
 
-        public LinePoint SpawnLinePoint(LinePoint Caller,bool SaveReff,bool IsRoot, bool StartMoving = true)
+        public LinePoint SpawnLinePoint(LinePoint Caller, bool SaveReff, bool IsRoot, bool StartMoving = true)
         {
             GameObject TempLine = Instantiate(SpawnManager.Instance.LinePointPrefabReff, SpawnManager.Instance.Screen.transform);
             TempLine.transform.localScale = new Vector3(1, 1, 1);

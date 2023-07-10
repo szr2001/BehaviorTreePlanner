@@ -2,13 +2,12 @@ using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BehaviorTreePlanner.Lines
 {
-    public class LinePoint : MonoBehaviour,IMovable,IBeginDragHandler,IEndDragHandler,IDragHandler,IObjDestroyable
+    public class LinePoint : MonoBehaviour, IMovable, IBeginDragHandler, IEndDragHandler, IDragHandler, IObjDestroyable
     {
         public NodeBase AtachedToNode { get; set; }
 
@@ -16,11 +15,11 @@ namespace BehaviorTreePlanner.Lines
         [SerializeField] private LineRenderer LineR;
         [SerializeField] private LinePoint ParentLine;
         [SerializeField] private readonly List<LinePoint> SpawnedPoints = new();
-        [field: SerializeField]public bool IsRoot { get; set; } = false;
-        [field: SerializeField]public bool IsAtachedToNode { get; set; } = false;
+        [field: SerializeField] public bool IsRoot { get; set; } = false;
+        [field: SerializeField] public bool IsAtachedToNode { get; set; } = false;
         [field: SerializeField] public int SaveIndex { get; set; }
         public GameObject GetGameObj { get { return gameObject; } }
-        public Vector3 GetObjPosition { get { return Highlight.transform.position;}}
+        public Vector3 GetObjPosition { get { return Highlight.transform.position; } }
         private SavedLinePoint saveData;
         public void InitializeSave(int index)
         {
@@ -32,17 +31,17 @@ namespace BehaviorTreePlanner.Lines
             float[] linepos = new float[] { gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z };
             float[] lineRendererpos1 = new float[0];
             float[] lineRendererpos2 = new float[0];
-            if (LineR != null) 
+            if (LineR != null)
             {
                 Vector3 LinerendererPos1V = LineR.GetPosition(0);
-                lineRendererpos1 = new float[]{ LinerendererPos1V.x, LinerendererPos1V.y, LinerendererPos1V.z};
+                lineRendererpos1 = new float[] { LinerendererPos1V.x, LinerendererPos1V.y, LinerendererPos1V.z };
 
                 Vector3 LinerendererPos2V = LineR.GetPosition(1);
-                lineRendererpos2 = new float[]{ LinerendererPos2V.x, LinerendererPos2V.y, LinerendererPos2V.z};
+                lineRendererpos2 = new float[] { LinerendererPos2V.x, LinerendererPos2V.y, LinerendererPos2V.z };
             }
 
             List<int> spawnedLinesIndexes = new();
-            foreach(LinePoint point in SpawnedPoints)
+            foreach (LinePoint point in SpawnedPoints)
             {
                 spawnedLinesIndexes.Add(point.SaveIndex);
             }
@@ -109,9 +108,9 @@ namespace BehaviorTreePlanner.Lines
         {
             ParentLine = saveData.ParentLineIndex == -1 ? null : SpawnManager.Instance.ActiveLines[saveData.ParentLineIndex];
             AtachedToNode = saveData.AtachedToNodeIndex == -1 ? null : SpawnManager.Instance.ActiveNodes[saveData.AtachedToNodeIndex];
-            foreach(int spawnedlineindex in saveData.SpawnedLinesIndex)
+            foreach (int spawnedlineindex in saveData.SpawnedLinesIndex)
             {
-                if(spawnedlineindex == -1)
+                if (spawnedlineindex == -1)
                 {
                     return;
                 }
@@ -123,8 +122,8 @@ namespace BehaviorTreePlanner.Lines
             Vector2 GridSize = BTSettings.LineGridSize;
             Vector2 CorectionOffset = new(0.08f, 0);
             Vector3 activeLinePos = UseGrid ? MoveObjectsManager.Instance.MousePositionToGrid(newPos, GridSize, Offset, CorectionOffset) : newPos;
-            
-            if(IsRoot || IsAtachedToNode)
+
+            if (IsRoot || IsAtachedToNode)
             {
                 gameObject.transform.position = activeLinePos;
                 gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, 0);
@@ -140,17 +139,17 @@ namespace BehaviorTreePlanner.Lines
             }
 
             UpdateLineRenderer();
-            
+
             foreach (LinePoint point in SpawnedPoints)
             {
                 point.UpdateLineRenderer();
             }
-            if(ParentLine != null)
+            if (ParentLine != null)
             {
                 ParentLine.UpdateLineRenderer();
             }
         }
-        public void InitializeLine(LinePoint caller,bool root)
+        public void InitializeLine(LinePoint caller, bool root)
         {
             ParentLine = caller;
             IsRoot = root;
@@ -162,7 +161,7 @@ namespace BehaviorTreePlanner.Lines
         }
         private void CheckAttach()
         {
-            if(MoveObjectsManager.Instance.MoveObjCount > 1)
+            if (MoveObjectsManager.Instance.MoveObjCount > 1)
             {
                 return;
             }
@@ -180,7 +179,7 @@ namespace BehaviorTreePlanner.Lines
                     }
                     SpawnedPoints.Clear();
                 }
-                if(AtachedToNode != null)
+                if (AtachedToNode != null)
                 {
                     AtachedToNode.DeAttachLine();
                 }
@@ -206,13 +205,13 @@ namespace BehaviorTreePlanner.Lines
 
         private void UpdateLineRenderer()
         {
-            if(LineR == null)
+            if (LineR == null)
             {
                 return;
             }
             if (ParentLine != null)
-            { 
-                LineR.SetPosition(0, new Vector3(ParentLine.GetObjPosition.x, ParentLine.GetObjPosition.y,0));
+            {
+                LineR.SetPosition(0, new Vector3(ParentLine.GetObjPosition.x, ParentLine.GetObjPosition.y, 0));
             }
             LineR.SetPosition(1, new Vector3(GetObjPosition.x, GetObjPosition.y, 0));
         }
@@ -221,7 +220,7 @@ namespace BehaviorTreePlanner.Lines
         {
             if (IsRoot)
             {
-                if(SpawnedPoints.Count >= 1)
+                if (SpawnedPoints.Count >= 1)
                 {
                     return;
                 }
@@ -288,19 +287,19 @@ namespace BehaviorTreePlanner.Lines
 
         public void DestroyObject()
         {
-            try 
+            try
             {
                 int maxloop = SpawnedPoints.Count;
                 for (int i = 0; i < maxloop; i++)
                 {
-                    if(SpawnedPoints[0] == null)
+                    if (SpawnedPoints[0] == null)
                     {
                         continue;
                     }
 
                     SpawnedPoints[0].DestroyObject();
                 }
-                if(ParentLine != null)
+                if (ParentLine != null)
                 {
                     ParentLine.RemoveLine(this);
                     if (ParentLine.IsRoot)
@@ -314,7 +313,7 @@ namespace BehaviorTreePlanner.Lines
                 SoundManager.Instance.PlayBaloonPop();
                 Destroy(gameObject);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogException(ex);
             }

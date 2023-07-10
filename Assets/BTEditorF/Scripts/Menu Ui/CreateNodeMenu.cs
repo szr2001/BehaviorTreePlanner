@@ -1,7 +1,6 @@
+using BehaviorTreePlanner.Nodes;
 using UnityEngine;
 using UnityEngine.UI;
-using BehaviorTreePlanner.Nodes;
-using BehaviorTreePlanner.Global;
 
 namespace BehaviorTreePlanner.MenuUi
 {

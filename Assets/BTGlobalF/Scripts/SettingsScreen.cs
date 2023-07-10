@@ -2,7 +2,7 @@ using BehaviorTreePlanner.Global;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.MenuUi
 {
     public class SettingsScreen : MonoBehaviour
     {

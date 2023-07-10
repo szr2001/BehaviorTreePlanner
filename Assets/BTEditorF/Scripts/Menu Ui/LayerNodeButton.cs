@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using BehaviorTreePlanner.Global;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.MenuUi
 {
     public class LayerNodeButton : MonoBehaviour
     {
@@ -24,7 +21,7 @@ namespace BehaviorTreePlanner
             SaveLoadManager.Instance.OnLayerUpdated += CheckHighlight;
             SpawnManager.Instance.OnObjectsUpdated += UpdateVisibleData;
         }
-        
+
         public void InitializeNodeButton(LayersMenu layersmenu, SavedProjectLayer projectlayer)
         {
             layersMenu = layersmenu;
@@ -36,7 +33,7 @@ namespace BehaviorTreePlanner
 
         private void UpdateVisibleData(string activelayer)
         {
-            if(projectLayer.LayerName == activelayer)
+            if (projectLayer.LayerName == activelayer)
             {
                 NodeCount.text = SpawnManager.Instance.ActiveNodes.Count.ToString();
                 LineCount.text = SpawnManager.Instance.ActiveLines.Count.ToString();
@@ -51,7 +48,7 @@ namespace BehaviorTreePlanner
 
         private void CheckHighlight(string layername)
         {
-            if(layername == projectLayer.LayerName)
+            if (layername == projectLayer.LayerName)
             {
                 HighLight();
             }
@@ -112,7 +109,7 @@ namespace BehaviorTreePlanner
 
         public void CallSpawnlayerNode()
         {
-            if(SaveLoadManager.Instance.ActiveProjectLayer.LayerName == projectLayer.LayerName)
+            if (SaveLoadManager.Instance.ActiveProjectLayer.LayerName == projectLayer.LayerName)
             {
                 return;
             }

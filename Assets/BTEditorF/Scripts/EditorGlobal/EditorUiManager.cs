@@ -1,9 +1,7 @@
 using BehaviorTreePlanner.MenuUi;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class EditorUiManager : MonoBehaviour
     {

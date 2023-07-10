@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     [Serializable]
     public class SavedLinePoint
@@ -21,7 +18,7 @@ namespace BehaviorTreePlanner
         public int AtachedToNodeIndex;
         public int[] SpawnedLinesIndex;
 
-        public SavedLinePoint(byte isroot,int lineIndex, float[] position, float[] lineRendererPos1, float[] lineRendererPos2, int parentLineIndex, int[] spawnedLinesIndex, int atachedtonodeIndex, byte isatachedtonode)
+        public SavedLinePoint(byte isroot, int lineIndex, float[] position, float[] lineRendererPos1, float[] lineRendererPos2, int parentLineIndex, int[] spawnedLinesIndex, int atachedtonodeIndex, byte isatachedtonode)
         {
             LineIndex = lineIndex;
             Position = position;

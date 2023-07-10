@@ -1,8 +1,9 @@
+using BehaviorTreePlanner.Global;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.MenuUi
 {
     public class LayersMenu : MonoBehaviour
     {
@@ -27,17 +28,17 @@ namespace BehaviorTreePlanner
         }
         private bool CheckValidName()
         {
-            if(LayerNameInput.text == null)
+            if (LayerNameInput.text == null)
             {
                 return true;
             }
-            if(LayerNameInput.text == "")
+            if (LayerNameInput.text == "")
             {
                 return true;
             }
-            foreach(SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
+            foreach (SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
             {
-                if(layer.LayerName == LayerNameInput.text)
+                if (layer.LayerName == LayerNameInput.text)
                 {
                     return true;
                 }
@@ -76,7 +77,7 @@ namespace BehaviorTreePlanner
                 LayerNameInput.text = null;
                 return;
             }
-            SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(),new List<SavedLinePoint>(),new SavedNodeBase(-1,-1,-1));
+            SavedProjectLayer NewLayer = new(new List<SavedNodeBase>(), new List<SavedLinePoint>(), new SavedNodeBase(-1, -1, -1));
             NewLayer.LayerName = LayerNameInput.text;
             CreatelayerNodeButton(NewLayer);
             SaveLoadManager.Instance.AddLayerToProject(NewLayer);
@@ -84,7 +85,7 @@ namespace BehaviorTreePlanner
         }
         public void SpawnLayerNode(SavedProjectLayer layer)
         {
-            if(layer.LayerName == "Base Layer")
+            if (layer.LayerName == "Base Layer")
             {
                 return;
             }
@@ -92,7 +93,7 @@ namespace BehaviorTreePlanner
             if (Input.GetMouseButtonDown(0))
             {
                 //editorManager.MoveObjectsManager.ClearMovableObj();
-               SpawnManager.Instance.SpawnLayerNode(layer);
+                SpawnManager.Instance.SpawnLayerNode(layer);
             }
         }
         public void OpenLayer(LayerNodeButton layerButton)

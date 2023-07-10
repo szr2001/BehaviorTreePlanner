@@ -1,12 +1,12 @@
+using BehaviorTreePlanner.MenuUi;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class ProjectsManager : MonoBehaviour
     {
@@ -50,14 +50,14 @@ namespace BehaviorTreePlanner
                 {
                     if (FileUrl.Contains(project.ProjectName))
                     {
-                        mLogger.Log("DeleteProjectFile",$"Deleted file {FileUrl}");
+                        mLogger.Log("DeleteProjectFile", $"Deleted file {FileUrl}");
                         File.Delete(FileUrl);
                     }
                 }
             }
             catch (Exception ex)
             {
-                mLogger.Log("DeleteProjectFile",$"EXCEPTION TRHOWN:  {ex.Message}");
+                mLogger.Log("DeleteProjectFile", $"EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
         }
@@ -65,7 +65,7 @@ namespace BehaviorTreePlanner
         {
             CheckProjectFolderExists();
             BinaryFormatter bf = new();
-            await Task.Run(() => 
+            await Task.Run(() =>
             {
                 try
                 {
@@ -75,14 +75,14 @@ namespace BehaviorTreePlanner
                         bf.Serialize(fs, Project);
                     }
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
                     mLogger.Log("CreateProjectFile", $"EXCEPTION TRHOWN:  {ex.Message}");
                     Debug.LogException(ex);
                 }
             });
         }
-        
+
         public List<SavedProject> DetectSavedProjectFiles()
         {
             CheckProjectFolderExists();
@@ -101,20 +101,20 @@ namespace BehaviorTreePlanner
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mLogger.Log("DetectSavedProjectFiles", $"EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);
             }
             return projects;
         }
-        
+
         public async Task SaveOpenedProjectFile()
         {
-           await CreateProjectFile(OpenedProject);
+            await CreateProjectFile(OpenedProject);
         }
-        
-        public async Task EditProjectFile(SavedProject Project,string oldname)
+
+        public async Task EditProjectFile(SavedProject Project, string oldname)
         {
             CheckProjectFolderExists();
             try

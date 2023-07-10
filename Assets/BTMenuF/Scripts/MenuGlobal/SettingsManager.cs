@@ -1,10 +1,10 @@
-using BehaviorTreePlanner.Global;
+using BehaviorTreePlanner.MenuUi;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class SettingsManager : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace BehaviorTreePlanner
         public delegate void BtSettingsChanged();
         public event BtSettingsChanged OnSettingsChanged;
 
-        [HideInInspector] public static string settingsfilepath { get;set; } = "";
+        [HideInInspector] public static string settingsfilepath { get; set; } = "";
 
         private void Awake()
         {
@@ -77,7 +77,7 @@ namespace BehaviorTreePlanner
                     bf.Serialize(fs, settings);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mLogger.Log("SaveSettingsToFile", $" Saving settings EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex);

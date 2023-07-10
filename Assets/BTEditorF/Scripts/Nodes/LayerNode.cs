@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Global;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,14 +31,14 @@ namespace BehaviorTreePlanner.Nodes
         public void CallOpenLayer()
         {
             doubleClick++;
-            
+
             if (!isdoubleclicking)
             {
                 StartCoroutine(DoubleClickDelay());
                 isdoubleclicking = true;
             }
 
-            if(doubleClick >= 2)
+            if (doubleClick >= 2)
             {
                 SavedProjectLayer layertoopen = null;
                 foreach (SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
@@ -79,7 +80,7 @@ namespace BehaviorTreePlanner.Nodes
             base.Load();
         }
 
-        public override void InitializeNode(NodeDesign nd,SavedProjectLayer projectlayer)
+        public override void InitializeNode(NodeDesign nd, SavedProjectLayer projectlayer)
         {
             base.InitializeNode(nd);
             projectLayer = projectlayer;

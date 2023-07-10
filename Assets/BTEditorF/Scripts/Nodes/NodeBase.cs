@@ -1,6 +1,5 @@
 using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Lines;
-using System;
 using UnityEngine;
 
 namespace BehaviorTreePlanner.Nodes
@@ -14,7 +13,7 @@ namespace BehaviorTreePlanner.Nodes
         [SerializeField] protected GameObject attachTrigger;
         public int SaveIndex { get; set; }
         protected SavedNodeBase saveData;
-        private static NodeDesign DefaultNodeNd = new("Default","",Color.black,Color.black);
+        private static NodeDesign DefaultNodeNd = new("Default", "", Color.black, Color.black);
         public void InitializeSave(int index)
         {
             SaveIndex = index;
@@ -25,7 +24,7 @@ namespace BehaviorTreePlanner.Nodes
             saveData = savedata;
             SaveIndex = savedata.NodeIndex;
         }
-        public virtual void Load() 
+        public virtual void Load()
         {
             lineHandler.SpawnedPoint = saveData.SpawnedPointIndex == -1 ? null : SpawnManager.Instance.ActiveLines[saveData.SpawnedPointIndex];
             lineHandler.AttachedPoint = saveData.AtachedPointIndex == -1 ? null : SpawnManager.Instance.ActiveLines[saveData.AtachedPointIndex];
@@ -45,7 +44,7 @@ namespace BehaviorTreePlanner.Nodes
             NodeD = nd ?? DefaultNodeNd;
 
         }
-        public virtual void InitializeNode(NodeDesign nd,SavedProjectLayer Projectlayer)
+        public virtual void InitializeNode(NodeDesign nd, SavedProjectLayer Projectlayer)
         {
             NodeD = nd ?? DefaultNodeNd;
         }

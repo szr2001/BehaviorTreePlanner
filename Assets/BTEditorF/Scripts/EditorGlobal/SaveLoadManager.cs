@@ -1,4 +1,5 @@
 using BehaviorTreePlanner.Lines;
+using BehaviorTreePlanner.MenuUi;
 using BehaviorTreePlanner.Nodes;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class SaveLoadManager : MonoBehaviour
     {
@@ -47,12 +48,12 @@ namespace BehaviorTreePlanner
             try
             {
                 mLogger.Log("ClearScreen", $"cleared screen,deleted {SpawnManager.Instance.ActiveNodes.Count} nodes, {SpawnManager.Instance.ActiveLines.Count} lines");
-               
+
                 while (SpawnManager.Instance.ActiveNodes.Count > 0)
                 {
                     SpawnManager.Instance.ActiveNodes[0].GetComponent<IObjDestroyable>().DestroyObject();
                 }
-                if(SpawnManager.Instance.ActiveBlackBoard != null)
+                if (SpawnManager.Instance.ActiveBlackBoard != null)
                 {
                     SpawnManager.Instance.ActiveBlackBoard.GetComponent<IObjDestroyable>().DestroyObject();
                 }
@@ -130,7 +131,7 @@ namespace BehaviorTreePlanner
         {
             List<SavedNodeBase> NewNodes = new();
             List<SavedLinePoint> NewLines = new();
-            SavedNodeBase blackboard = new(-1,-1,-1);
+            SavedNodeBase blackboard = new(-1, -1, -1);
 
             mLogger.Log("ConvertSceeneToSavedLayer", $"Start convert scene to saved layer");
             //asign an unique index based on list order to each line and node for indentifing purposes
@@ -147,7 +148,7 @@ namespace BehaviorTreePlanner
                     {
                         SpawnManager.Instance.ActiveLines[index].InitializeSave(index);
                     }
-                    if(SpawnManager.Instance.ActiveBlackBoard != null)
+                    if (SpawnManager.Instance.ActiveBlackBoard != null)
                     {
                         SpawnManager.Instance.ActiveBlackBoard.InitializeSave(-1);
                     }
@@ -173,9 +174,9 @@ namespace BehaviorTreePlanner
                     SavedLinePoint savedp = line.Save();
                     NewLines.Add(savedp);
                 }
-                if(SpawnManager.Instance.ActiveBlackBoard != null)
+                if (SpawnManager.Instance.ActiveBlackBoard != null)
                 {
-                    blackboard =  SpawnManager.Instance.ActiveBlackBoard.Save();
+                    blackboard = SpawnManager.Instance.ActiveBlackBoard.Save();
                 }
 
             }
@@ -194,18 +195,18 @@ namespace BehaviorTreePlanner
             try
             {
                 mLogger.Log("ConvertSavedLayerToScene", $"Spawn Nodes and initialize Load");
-                foreach(SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
+                foreach (SavedNodeBase nodedata in ActiveProjectLayer.SavedNodes)
                 {
                     NodeBase spawnedNode = null;
-                    if(nodedata.GetType() == typeof(SavedNode))
+                    if (nodedata.GetType() == typeof(SavedNode))
                     {
-                        spawnedNode = SpawnManager.Instance.SpawnNode(null,false);
+                        spawnedNode = SpawnManager.Instance.SpawnNode(null, false);
                         spawnedNode.InitializeLoad(nodedata);
                     }
-                    else if(nodedata.GetType() == typeof(SavedLayerNode))
+                    else if (nodedata.GetType() == typeof(SavedLayerNode))
                     {
                         SavedLayerNode savedn = (SavedLayerNode)nodedata;
-                        foreach(SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
+                        foreach (SavedProjectLayer layer in ProjectsManager.Instance.OpenedProject.Layers)
                         {
                             if (layer.LayerName == savedn.LayerName)
                             {
@@ -213,10 +214,10 @@ namespace BehaviorTreePlanner
                                 spawnedNode.InitializeLoad(nodedata);
                             }
                         }
-                        if(spawnedNode == null)
+                        if (spawnedNode == null)
                         {
                             SavedLayerNode castednode = (SavedLayerNode)nodedata;
-                            SavedProjectLayer layer2 = new(new List<SavedNodeBase>(),new List<SavedLinePoint>(),new SavedNodeBase(-1,-1,-1));
+                            SavedProjectLayer layer2 = new(new List<SavedNodeBase>(), new List<SavedLinePoint>(), new SavedNodeBase(-1, -1, -1));
                             layer2.LayerName = castednode.LayerName;
 
                             spawnedNode = SpawnManager.Instance.SpawnLayerNode(layer2, false);
@@ -240,7 +241,7 @@ namespace BehaviorTreePlanner
                 mLogger.Log("ConvertSavedLayerToScene", $"Spawn Lines and initialize Load");
                 foreach (SavedLinePoint linedata in ActiveProjectLayer.SavedLinePoints)
                 {
-                    LinePoint spawnedLine = SpawnManager.Instance.SpawnLinePoint(null,true,false,false);
+                    LinePoint spawnedLine = SpawnManager.Instance.SpawnLinePoint(null, true, false, false);
                     spawnedLine.InitializeLoad(linedata);
                 }
             }
@@ -249,7 +250,7 @@ namespace BehaviorTreePlanner
                 mLogger.Log("ConvertSavedLayerToScene", $" Initialize Load Lines EXCEPTION TRHOWN:  {ex.Message}");
                 Debug.LogException(ex, gameObject);
             }
-            
+
             //call load(set up refferences between objects)
             try
             {
@@ -274,9 +275,9 @@ namespace BehaviorTreePlanner
 
         public async Task LoadLayer(SavedProjectLayer projectlayer)
         {
-            if(ActiveProjectLayer.LayerName == projectlayer.LayerName)
+            if (ActiveProjectLayer.LayerName == projectlayer.LayerName)
             {
-                return; 
+                return;
             }
 
             mLogger.Log("LoadLayer", $"Loading Layer '{projectlayer.LayerName}'");
@@ -291,7 +292,7 @@ namespace BehaviorTreePlanner
 
             //clear the data from the other layer
             ClearScreen();
-            
+
             //await loading of saved data and spawning it
             await ConvertSavedLayerToScene();
 
@@ -300,7 +301,7 @@ namespace BehaviorTreePlanner
 
         public void ShowLoadingScreen()
         {
-            if(loadingScreen != null)
+            if (loadingScreen != null)
             {
                 return;
             }
@@ -310,7 +311,7 @@ namespace BehaviorTreePlanner
 
         public void HideLoadingScreen()
         {
-            if(loadingScreen == null ) 
+            if (loadingScreen == null)
             {
                 return;
             }

@@ -1,14 +1,10 @@
-using BehaviorTreePlanner.Lines;
-using BehaviorTreePlanner.Nodes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     [Serializable]
-    public class SavedProjectLayer 
+    public class SavedProjectLayer
     {
         public SavedNodeBase BlackBoard;
         public List<SavedNodeBase> SavedNodes;

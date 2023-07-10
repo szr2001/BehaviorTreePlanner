@@ -23,9 +23,9 @@ namespace BehaviorTreePlanner.Nodes
                 primarycolor = ConvertColorToArray(value);
             }
         }
-        public Color SecondaryCollor 
+        public Color SecondaryCollor
         {
-            get 
+            get
             {
                 return ConvertArrayToCollor(secondarycollor);
             }

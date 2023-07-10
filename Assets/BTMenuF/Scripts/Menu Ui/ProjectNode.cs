@@ -1,3 +1,4 @@
+using BehaviorTreePlanner.Global;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.MenuUi
 {
     public class ProjectNode : MonoBehaviour
     {
         private ProjectMenu projectMenu;
         public SavedProject Project { get; private set; }
-        private string ProjectName = ""; 
+        private string ProjectName = "";
         private bool IsEditing = true;
         [SerializeField] private InputField Name;
         [SerializeField] private Button Confirm;
@@ -31,7 +32,7 @@ namespace BehaviorTreePlanner
             Cancel.onClick.AddListener(CancelProjectNode);
         }
 
-        public void OverrideProjectNode(ProjectMenu projectmenu,SavedProject project)
+        public void OverrideProjectNode(ProjectMenu projectmenu, SavedProject project)
         {
             Project = project;
             projectMenu = projectmenu;
@@ -40,7 +41,7 @@ namespace BehaviorTreePlanner
         }
         public void ConfirmProjectNode()
         {
-            if(Name.text == "")
+            if (Name.text == "")
                 return;
 
 
@@ -48,10 +49,10 @@ namespace BehaviorTreePlanner
 
             List<SavedNodeBase> nodes = new();
             List<SavedLinePoint> lines = new();
-            SavedNodeBase blackboard = new(-1,-1,-1);
+            SavedNodeBase blackboard = new(-1, -1, -1);
             SavedProjectLayer baseLayer = new(nodes, lines, blackboard);
             baseLayer.LayerName = "Base Layer";
-            Project = new SavedProject(baseLayer, 1, ProjectName,DateTime.UtcNow);
+            Project = new SavedProject(baseLayer, 1, ProjectName, DateTime.UtcNow);
 
             projectMenu.ConfirmNewProjectNode(Project);
 
@@ -59,7 +60,7 @@ namespace BehaviorTreePlanner
 
             ToggleEditMode();
         }
-        public void CancelProjectNode() 
+        public void CancelProjectNode()
         {
             projectMenu.CancelNewProjectNode();
         }
@@ -92,7 +93,7 @@ namespace BehaviorTreePlanner
             projectMenu.CallDeleteProjectFile(this);
         }
 
-        
+
         public void ToggleEditMode()
         {
             if (IsEditing)
@@ -112,7 +113,7 @@ namespace BehaviorTreePlanner
             }
             else
             {
-                if(projectMenu.EditProjectNode == null)
+                if (projectMenu.EditProjectNode == null)
                 {
                     Name.interactable = true;
 

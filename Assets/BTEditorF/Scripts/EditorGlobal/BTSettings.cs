@@ -5,8 +5,8 @@ namespace BehaviorTreePlanner.Global
 {
     public class BTSettings
     {
-        public static Vector2 LineGridSize = new (0.5f, 0.5f);
-        public static Vector2 NodeGridSize = new (1.5f, 1);
+        public static Vector2 LineGridSize = new(0.5f, 0.5f);
+        public static Vector2 NodeGridSize = new(1.5f, 1);
         public static float OverallSoundVolume = 1;
         public static float AtmosphericSound = 1;
         public static float EffectsSound = 1;

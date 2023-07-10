@@ -1,12 +1,8 @@
-using BehaviorTreePlanner.Global;
 using BehaviorTreePlanner.Nodes;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace BehaviorTreePlanner
+namespace BehaviorTreePlanner.Global
 {
     public class ActionManager : MonoBehaviour
     {
@@ -32,7 +28,7 @@ namespace BehaviorTreePlanner
             {
                 Destroy(gameObject);
             }
-            mLogger = new(this.name,false);
+            mLogger = new(this.name, false);
         }
         private void CheckPressingLeftControl()
         {
@@ -49,7 +45,7 @@ namespace BehaviorTreePlanner
         {
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if(Input.GetKeyDown(KeyCode.S))
+                if (Input.GetKeyDown(KeyCode.S))
                 {
                     _ = SaveLoadManager.Instance.SaveProject();
                 }
@@ -67,9 +63,9 @@ namespace BehaviorTreePlanner
         {
             if (Input.GetKeyDown(KeyCode.Delete))
             {
-                if(MoveObjectsManager.Instance.MovableIList.Count > 0)
+                if (MoveObjectsManager.Instance.MovableIList.Count > 0)
                 {
-                    mLogger.Log("CheckDelete",$"Deleted {MoveObjectsManager.Instance.MovableIList.Count} elements");
+                    mLogger.Log("CheckDelete", $"Deleted {MoveObjectsManager.Instance.MovableIList.Count} elements");
 
                     foreach (IMovable m in MoveObjectsManager.Instance.MovableIList)
                     {
@@ -83,7 +79,7 @@ namespace BehaviorTreePlanner
         {
             if (IsPressingLeftCtrl && Input.GetKeyDown(KeyCode.V))
             {
-                if(mMovableCopyList.Count < 0)
+                if (mMovableCopyList.Count < 0)
                 {
                     return;
                 }
