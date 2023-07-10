@@ -43,7 +43,7 @@ namespace BehaviorTreePlanner
             }
         }
 
-        ~LayerNodeButton()
+        private void OnDestroy()
         {
             SaveLoadManager.Instance.OnLayerUpdated -= CheckHighlight;
             SpawnManager.Instance.OnObjectsUpdated -= UpdateVisibleData;

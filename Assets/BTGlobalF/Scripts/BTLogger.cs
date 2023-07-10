@@ -35,7 +35,6 @@ namespace BehaviorTreePlanner
                 DateTime now = DateTime.Now;
                 string LogsName = $"LOG{now.Year}.{now.Month}.{now.Day}.{now.Hour}.{now.Minute}.{now.Second}.txt";
                 LogFilePath = $@"{LogFileDirectory}/{LogsName}";
-                Debug.Log(LogFilePath);
             }
 
             if(!Directory.Exists(LogFileDirectory))
