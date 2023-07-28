@@ -1,0 +1,59 @@
+[7/28/2023 11:48:50 AM]:SettingsManager:LoadSettingsFromFile:Start loading settings
+[7/28/2023 11:48:50 AM]:SettingsManager:LoadSettingsFromFile:Settings file missing
+[7/28/2023 11:48:50 AM]:SettingsManager:SaveSettingsToFile:Start Saving settings
+[7/28/2023 11:48:50 AM]:SettingsManager:SaveSettingsToFile:Saving settings to file
+[7/28/2023 11:48:50 AM]:ProjectsManager:DetectSavedProjectFiles:Detect all project Files, Detected: 1 projects
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:LoadProject:Loading Project
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:LoadLayer:Loading Layer 'Base Layer'
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:loadNodeTypes:loading node types
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ClearScreen:cleared screen,deleted 0 nodes, 0 lines
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Start convert Savedlayer to Scene
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Spawn Nodes and initialize Load
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Spawn Lines and initialize Load
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Calling LOAD on lines and nodes
+[7/28/2023 11:48:54 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:SaveProject:Saving project
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:SaveNodeTypes:Saving node types
+[7/28/2023 11:48:57 AM]:ProjectsManager:CreateProjectFile:Writing Saved Project to File
+[7/28/2023 11:48:57 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:AddLayerToProject:Added 'Rawr' layer
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:SaveProject:Saving project
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:SaveNodeTypes:Saving node types
+[7/28/2023 11:48:58 AM]:ProjectsManager:CreateProjectFile:Writing Saved Project to File
+[7/28/2023 11:48:58 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:SaveProject:Saving project
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:SaveNodeTypes:Saving node types
+[7/28/2023 11:48:59 AM]:ProjectsManager:CreateProjectFile:Writing Saved Project to File
+[7/28/2023 11:48:59 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:SaveProject:Saving project
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:SaveNodeTypes:Saving node types
+[7/28/2023 11:49:00 AM]:ProjectsManager:CreateProjectFile:Writing Saved Project to File
+[7/28/2023 11:49:00 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
+[7/28/2023 11:49:00 AM]:SettingsManager:LoadSettingsFromFile:Start loading settings
+[7/28/2023 11:49:00 AM]:SettingsManager:LoadSettingsFromFile:Loading settings from file
+[7/28/2023 11:49:00 AM]:ProjectsManager:DetectSavedProjectFiles:Detect all project Files, Detected: 1 projects

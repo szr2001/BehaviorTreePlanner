@@ -1,0 +1,29 @@
+[7/28/2023 11:49:28 AM]:SettingsManager:LoadSettingsFromFile:Start loading settings
+[7/28/2023 11:49:28 AM]:SettingsManager:LoadSettingsFromFile:Loading settings from file
+[7/28/2023 11:49:28 AM]:ProjectsManager:DetectSavedProjectFiles:Detect all project Files, Detected: 1 projects
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:LoadProject:Loading Project
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:LoadLayer:Loading Layer 'Base Layer'
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:loadNodeTypes:loading node types
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ClearScreen:cleared screen,deleted 0 nodes, 0 lines
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Start convert Savedlayer to Scene
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Spawn Nodes and initialize Load
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Spawn Lines and initialize Load
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Calling LOAD on lines and nodes
+[7/28/2023 11:49:30 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:LoadLayer:Loading Layer 'Rawr'
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ShowLoadingScreen:Showing Loading Screen
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:SaveActiveLayer:Saving active layer
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Start convert scene to saved layer
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling initialize save on objects
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSceeneToSavedLayer:Calling Save on objects
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ClearScreen:cleared screen,deleted 2 nodes, 0 lines
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Start convert Savedlayer to Scene
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Spawn Nodes and initialize Load
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Spawn Lines and initialize Load
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:ConvertSavedLayerToScene:Calling LOAD on lines and nodes
+[7/28/2023 11:49:32 AM]:SaveAndLoadManager:HideLoadingScreen:Hiding Loading Screen
